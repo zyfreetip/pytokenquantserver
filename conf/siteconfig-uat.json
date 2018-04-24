@@ -1,0 +1,143 @@
+{	"idc":"uat",
+    "DATABASES": {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "blockchain_manage",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "manage": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "blockchain_manage",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "manage_ro": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "blockchain_manage",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "ebook01": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "blockchain_manage",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "ebook02": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "blockchain_manage",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "ebook03": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "blockchain_manage",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "ebook04": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "blockchain_manage",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+
+        "ebook01_ro": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "blockchain_manage",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "ebook02_ro": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "blockchain_manage",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "ebook03_ro": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "blockchain_manage",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "ebook04_ro": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "blockchain_manage",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+
+        "ebook": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "blockchain_manage",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "ebook_operate": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "blockchain_manage",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+
+        "ebook_ro": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "blockchain_manage",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "ebook_operate_ro": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "blockchain_manage",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat--mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        }
+
+    }
+}
