@@ -1,5 +1,5 @@
 {
-	"redis0":{
+	"default":{
 		"BACKEND": "django_redis.cache.RedisCache",
 		"LOCATION": "redis://ebookredis.block:30000/0",
 		"OPTIONS": {
