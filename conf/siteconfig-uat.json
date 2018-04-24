@@ -29,7 +29,7 @@
         },
         "btc_address": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "btc_address",
+            "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -38,7 +38,7 @@
         },
         "btc_transaction": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "btc_transaction",
+            "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -47,7 +47,7 @@
         },
         "btc_stats": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "btc_stats",
+            "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -56,7 +56,7 @@
         },
         "btc_index": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "btc_index",
+            "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -66,7 +66,7 @@
 
         "ethereum_address": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "ethereum_address",
+            "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -75,7 +75,7 @@
         },
         "ethereum_transaction": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "ethereum_transaction",
+            "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -84,7 +84,7 @@
         },
         "ethereum_stats": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "ethereum_stats",
+            "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -93,7 +93,7 @@
         },
         "ethereum_index": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "ethereum_index",
+            "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -103,7 +103,7 @@
 
         "huobi_btc_stats": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "huobi_btc_stats",
+            "NAME": "huobi",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -112,7 +112,7 @@
         },
         "huobi_ethereum_stats": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "huobi_ethereum_stats",
+            "NAME": "huobi",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -121,7 +121,7 @@
         },
         "btc_address_ro": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "btc_address",
+            "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -130,7 +130,7 @@
         },
         "btc_transaction_ro": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "btc_transaction",
+            "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -139,7 +139,7 @@
         },
         "btc_stats_ro": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "btc_stats",
+            "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -148,7 +148,7 @@
         },
         "btc_index_ro": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "btc_index",
+            "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -158,7 +158,7 @@
 
         "ethereum_address_ro": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "ethereum_address",
+            "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -167,7 +167,7 @@
         },
         "ethereum_transaction_ro": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "ethereum_transaction",
+            "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -176,7 +176,7 @@
         },
         "ethereum_stats_ro": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "ethereum_stats",
+            "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -185,7 +185,7 @@
         },
         "ethereum_index_ro": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "ethereum_index",
+            "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -195,7 +195,7 @@
 
         "huobi_btc_stats_ro": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "huobi_btc_stats",
+            "NAME": "huobi",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -204,7 +204,7 @@
         },
         "huobi_ethereum_stats_ro": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "huobi_ethereum_stats",
+            "NAME": "huobi",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
