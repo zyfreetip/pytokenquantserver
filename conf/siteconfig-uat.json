@@ -23,77 +23,40 @@
             "NAME": "blockchain_manage",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
-            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200
         },
-        "ebook01": {
+        "btc_address": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "blockchain_manage",
+            "NAME": "btc_address",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200
         },
-        "ebook02": {
+        "btc_transaction": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "blockchain_manage",
+            "NAME": "btc_transaction",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200
         },
-        "ebook03": {
+        "btc_stats": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "blockchain_manage",
+            "NAME": "btc_stats",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200
         },
-        "ebook04": {
+        "btc_index": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "blockchain_manage",
-            "USER": "blockchainsh",
-            "PASSWORD": "Blockchain002!$#",
-            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
-            "PORT": "3306",
-            "CONN_MAX_AGE": 7200
-        },
-
-        "ebook01_ro": {
-            "ENGINE": "django.db.backends.mysql",
-            "NAME": "blockchain_manage",
-            "USER": "blockchainsh",
-            "PASSWORD": "Blockchain002!$#",
-            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
-            "PORT": "3306",
-            "CONN_MAX_AGE": 7200
-        },
-        "ebook02_ro": {
-            "ENGINE": "django.db.backends.mysql",
-            "NAME": "blockchain_manage",
-            "USER": "blockchainsh",
-            "PASSWORD": "Blockchain002!$#",
-            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
-            "PORT": "3306",
-            "CONN_MAX_AGE": 7200
-        },
-        "ebook03_ro": {
-            "ENGINE": "django.db.backends.mysql",
-            "NAME": "blockchain_manage",
-            "USER": "blockchainsh",
-            "PASSWORD": "Blockchain002!$#",
-            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
-            "PORT": "3306",
-            "CONN_MAX_AGE": 7200
-        },
-        "ebook04_ro": {
-            "ENGINE": "django.db.backends.mysql",
-            "NAME": "blockchain_manage",
+            "NAME": "btc_index",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -101,18 +64,36 @@
             "CONN_MAX_AGE": 7200
         },
 
-        "ebook": {
+        "ethereum_address": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "blockchain_manage",
+            "NAME": "ethereum_address",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200
         },
-        "ebook_operate": {
+        "ethereum_transaction": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "blockchain_manage",
+            "NAME": "ethereum_transaction",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "ethereum_stats": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "ethereum_stats",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "ethereum_index": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "ethereum_index",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -120,24 +101,115 @@
             "CONN_MAX_AGE": 7200
         },
 
-        "ebook_ro": {
+        "huobi_btc_stats": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "blockchain_manage",
+            "NAME": "huobi_btc_stats",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
             "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200
         },
-        "ebook_operate_ro": {
+        "huobi_ethereum_stats": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "blockchain_manage",
+            "NAME": "huobi_ethereum_stats",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain002!$#",
-            "HOST": "uat--mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "uat-mysql.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "btc_address_ro": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "btc_address",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "btc_transaction_ro": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "btc_transaction",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "btc_stats_ro": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "btc_stats",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "btc_index_ro": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "btc_index",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+
+        "ethereum_address_ro": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "ethereum_address",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "ethereum_transaction_ro": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "ethereum_transaction",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "ethereum_stats_ro": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "ethereum_stats",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "ethereum_index_ro": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "ethereum_index",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+
+        "huobi_btc_stats_ro": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "huobi_btc_stats",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "PORT": "3306",
+            "CONN_MAX_AGE": 7200
+        },
+        "huobi_ethereum_stats_ro": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "huobi_ethereum_stats",
+            "USER": "blockchainsh",
+            "PASSWORD": "Blockchain002!$#",
+            "HOST": "uat-mysql-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200
         }
-
     }
 }
