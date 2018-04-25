@@ -1,7 +1,7 @@
 class DbRouter:
 	DB_MAP = {	'btc':
 				{
-				 'btc': ('btc_ro', 'btc'),
+				 'btc_block': ('btc_block_ro', 'btc_block'),
 				 'btc_address': ('btc_adddress_ro', 'btc_address'),
 				 'btc_transaction':('btc_transaction_ro', 'btc_transaction'),
 				 'btc_output_transaction':('btc_output_transaction_ro', 'btc_output_transaction'),
