@@ -13,12 +13,12 @@ class BtcBlockModel(PermissionsMixin):
         managed = True
 
     height = models.BigIntegerField(primary_key=True) # BigIntegerField
-    size = models.BigIntegerField(verbose_name='区块大小')
+    weight = models.BigIntegerField(verbose_name='区块重量')
     version = models.IntegerField(verbose_name='版本号')
     mrkl_root = models.CharField(max_length=255, verbose_name='Merkle Root', default='')
     curr_max_timestamp = models.BigIntegerField(verbose_name='块最大时间戳')
     timestamp = models.BigIntegerField(verbose_name='块时间戳')
-    bits = models.BigIntegerField(verbose_name='bits')
+    bits = models.CharField(max_length=255, verbose_name='bits')
     nonce = models.BigIntegerField(verbose_name='随机数')
     hash = models.CharField(max_length=255, verbose_name='快哈希')
     prev_block_hash = models.CharField(max_length=255, verbose_name='前向区块哈希')
