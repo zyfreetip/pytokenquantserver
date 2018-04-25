@@ -108,6 +108,7 @@ class BtcOutputTransactionModel(PermissionsMixin):
     value = models.BigIntegerField(verbose_name='输出金额')
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
 
+
 class BtcStatsModel(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
         abstract = False
@@ -132,6 +133,7 @@ class BtcStatsModel(PermissionsMixin):
     transaction_largest100 = models.BigIntegerField(verbose_name='24小时最大100笔交易')
     address_numbers = models.BigIntegerField(verbose_name='持币地址数')
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
+    total = models.BigIntegerField(verbose_name='币总量')
     
     
     
