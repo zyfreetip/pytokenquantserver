@@ -1,12 +1,18 @@
 class DbRouter:
 	DB_MAP = {	'btc':
-				{'btc_address': ('btc_adddress_ro', 'btc_address'),
+				{
+				 'btc': ('btc_ro', 'btc'),
+				 'btc_address': ('btc_adddress_ro', 'btc_address'),
 				 'btc_transaction':('btc_transaction_ro', 'btc_transaction'),
+				 'btc_output_transaction':('btc_output_transaction_ro', 'btc_output_transaction'),
+				 'btc_input_transaction':('btc_input_transaction_ro', 'btc_input_transaction'),
 				 'btc_stats':('btc_stats_ro', 'btc_stats'),
 				 'btc_index':('btc_index_ro', 'btc_index'),
 				},
 				'ethereum':
-				{'ethereum_address': ('ethereum_address_ro', 'ethereum_address'),
+				{
+				 'ethereum': ('ethereum_ro', 'ethereum'),
+				 'ethereum_address': ('ethereum_address_ro', 'ethereum_address'),
 				 'ethereum_transaction':('ethereum_transaction_ro', 'ethereum_transaction'),
 				 'ethereum_stats':('ethereum_stats_ro', 'ethereum_stats'),
 				 'ethereum_index':('ethereum_index_ro', 'ethereum_index'),
