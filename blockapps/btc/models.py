@@ -45,16 +45,20 @@ class BtcAddressModel(PermissionsMixin):
         managed = True
     
     address = models.CharField(max_length=255, primary_key=True)
-    received = models.BigIntegerField(verbose_name='总接收数量')
-    sent = models.BigIntegerField(verbose_name='总支出数量')
-    balance = models.BigIntegerField(verbose_name='当前余额')
-    tx_count = models.BigIntegerField(verbose_name='交易数量')
-    unconfirmed_tx_count = models.BigIntegerField(verbose_name='未确认交易数量')
-    unconfirmed_rx_count = models.BigIntegerField(verbose_name='未确认总接收')
-    unconfirmed_sent = models.BigIntegerField(verbose_name='未确认总支出')
-    unspent_tx_count = models.BigIntegerField(verbose_name='未花费交易数量')
+    received = models.BigIntegerField(verbose_name='总接收数量', default=0)
+    sent = models.BigIntegerField(verbose_name='总支出数量', default=0)
+    balance = models.BigIntegerField(verbose_name='当前余额', default=0)
+    tx_count = models.BigIntegerField(verbose_name='交易数量', default=0)
+    unconfirmed_tx_count = models.BigIntegerField(verbose_name='未确认交易数量', default=0)
+    unconfirmed_rx_count = models.BigIntegerField(verbose_name='未确认总接收', default=0)
+    unconfirmed_sent = models.BigIntegerField(verbose_name='未确认总支出', default=0)
+    unspent_tx_count = models.BigIntegerField(verbose_name='未花费交易数量', default=0)
     create_time = models.DateTimeField(verbose_name='记录创建时间',auto_now_add=True)
     update_time = models.DateTimeField(verbose_name='最后更新时间', auto_now=True)
+    
+    def __str__(self):
+        return 'address(%s) balance(%s)' % \
+            (self.address, self.balance)
 
 class BtcTransactionModel(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
@@ -64,19 +68,22 @@ class BtcTransactionModel(PermissionsMixin):
         managed = True
         
     txhash = models.CharField(max_length=255, primary_key=True)
-    block_height = models.BigIntegerField(verbose_name='所在块高度')
-    block_time = models.BigIntegerField(verbose_name='所在块时间')
-    fee = models.BigIntegerField(verbose_name='交易手续费')
-    inputs_count = models.BigIntegerField(verbose_name='输入数量')
-    inputs_value = models.BigIntegerField(verbose_name='输入金额')
-    is_coinbase = models.BooleanField(verbose_name='是否为coinbase交易')
-    lock_time = models.BigIntegerField(verbose_name='锁定时间')
-    outputs_count = models.BigIntegerField(verbose_name='输出数量')
-    outputs_value = models.BigIntegerField(verbose_name='输出金额')
-    size = models.BigIntegerField(verbose_name='交易体积')
-    version = models.BigIntegerField(verbose_name='交易版本号')
+    block_height = models.BigIntegerField(verbose_name='所在块高度', default=0)
+    block_time = models.BigIntegerField(verbose_name='所在块时间', default=0)
+    fee = models.BigIntegerField(verbose_name='交易手续费', default=0)
+    inputs_count = models.BigIntegerField(verbose_name='输入数量', default=0)
+    inputs_value = models.BigIntegerField(verbose_name='输入金额', default=0)
+    is_coinbase = models.BooleanField(verbose_name='是否为coinbase交易', default=0)
+    lock_time = models.BigIntegerField(verbose_name='锁定时间', default=0)
+    outputs_count = models.BigIntegerField(verbose_name='输出数量', default=0)
+    outputs_value = models.BigIntegerField(verbose_name='输出金额', default=0)
+    size = models.BigIntegerField(verbose_name='交易体积', default=0)
+    version = models.BigIntegerField(verbose_name='交易版本号', default=0)
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
-
+    
+    def __str_(self):
+        return 'txhash(%s) block_height(%s) fee(%s)'\
+            (self.txhash, self.block_height, self.fee)
 class BtcInputTransactionModel(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
         abstract = False
@@ -84,16 +91,19 @@ class BtcInputTransactionModel(PermissionsMixin):
         db_table = 'btc_input_transaction'
         managed = True
     
-    txhash = models.CharField(max_length=255, verbose_name='交易hash')
-    prev_address = models.CharField(max_length=255, verbose_name='输入地址')
-    prev_position = models.BigIntegerField(verbose_name='前向交易的输出位置')
-    prev_value = models.BigIntegerField(verbose_name='前向交易输入金额')
-    prev_tx_hash = models.CharField(verbose_name='前向交易哈希', max_length=255)
-    script_asm = models.CharField(verbose_name='asm脚本', max_length=255)
-    script_hex = models.CharField(verbose_name='hex脚本', max_length=255)
-    sequence = models.BigIntegerField(verbose_name='序列')
+    txhash = models.CharField(max_length=255, verbose_name='交易hash', default='')
+    prev_address = models.CharField(max_length=255, verbose_name='输入地址', default='')
+    prev_position = models.BigIntegerField(verbose_name='前向交易的输出位置', default=0)
+    prev_value = models.BigIntegerField(verbose_name='前向交易输入金额', default=0)
+    prev_tx_hash = models.CharField(verbose_name='前向交易哈希', max_length=255, default='')
+    script_asm = models.CharField(verbose_name='asm脚本', max_length=255, default='')
+    script_hex = models.CharField(verbose_name='hex脚本', max_length=255, default='')
+    sequence = models.BigIntegerField(verbose_name='序列', default=0)
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
-
+    
+    def __str__(self):
+        return 'txhash(%s) prev_address(%s)'\
+            (self.txhash, self.prev_address)
 class BtcOutputTransactionModel(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
         abstract = False
@@ -101,11 +111,14 @@ class BtcOutputTransactionModel(PermissionsMixin):
         db_table = 'btc_output_transaction'
         managed = True
     
-    txhash = models.CharField(max_length=255, verbose_name='交易hash')
-    address = models.CharField(max_length=255, verbose_name='输出地址')
-    value = models.BigIntegerField(verbose_name='输出金额')
+    txhash = models.CharField(max_length=255, verbose_name='交易hash', default='')
+    address = models.CharField(max_length=255, verbose_name='输出地址', default='')
+    value = models.BigIntegerField(verbose_name='输出金额', default=0)
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
 
+    def __str__(self):
+        return 'txhash(%s) address(%s)'\
+            (self.txhash, self.address)
 
 class BtcStatsModel(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
@@ -115,24 +128,26 @@ class BtcStatsModel(PermissionsMixin):
         managed = True
     
     blocks_last_24h = models.BigIntegerField(verbose_name='24小时生成区块数', primary_key=True)
-    blocks_avg_perhour = models.BigIntegerField(verbose_name='每小时生成区块数')
-    reward_last_24h = models.BigIntegerField(verbose_name='24小时产生奖励数')
-    top_100_richest = models.BigIntegerField(verbose_name='前100占有币情况')
-    wealth_distribution_top10 = models.BigIntegerField(verbose_name='财富10')
-    wealth_distribution_top100 = models.BigIntegerField(verbose_name='财富100')
-    wealth_distribution_top1000 = models.BigIntegerField(verbose_name='财富1000')
-    wealth_distribution_top10000 = models.BigIntegerField(verbose_name='财富10000')
-    address_richer_than_1usd = models.BigIntegerField(verbose_name='金额超过1usd地址')
-    address_richer_than_100usd = models.BigIntegerField(verbose_name='金额超过100usd地址')
-    address_richer_than_1000usd = models.BigIntegerField(verbose_name='金额超过1000usd地址')
-    address_richer_than_10000usd = models.BigIntegerField(verbose_name='金额超过10000usd地址')
-    active_addresses_last24h = models.BigIntegerField(verbose_name='24小时活跃地址数')
-    transaction_largest100 = models.BigIntegerField(verbose_name='24小时最大100笔交易')
-    address_numbers = models.BigIntegerField(verbose_name='持币地址数')
+    blocks_avg_perhour = models.BigIntegerField(verbose_name='每小时生成区块数', default=0)
+    reward_last_24h = models.BigIntegerField(verbose_name='24小时产生奖励数', default=0)
+    top_100_richest = models.BigIntegerField(verbose_name='前100占有币情况', default=0)
+    wealth_distribution_top10 = models.BigIntegerField(verbose_name='财富10', default=0)
+    wealth_distribution_top100 = models.BigIntegerField(verbose_name='财富100', default=0)
+    wealth_distribution_top1000 = models.BigIntegerField(verbose_name='财富1000', default=0)
+    wealth_distribution_top10000 = models.BigIntegerField(verbose_name='财富10000', default=0)
+    address_richer_than_1usd = models.BigIntegerField(verbose_name='金额超过1usd地址', default=0)
+    address_richer_than_100usd = models.BigIntegerField(verbose_name='金额超过100usd地址', default=0)
+    address_richer_than_1000usd = models.BigIntegerField(verbose_name='金额超过1000usd地址', default=0)
+    address_richer_than_10000usd = models.BigIntegerField(verbose_name='金额超过10000usd地址', default=0)
+    active_addresses_last24h = models.BigIntegerField(verbose_name='24小时活跃地址数', default=0)
+    transaction_largest100 = models.BigIntegerField(verbose_name='24小时最大100笔交易', default=0)
+    address_numbers = models.BigIntegerField(verbose_name='持币地址数', default=0)
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
-    total = models.BigIntegerField(verbose_name='币总量')
+    total = models.BigIntegerField(verbose_name='币总量', default=0)
     
-    
+    def __str__(self):
+        return 'blocks_last_24h(%s) blocks_avg_perhour(%s)'\
+            (self.blocks_last_24h, self.blocks_avg_perhour)
     
     
     
