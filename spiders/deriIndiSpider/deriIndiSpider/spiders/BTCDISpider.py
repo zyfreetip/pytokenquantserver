@@ -46,7 +46,7 @@ class BtcDiSpider(Spider):
 
         rewards_abbr  = response.xpath('//tr[@class="t_empty" and td[text()="Reward last 24h"]]/td[@class="coin c_btc"]/span/abbr')
         reward_last_24h = self.handle_string(rewards_abbr[0].xpath("./text()").extract()[0], rtype=1) * 100000000+\
-                          self.handle_string(rewards_abbr[1].xpath("./text()").extract()[1], rtype=1) * 100000000
+                          self.handle_string(rewards_abbr[1].xpath("./text()").extract()[0], rtype=1) * 100000000
         item.reward_last_24h = reward_last_24h
 
         top_100_richest =response.xpath('//tr[@class="t_empty" and td[text()="Top 100 Richest"]]/td[@class="coin c_btc"]/a/span/text()').extract()[0]
