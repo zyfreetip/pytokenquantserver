@@ -1,6 +1,7 @@
 #encoding=utf8
 from django.core.management.base import BaseCommand
 from bitcoinrpc.authproxy import AuthServiceProxy, JSONRPCException
+from btc.models import BtcBlockModel
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
@@ -14,14 +15,26 @@ class Command(BaseCommand):
         port = options['port']
         rpc_user = options['rpc_user']
         rpc_password = options['rpc_password']
-        
         rpc_connection = AuthServiceProxy("http://%s:%s@%s:%s"%(rpc_user, rpc_password, ip, port))
         blockcount = rpc_connection.getblockcount()
         print(blockcount)
-        commands = [ [ "getblockhash", height] for height in range(100) ]
-        block_hashes = rpc_connection.batch_(commands)
-        blocks = rpc_connection.batch_([ [ "getblock", h ] for h in block_hashes ])
-        block_times = [ block["time"] for block in blocks ]
-        print(block_times)
-        
-        
+        commands = [ [ "getblockhash", height] for height in range(blockcount) ]
+        for height in range(blockcount):
+            block_hash = rpc_connection.getblockhash(height)
+            block = rpc_connection.getblock(block_hash)
+            BtcBlockModel.objects.get_or_create(
+                height=block['height'],
+                    defaults={
+                    'weight': block['weight'],
+                    'version': block['version'],
+                    'mrkl_root': block['merkleroot'],
+                    'timestamp': block['time'],
+                    'size': block['size'],
+                    'bits': block['bits'],
+                    'nonce': block['nonce'],
+                    'hash': block['hash'],
+                    'prev_block_hash': block['previousblockhash'] if block['height'] else 0,
+                    'next_block_hash': block['nextblockhash'],
+                    'difficulty': block['difficulty'],
+                    'confirmations': block['confirmations'],
+                    },)
