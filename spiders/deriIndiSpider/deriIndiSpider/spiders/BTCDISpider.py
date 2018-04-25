@@ -1,6 +1,6 @@
 from scrapy.spiders import Spider
 from scrapy import Request
-from blockapps.btc.models import BtcStatsModel
+from btc.models import BtcStatsModel
 import re
 
 

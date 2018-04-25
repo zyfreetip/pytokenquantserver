@@ -7,7 +7,7 @@
 
 import scrapy
 from scrapy_djangoitem import DjangoItem
-from blockapps.btc.models import BtcStatsModel
+from btc.models import BtcStatsModel
 
 
 class DeriindispiderItem(DjangoItem):
