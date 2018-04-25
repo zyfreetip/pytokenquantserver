@@ -197,6 +197,7 @@ INSTALLED_APPS.extend((
     'blockdjcom',
     'blockserver',
     'blockmanage',
+	'btc',
     ))
 
 
