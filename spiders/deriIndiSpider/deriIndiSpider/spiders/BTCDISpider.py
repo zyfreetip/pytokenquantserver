@@ -85,7 +85,7 @@ class BtcDiSpider(Spider):
         item.address_richer_than_10000usd = address_richer_than_10000usd
 
         active_addresses_last24h = response.xpath('//tr[@class="t_empty" and td/a[text()="Active Addresses last 24h"]]/td[@class="coin c_btc"]/a/text()').extract()[0]
-        active_addresses_last24h = int(active_addresses_last24h)
+        active_addresses_last24h = self.handle_string(active_addresses_last24h)
         item.active_addresses_last24h = active_addresses_last24h
 
         transaction_largest100 =  response.xpath('//tr[@class="t_empty" and td[text()="100 Largest Transactions"]]/td[@class="coin c_btc"]/span/text()').extract()[0]
