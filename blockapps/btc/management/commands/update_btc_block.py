@@ -19,9 +19,8 @@ class Command(BaseCommand):
         blockcount = rpc_connection.getblockcount()
         print(blockcount)
         btcblockmodel = BtcBlockModel.objects.all().order_by('-height')[0]
-        startblockheight = btcblockmodel['height']
-        commands = [ [ "getblockhash", height] for height in range(startblockheight,blockcount) ]
-        for height in range(blockcount):
+        startblockheight = btcblockmodel.height
+        for height in range(startblockheight, blockcount):
             block_hash = rpc_connection.getblockhash(height)
             block = rpc_connection.getblock(block_hash)
             BtcBlockModel.objects.get_or_create(
