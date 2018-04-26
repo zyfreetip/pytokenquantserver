@@ -2,6 +2,7 @@ from scrapy.spiders import Spider
 from scrapy import Request
 from deriIndiSpider.items import DeriindispiderItem
 import re
+import datetime
 
 
 class BtcDiSpider(Spider):
@@ -48,7 +49,7 @@ class BtcDiSpider(Spider):
         rewards_abbr  = response.xpath('//tr[@class="t_empty" and td[text()="Reward last 24h"]]/td[@class="coin c_btc"]/span/abbr')
         reward_last_24h = self.handle_string(rewards_abbr[0].xpath("./text()").extract()[0], rtype=1) * 100000000+\
                           self.handle_string(rewards_abbr[1].xpath("./text()").extract()[0], rtype=1) * 100000000
-        item['reward_last_24h'] = reward_last_24h
+        item['reward_last_24h'] =int(reward_last_24h)
 
         top_100_richest =response.xpath('//tr[@class="t_empty" and td[text()="Top 100 Richest"]]/td[@class="coin c_btc"]/a/span/text()').extract()[0]
         top_100_richest = self.handle_string(top_100_richest)
@@ -56,7 +57,7 @@ class BtcDiSpider(Spider):
 
         wealth_distribution_list = response.xpath('//tr[@class="t_empty" and td[text()="Wealth Distribution"]]/td[@class="coin c_btc"]/text()').extract()[0]
         wealth_distribution_list = self.handle_string_mulpercentage(wealth_distribution_list)
-        wealth_distribution_list = [i*10 for i in wealth_distribution_list]
+        wealth_distribution_list = [int(float(i)**100) for i in wealth_distribution_list]
 
         wealth_distribution_top10 = wealth_distribution_list[0]
         item['wealth_distribution_top10'] = wealth_distribution_top10
@@ -94,4 +95,5 @@ class BtcDiSpider(Spider):
         # address_numbers = response.xpath('').extract()[0]
         total = response.xpath('//tr[@id="t_total"]/td[@class="coin c_btc"]/text()').extract()[0]
         item['total'] = self.handle_string(total)
+        item['create_time'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         yield item
