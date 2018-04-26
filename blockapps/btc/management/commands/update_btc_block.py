@@ -18,7 +18,9 @@ class Command(BaseCommand):
         rpc_connection = AuthServiceProxy("http://%s:%s@%s:%s"%(rpc_user, rpc_password, ip, port))
         blockcount = rpc_connection.getblockcount()
         print(blockcount)
-        commands = [ [ "getblockhash", height] for height in range(blockcount) ]
+        btcblockmodel = BtcBlockModel.objects.all().order_by('-height')[0]
+        startblockheight = btcblockmodel['height']
+        commands = [ [ "getblockhash", height] for height in range(startblockheight,blockcount) ]
         for height in range(blockcount):
             block_hash = rpc_connection.getblockhash(height)
             block = rpc_connection.getblock(block_hash)
