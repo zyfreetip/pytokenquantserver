@@ -11,9 +11,10 @@ class DbRouter:
 				},
 				'ethereum':
 				{
-				 'ethereum': ('ethereum_ro', 'ethereum'),
+				 'ethereum_block': ('ethereum_block_ro', 'ethereum_block'),
 				 'ethereum_address': ('ethereum_address_ro', 'ethereum_address'),
 				 'ethereum_transaction':('ethereum_transaction_ro', 'ethereum_transaction'),
+				 'ethereum_transaction_receipt':('ethereum_transaction_receipt_ro', 'ethereum_transaction_receipt'),
 				 'ethereum_stats':('ethereum_stats_ro', 'ethereum_stats'),
 				 'ethereum_index':('ethereum_index_ro', 'ethereum_index'),
 				},
