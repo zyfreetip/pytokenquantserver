@@ -5,13 +5,12 @@ from djcom.admin_perms import PermissionsMixin
 from djcom.utils import dt1970
 
 class EthereumBlockModel(PermissionsMixin):
-
     class Meta(PermissionsMixin.Meta):
         abstract = False
         app_label = 'ethereum'
         db_table = 'ethereum_block'
         managed = True
-        verbose_name = '以太坊区块表'
+        verbose_name = u'以太坊区块表'
 
     number = models.BigIntegerField(primary_key=True) # BigIntegerField
     hash = models.CharField(max_length=255, verbose_name='区块哈希', default='')
@@ -40,7 +39,7 @@ class EthereumAddressModel(PermissionsMixin):
         app_label = 'ethereum'
         db_table = 'ethereum_address'
         managed = True
-        verbose_name = '以太坊地址余额表'
+        verbose_name = u'以太坊地址余额表'
 
     address = models.CharField(max_length=255, primary_key=True)
     received = models.BigIntegerField(verbose_name='总接收数量', default=0)
@@ -65,7 +64,7 @@ class EthereumTransactionModel(PermissionsMixin):
         app_label = 'ethereum'
         db_table = 'ethereum_transaction'
         managed = True
-        verbose_name = '以太坊交易记录表'
+        verbose_name = u'以太坊交易记录表'
 
     txhash = models.CharField(max_length=255, verbose_name='交易哈希', primary_key=True)
     nonce = models.BigIntegerField(verbose_name='随机数', default=0)
@@ -90,7 +89,7 @@ class EthereumTransactionReceiptModel(PermissionsMixin):
         app_label = 'ethereum'
         db_table = 'ethereum_transaction_receipt'
         managed = True
-        verbose_name = '以太坊交易收据表'
+        verbose_name = u'以太坊交易收据表'
         
     txhash = models.CharField(max_length=255, verbose_name='交易哈希', primary_key=True)
     txindex = models.BigIntegerField(verbose_name='交易序号', default=0)
@@ -113,7 +112,7 @@ class EthereumStatsModel(PermissionsMixin):
         app_label = 'ethereum'
         db_table = 'ethereum_stats'
         managed = True
-        verbose_name = '以太坊指标表'
+        verbose_name = u'以太坊指标表'
     
     blocks_last_24h = models.BigIntegerField(verbose_name='24小时生成区块数', primary_key=True)
     blocks_avg_perhour = models.BigIntegerField(verbose_name='每小时生成区块数', default=0)

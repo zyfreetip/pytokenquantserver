@@ -11,7 +11,7 @@ class BtcBlockModel(PermissionsMixin):
         app_label = 'btc'
         db_table = 'btc_block'
         managed = True
-        verbose_name ='比特币区块表'
+        verbose_name = u'比特币区块表'
 
     height = models.BigIntegerField(primary_key=True) # BigIntegerField
     weight = models.BigIntegerField(verbose_name='区块重量', default=0)
@@ -21,7 +21,7 @@ class BtcBlockModel(PermissionsMixin):
     timestamp = models.BigIntegerField(verbose_name='块时间戳', default=0)
     bits = models.CharField(max_length=255, verbose_name='bits', default='')
     nonce = models.BigIntegerField(verbose_name='随机数', default=0)
-    hash = models.CharField(max_length=255, verbose_name='快哈希', default='')
+    hash = models.CharField(max_length=255, verbose_name='块哈希', default='')
     prev_block_hash = models.CharField(max_length=255, verbose_name='前向区块哈希', default='')
     next_block_hash = models.CharField(max_length=255, verbose_name='后向区块哈希', default='')
     size = models.BigIntegerField(verbose_name='区块体积', default=0)
@@ -44,7 +44,7 @@ class BtcAddressModel(PermissionsMixin):
         app_label = 'btc'
         db_table = 'btc_address'
         managed = True
-        verbose_name ='比特币地址表'
+        verbose_name = u'比特币地址表'
     
     address = models.CharField(max_length=255, primary_key=True)
     received = models.BigIntegerField(verbose_name='总接收数量', default=0)
@@ -68,7 +68,7 @@ class BtcTransactionModel(PermissionsMixin):
         app_label = 'btc'
         db_table = 'btc_transaction'
         managed = True
-        verbose_name ='比特币交易记录表'
+        verbose_name = u'比特币交易记录表'
         
     txhash = models.CharField(max_length=255, primary_key=True)
     block_height = models.BigIntegerField(verbose_name='所在块高度', default=0)
@@ -93,7 +93,7 @@ class BtcInputTransactionModel(PermissionsMixin):
         app_label ='btc'
         db_table = 'btc_input_transaction'
         managed = True
-        verbose_name ='比特币输入交易记录表'
+        verbose_name = u'比特币输入交易记录表'
     
     txhash = models.CharField(max_length=255, verbose_name='交易hash', default='')
     prev_address = models.CharField(max_length=255, verbose_name='输入地址', default='')
@@ -115,7 +115,7 @@ class BtcOutputTransactionModel(PermissionsMixin):
         app_label ='btc'
         db_table = 'btc_output_transaction'
         managed = True
-        verbose_name ='比特币输出交易记录表'
+        verbose_name = u'比特币输出交易记录表'
     
     txhash = models.CharField(max_length=255, verbose_name='交易hash', default='')
     address = models.CharField(max_length=255, verbose_name='输出地址', default='')
@@ -132,7 +132,7 @@ class BtcStatsModel(PermissionsMixin):
         app_label = 'btc'
         db_table = 'btc_stats'
         managed = True
-        verbose_name ='比特币指标表'
+        verbose_name = u'比特币指标表'
     
     blocks_last_24h = models.BigIntegerField(verbose_name='24小时生成区块数', primary_key=True)
     blocks_avg_perhour = models.BigIntegerField(verbose_name='每小时生成区块数', default=0)
