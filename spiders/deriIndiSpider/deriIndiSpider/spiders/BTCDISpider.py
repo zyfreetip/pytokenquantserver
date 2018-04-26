@@ -1,6 +1,6 @@
 from scrapy.spiders import Spider
 from scrapy import Request
-from deriIndiSpider.deriIndiSpider.items import DeriindispiderItem
+from deriIndiSpider.items import DeriindispiderItem
 import re
 
 
