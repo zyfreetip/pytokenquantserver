@@ -103,8 +103,8 @@ class EthereumTransactionReceiptModel(PermissionsMixin):
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
     
     def __str__(self):
-        return 'txhash(%s) txindex(%s) gas(%s) contract_address(%s) status(%s) \
-        (self.txhash, self.txindex, self.gas, self.contract_address, self.status)'
+        return 'txhash(%s) txindex(%s) gas(%s) contract_address(%s) status(%s)' \
+        (self.txhash, self.txindex, self.gas, self.contract_address, self.status)
 
 class EthereumStatsModel(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
