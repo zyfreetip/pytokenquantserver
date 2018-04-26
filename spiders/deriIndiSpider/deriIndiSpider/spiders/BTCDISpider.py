@@ -57,7 +57,7 @@ class BtcDiSpider(Spider):
 
         wealth_distribution_list = response.xpath('//tr[@class="t_empty" and td[text()="Wealth Distribution"]]/td[@class="coin c_btc"]/text()').extract()[0]
         wealth_distribution_list = self.handle_string_mulpercentage(wealth_distribution_list)
-        wealth_distribution_list = [int(float(i)**100) for i in wealth_distribution_list]
+        wealth_distribution_list = [int(float(i)*100) for i in wealth_distribution_list]
 
         wealth_distribution_top10 = wealth_distribution_list[0]
         item['wealth_distribution_top10'] = wealth_distribution_top10
