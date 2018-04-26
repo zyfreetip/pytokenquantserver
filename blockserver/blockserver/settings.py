@@ -198,6 +198,7 @@ INSTALLED_APPS.extend((
     'blockserver',
     'blockmanage',
 	'btc',
+    'ethereum'
     ))
 
 

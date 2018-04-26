@@ -76,7 +76,7 @@ class EthereumTransactionModel(PermissionsMixin):
     value = models.BigIntegerField(verbose_name='交易金额Wei', default=0)
     gas_price = models.BigIntegerField(verbose_name='gas价格', default=0)
     gas = models.BigIntegerField(verbose_name='gas数量', default=0)
-    input = models.CharField(max_length=255, verbose_name='交易发送的数据', default='')
+    input_data = models.CharField(max_length=255, verbose_name='交易发送的数据', default='')
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
 
     def __str__(self):
@@ -97,8 +97,8 @@ class EthereumTransactionReceiptModel(PermissionsMixin):
     block_number = models.BigIntegerField(verbose_name='区块高度', default=0)
     total_gas = models.BigIntegerField(verbose_name='区块gas使用总量', default=0)
     gas = models.BigIntegerField(verbose_name='该交易使用gas量', default=0)
-    contract_address = models.CharField(verbose_name='合约地址', default='')
-    root = models.CharField(verbose_name='拜占庭交易状态根', default='')
+    contract_address = models.CharField(max_length=255, verbose_name='合约地址', default='')
+    root = models.CharField(max_length=255, verbose_name='拜占庭交易状态根', default='')
     status = models.BigIntegerField(verbose_name='状态', default=0)
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
     
