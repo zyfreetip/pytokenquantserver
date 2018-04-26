@@ -1,6 +1,6 @@
 from scrapy.spiders import Spider
 from scrapy import Request
-from btc.models import BtcStatsModel
+from deriIndiSpider.deriIndiSpider.items import DeriindispiderItem
 import re
 
 
@@ -36,7 +36,7 @@ class BtcDiSpider(Spider):
 
     def parse(self, response):
 
-        item = BtcStatsModel()
+        item = DeriindispiderItem()
         blocks_last_24h = response.xpath('//tr[@id="t_blocks24"]/td[@class="coin c_btc"]/text()').extract()[0]
         item.blocks_last_24h = self.handle_string(blocks_last_24h)
 
