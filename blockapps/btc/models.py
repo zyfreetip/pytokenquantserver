@@ -82,6 +82,7 @@ class BtcTransactionModel(PermissionsMixin):
     outputs_value = models.BigIntegerField(verbose_name='输出金额', default=0)
     size = models.BigIntegerField(verbose_name='交易体积', default=0)
     version = models.BigIntegerField(verbose_name='交易版本号', default=0)
+    confirmations = models.BigIntegerField(verbose_name='确认数', default=0)
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
     
     def __str_(self):
