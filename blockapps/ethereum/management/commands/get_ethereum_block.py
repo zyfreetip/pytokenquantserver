@@ -21,19 +21,20 @@ class Command(BaseCommand):
         for height in range(1, blocknumber+1):
             block = w3.eth.getBlock(height, True)
             # block data
+            loginfo(block['timestamp'])
             EthereumBlockModel.objects.get_or_create(
                 number=block['number'],
                 defaults={
-                    'hash': str(block['hash']),
-                    'parent_hash': str(block['parentHash']),
-                    'nonce': block['nonce'],
-                    'transactions_root': str(block['transactionsRoot']),
-                    'state_root': str(block['stateRoot']),
-                    'receipts_root': str(block['receiptsRoot']),
+                    'hash': block['hash'].hex(),
+                    'parent_hash': block['parentHash'].hex(),
+                    'nonce': int(block['nonce'].hex(), 16),
+                    'transactions_root': block['transactionsRoot'].hex(),
+                    'state_root': block['stateRoot'].hex(),
+                    'receipts_root': block['receiptsRoot'].hex(),
                     'miner': str(block['miner']),
                     'difficulty': block['difficulty'],
                     'total_difficulty': block['totalDifficulty'],
-                    'extra_data': str(block['extraData']),
+                    'extra_data': block['extraData'].hex(),
                     'size': block['size'],
                     'gas_limit': block['gasLimit'],
                     'gas_used': block['gasUsed'],
@@ -53,14 +54,14 @@ class Command(BaseCommand):
         EthereumTransactionReceiptModel.objects.get_or_create(
             txhash=receipt['transactionHash'],
             defaults={
-                'txhash': str(receipt['transactionHash']),
+                'txhash': receipt['transactionHash'].hex(),
                 'txindex': receipt['transactionIndex'],
-                'block_hash': str(receipt['blockHash']),
+                'block_hash': receipt['blockHash'].hex(),
                 'block_number': receipt['blockNumber'],
                 'total_gas': receipt['cumulativeGasUsed'],
                 'gas_used': receipt['gas_used'],
                 'contract_address': str(receipt['contractAddress']),
-                'root': str(receipt['root']),
+                'root': receipt['root'].hex(),
                 'status': receipt['status'],
             }
         )
@@ -71,8 +72,8 @@ class Command(BaseCommand):
         EthereumTransactionModel.objects.get_or_create(
             txhash=transaction['hash'],
             defaults={
-                'nonce': transaction['nonce'],
-                'block_hash': str(transaction['blockHash']),
+                'nonce': int(transaction['nonce'].hex(), 16),
+                'block_hash': transaction['blockHash'].hex(),
                 'block_number': transaction['blockNumber'],
                 'txindex': transaction['transactionIndex'],
                 'from_address': str(transaction['from']),
@@ -80,7 +81,7 @@ class Command(BaseCommand):
                 'value': transaction['value'],
                 'gas_price': transaction['gasPrice'],
                 'gas': transaction['gas'],
-                'input_data': str(transaction['input']),
+                'input_data': transaction['input'].hex(),
 
             }
         )
