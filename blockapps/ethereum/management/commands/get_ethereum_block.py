@@ -25,15 +25,15 @@ class Command(BaseCommand):
                 number=block['number'],
                 defaults={
                     'hash': str(block['hash']),
-                    'parent_hash': block['parentHash'],
+                    'parent_hash': str(block['parentHash']),
                     'nonce': block['nonce'],
-                    'transactions_root': block['transactionsRoot'],
-                    'state_root': block['stateRoot'],
-                    'receipts_root': block['receiptsRoot'],
-                    'miner': block['miner'],
+                    'transactions_root': str(block['transactionsRoot']),
+                    'state_root': str(block['stateRoot']),
+                    'receipts_root': str(block['receiptsRoot']),
+                    'miner': str(block['miner']),
                     'difficulty': block['difficulty'],
                     'total_difficulty': block['totalDifficulty'],
-                    'extra_data': block['extraData'],
+                    'extra_data': str(block['extraData']),
                     'size': block['size'],
                     'gas_limit': block['gasLimit'],
                     'gas_used': block['gasUsed'],
@@ -53,14 +53,14 @@ class Command(BaseCommand):
         EthereumTransactionReceiptModel.objects.get_or_create(
             txhash=receipt['transactionHash'],
             defaults={
-                'txhash': receipt['transactionHash'],
+                'txhash': str(receipt['transactionHash']),
                 'txindex': receipt['transactionIndex'],
-                'block_hash': receipt['blockHash'],
+                'block_hash': str(receipt['blockHash']),
                 'block_number': receipt['blockNumber'],
                 'total_gas': receipt['cumulativeGasUsed'],
                 'gas_used': receipt['gas_used'],
-                'contract_address': receipt['contractAddress'],
-                'root': receipt['root'],
+                'contract_address': str(receipt['contractAddress']),
+                'root': str(receipt['root']),
                 'status': receipt['status'],
             }
         )
@@ -72,15 +72,15 @@ class Command(BaseCommand):
             txhash=transaction['hash'],
             defaults={
                 'nonce': transaction['nonce'],
-                'block_hash': transaction['blockHash'],
+                'block_hash': str(transaction['blockHash']),
                 'block_number': transaction['blockNumber'],
                 'txindex': transaction['transactionIndex'],
-                'from_address': transaction['from'],
-                'to_address': transaction['to'],
+                'from_address': str(transaction['from']),
+                'to_address': str(transaction['to']),
                 'value': transaction['value'],
                 'gas_price': transaction['gasPrice'],
                 'gas': transaction['gas'],
-                'input_data': transaction['input'],
+                'input_data': str(transaction['input']),
 
             }
         )
