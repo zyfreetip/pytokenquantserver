@@ -103,7 +103,7 @@ class EthereumTransactionReceiptModel(PermissionsMixin):
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
     
     def __str__(self):
-        return 'txhash(%s) txindex(%s) gas(%s) contract_address(%s) status(%s)' \
+        return 'txhash(%s) txindex(%s) gas(%s) contract_address(%s) status(%s)' %\
         (self.txhash, self.txindex, self.gas, self.contract_address, self.status)
 
 class EthereumStatsModel(PermissionsMixin):
@@ -114,7 +114,7 @@ class EthereumStatsModel(PermissionsMixin):
         managed = True
         verbose_name = u'以太坊指标表'
     
-    blocks_last_24h = models.BigIntegerField(verbose_name='24小时生成区块数', primary_key=True)
+    blocks_last_24h = models.BigIntegerField(verbose_name='24小时生成区块数', default=0)
     blocks_avg_perhour = models.BigIntegerField(verbose_name='每小时生成区块数', default=0)
     reward_last_24h = models.BigIntegerField(verbose_name='24小时产生奖励数', default=0)
     top_100_richest = models.BigIntegerField(verbose_name='前100占有币情况', default=0)
@@ -133,8 +133,5 @@ class EthereumStatsModel(PermissionsMixin):
     total = models.BigIntegerField(verbose_name='币总量', default=0)
     
     def __str__(self):
-        return 'blocks_last_24h(%s) blocks_avg_perhour(%s)'\
+        return 'blocks_last_24h(%s) blocks_avg_perhour(%s)'%\
             (self.blocks_last_24h, self.blocks_avg_perhour)
-    
-    
-    

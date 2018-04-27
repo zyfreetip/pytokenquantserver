@@ -85,7 +85,7 @@ class BtcTransactionModel(PermissionsMixin):
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
     
     def __str_(self):
-        return 'txhash(%s) block_height(%s) fee(%s)'\
+        return 'txhash(%s) block_height(%s) fee(%s)' %\
             (self.txhash, self.block_height, self.fee)
 class BtcInputTransactionModel(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
@@ -106,7 +106,7 @@ class BtcInputTransactionModel(PermissionsMixin):
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
     
     def __str__(self):
-        return 'txhash(%s) prev_address(%s)'\
+        return 'txhash(%s) prev_address(%s)' %\
             (self.txhash, self.prev_address)
 
 class BtcOutputTransactionModel(PermissionsMixin):
@@ -123,7 +123,7 @@ class BtcOutputTransactionModel(PermissionsMixin):
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
 
     def __str__(self):
-        return 'txhash(%s) address(%s)'\
+        return 'txhash(%s) address(%s)' %\
             (self.txhash, self.address)
 
 class BtcStatsModel(PermissionsMixin):
@@ -134,7 +134,7 @@ class BtcStatsModel(PermissionsMixin):
         managed = True
         verbose_name = u'比特币指标表'
     
-    blocks_last_24h = models.BigIntegerField(verbose_name='24小时生成区块数', primary_key=True)
+    blocks_last_24h = models.BigIntegerField(verbose_name='24小时生成区块数', default=0)
     blocks_avg_perhour = models.BigIntegerField(verbose_name='每小时生成区块数', default=0)
     reward_last_24h = models.BigIntegerField(verbose_name='24小时产生奖励数', default=0)
     top_100_richest = models.BigIntegerField(verbose_name='前100占有币情况', default=0)
@@ -151,16 +151,8 @@ class BtcStatsModel(PermissionsMixin):
     address_numbers = models.BigIntegerField(verbose_name='持币地址数', default=0)
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
     total = models.BigIntegerField(verbose_name='币总量', default=0)
-    
+
     def __str__(self):
-        return 'blocks_last_24h(%s) blocks_avg_perhour(%s)'\
+        return 'blocks_last_24h(%s) blocks_avg_perhour(%s)' %\
             (self.blocks_last_24h, self.blocks_avg_perhour)
-    
-    
-    
-    
-    
-    
-    
-       
     

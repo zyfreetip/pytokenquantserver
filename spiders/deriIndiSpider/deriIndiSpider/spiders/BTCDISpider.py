@@ -3,7 +3,7 @@ from scrapy import Request
 from deriIndiSpider.items import DeriindispiderItem
 import re
 import datetime
-
+from django.utils import timezone
 
 class BtcDiSpider(Spider):
     name = 'btc_di'
@@ -95,5 +95,5 @@ class BtcDiSpider(Spider):
         # address_numbers = response.xpath('').extract()[0]
         total = response.xpath('//tr[@id="t_total"]/td[@class="coin c_btc"]/text()').extract()[0]
         item['total'] = self.handle_string(total)
-        item['create_time'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        item['create_time'] = timezone.now()
         yield item
