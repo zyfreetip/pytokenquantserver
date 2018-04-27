@@ -2,7 +2,7 @@
 from django.core.management.base import BaseCommand
 from ethereum.models import EthereumBlockModel, EthereumTransactionModel, EthereumTransactionReceiptModel
 from web3 import Web3, HTTPProvider
-
+from logging import info as loginfo
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
@@ -12,8 +12,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         ip = options['ip']
         port = options['port']
+        loginfo('ip:'+str(ip))
+        loginfo('port:'+str(port))
         w3 = Web3(HTTPProvider(ip+':'+port))
-        ethereumblockmodel = EthereumBlockModel.objects.all().order_by('-height')[0]
+        ethereumblockmodel = EthereumBlockModel.objects.all().order_by('-number')[0]
         startblockheight = ethereumblockmodel.height
         blocknumber = w3.eth.blockNumber
         for height in range(1, blocknumber+1):
@@ -64,6 +66,8 @@ class Command(BaseCommand):
         )
 
     def store_transaction(self, transaction):
+        loginfo("transaction:")
+        loginfo(transaction)
         EthereumTransactionModel.objects.get_or_create(
             txhash=transaction['hash'],
             defaults={

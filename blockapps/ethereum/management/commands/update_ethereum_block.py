@@ -13,7 +13,7 @@ class Command(BaseCommand):
         ip = options['ip']
         port = options['port']
         w3 = Web3(HTTPProvider(ip+':'+port))
-        ethereumblockmodel = EthereumBlockModel.objects.all().order_by('-height')[0]
+        ethereumblockmodel = EthereumBlockModel.objects.all().order_by('-number')[0]
         startblockheight = ethereumblockmodel.height
         blocknumber = w3.eth.blockNumber
         for height in range(startblockheight+1, blocknumber+1):
