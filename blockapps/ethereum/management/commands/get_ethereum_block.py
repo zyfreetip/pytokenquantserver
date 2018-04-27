@@ -27,7 +27,7 @@ class Command(BaseCommand):
                     'hash': block['hash'],
                     'parent_hash': block['parentHash'],
                     'nonce': block['nonce'],
-                    'transaction_root': block['transactionRoot'],
+                    'transactions_root': block['transactionsRoot'],
                     'state_root': block['stateRoot'],
                     'receipts_root': block['receiptRoot'],
                     'miner': block['miner'],
