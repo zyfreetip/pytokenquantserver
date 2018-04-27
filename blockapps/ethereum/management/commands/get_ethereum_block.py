@@ -15,8 +15,8 @@ class Command(BaseCommand):
         loginfo('ip:'+str(ip))
         loginfo('port:'+str(port))
         w3 = Web3(HTTPProvider(ip+':'+port))
-        ethereumblockmodel = EthereumBlockModel.objects.all().order_by('-number')[0]
-        startblockheight = ethereumblockmodel.height
+        # ethereumblockmodel = EthereumBlockModel.objects.all().order_by('-number')[0]
+        # startblockheight = ethereumblockmodel.height
         blocknumber = w3.eth.blockNumber
         for height in range(1, blocknumber+1):
             block = w3.eth.getBlock(height, True)
