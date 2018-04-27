@@ -24,7 +24,7 @@ class Command(BaseCommand):
             EthereumBlockModel.objects.get_or_create(
                 number=block['number'],
                 defaults={
-                    'hash': block['hash'],
+                    'hash': str(block['hash']),
                     'parent_hash': block['parentHash'],
                     'nonce': block['nonce'],
                     'transactions_root': block['transactionsRoot'],
