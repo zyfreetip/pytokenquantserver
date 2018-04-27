@@ -29,7 +29,7 @@ class Command(BaseCommand):
                     'nonce': block['nonce'],
                     'transactions_root': block['transactionsRoot'],
                     'state_root': block['stateRoot'],
-                    'receipts_root': block['receiptRoot'],
+                    'receipts_root': block['receiptsRoot'],
                     'miner': block['miner'],
                     'difficulty': block['difficulty'],
                     'total_difficulty': block['totalDifficulty'],
