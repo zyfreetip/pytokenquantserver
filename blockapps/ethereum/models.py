@@ -96,7 +96,7 @@ class EthereumTransactionReceiptModel(PermissionsMixin):
     block_hash = models.CharField(max_length=255, verbose_name='区块哈希', default='')
     block_number = models.BigIntegerField(verbose_name='区块高度', default=0)
     total_gas = models.BigIntegerField(verbose_name='区块gas使用总量', default=0)
-    gas = models.BigIntegerField(verbose_name='该交易使用gas量', default=0)
+    gas_used = models.BigIntegerField(verbose_name='该交易使用gas量', default=0)
     contract_address = models.CharField(max_length=255, verbose_name='合约地址', default='')
     root = models.CharField(max_length=255, verbose_name='拜占庭交易状态根', default='')
     status = models.BigIntegerField(verbose_name='状态', default=0)
