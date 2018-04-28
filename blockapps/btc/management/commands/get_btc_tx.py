@@ -60,12 +60,15 @@ class Command(BaseCommand):
                 for vout in tx['vout']:
                     txhash = tx['hash']
                     value = vout['value']*pow(10,8)
-                    for address in vout['scriptPubKey']['addresses']:
-                        BtcAddressModel.objects.get_or_create(address=address)
-                        BtcOutputTransactionModel.objects.create(txhash=txhash,
-                                                                 value=value,
-                                                                 address=address)
-                        outputs_value += value
+                    try:
+                        for address in vout['scriptPubKey']['addresses']:
+                            BtcAddressModel.objects.get_or_create(address=address)
+                            BtcOutputTransactionModel.objects.create(txhash=txhash,
+                                                                     value=value,
+                                                                     address=address)
+                            outputs_value += value
+                    except KeyError as e:
+                        continue
                 version = tx['version']
                 size = tx['size']
                 locktime = tx['locktime']
