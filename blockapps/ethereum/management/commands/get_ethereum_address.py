@@ -25,22 +25,26 @@ class Command(BaseCommand):
             start_block_number = ethereumblockmodels[0].number
             for number in range(start_block_number, block_number+1):
                 block = w3.eth.getBlock(number, True)
-                self.get_info(block)
+                self.get_info(block, w3)
 
         else:
             print('第一次获取数据')
             for number in range(1, block_number):
                 block = w3.eth.getBlock(number, True)
-                self.get_info(block)
+                self.get_info(block, w3)
 
-    def get_info(self, block):
+    def get_info(self, block, w3):
         transactions = self.get_transactions_from_block(block)
         print("transactions count:", len(transactions), ' in block ', block['number'])
         for transaction in transactions:
             double_address = self.get_address_from_transaction(transaction)
             print('transaction: ', transaction['hash'].hex())
-            self.handle_by_address(double_address[0], transaction, 'received')
-            self.handle_by_address(double_address[1], transaction, 'sent')
+            if double_address[0]:
+                balance = str(w3.eth.getBalance(double_address[0]))
+                self.handle_by_address(double_address[0], transaction, 'received', balance)
+            if double_address[1]:
+                balance = str(w3.eth.getBalance(double_address[1]))
+                self.handle_by_address(double_address[1], transaction, 'sent', balance)
 
     def get_transactions_from_block(self, block):
         transactions_ = block['transactions']
@@ -52,7 +56,7 @@ class Command(BaseCommand):
         to_address = transaction['to']
         return to_address, from_address
 
-    def handle_by_address(self, address, transaction, opstr):
+    def handle_by_address(self, address, transaction, opstr, balance):
         # 总接受量，总支出量可以通过transaction表查询
         # 或者遍历的方式
         received_or_send = ''
@@ -72,7 +76,8 @@ class Command(BaseCommand):
                 address=address,
                 defaults={
                     received_or_send: int(transaction['value']+int(received_or_sent_str)),
-                    'tx_count': tx_count
+                    'tx_count': tx_count,
+                    'balance': balance,
                 }
             )
         else:
@@ -81,6 +86,7 @@ class Command(BaseCommand):
                 address=address,
                 defaults={
                     received_or_send: str(transaction['value']),
-                    'tx_count': 1
+                    'tx_count': 1,
+                    'balance': balance
                 }
             )
