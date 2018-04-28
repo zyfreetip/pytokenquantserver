@@ -37,34 +37,46 @@ class Command(BaseCommand):
         for transaction in transactions:
             double_address = self.get_address_from_transaction(transaction)
             print('transaction: ', transaction['hash'].hex())
-            self.handle_by_address(double_address[0], transaction)
-            self.handle_by_address(double_address[1], transaction)
+            self.handle_by_address(double_address[0], transaction, 'recived')
+            self.handle_by_address(double_address[1], transaction, 'sent')
 
     def get_transactions_from_block(self, block):
         transactions_ = block['transactions']
         return transactions_
 
     def get_address_from_transaction(self, transaction):
+        # from代表sent，to代表received
         from_address = transaction['from']
-        to_address = transaction['from']
-        return from_address, to_address
+        to_address = transaction['to']
+        return to_address, from_address
 
-    def handle_by_address(self, address, transaction):
+    def handle_by_address(self, address, transaction, opstr):
         # 总接受量，总支出量可以通过transaction表查询
         # 或者遍历的方式
+        received_or_send = ''
+        if opstr == 'received':
+            received_or_send = 'received'
+        else:
+            received_or_send = 'sent'
         model_qs = EthereumAddressModel.objects.filter(address=address)
         if len(model_qs) != 0:
-            received_str = model_qs[0].received
+            data_qs = model_qs[0]
+            print('data_qs', data_qs)
+            received_str = data_qs.received
+            tx_count = data_qs.tx_count+1
             EthereumAddressModel.objects.update_or_create(
                 address=address,
                 defaults={
-                    'received': int(transaction['value']+int(received_str))
+                    received_or_send: int(transaction['value']+int(received_str)),
+                    'tx_count': tx_count
                 }
             )
         else:
+            print('address第一次出现在数据库')
             EthereumAddressModel.objects.update_or_create(
                 address=address,
                 defaults={
-                    'received': str(transaction['value'])
+                    received_or_send: str(transaction['value']),
+                    'tx_count': 1
                 }
             )
