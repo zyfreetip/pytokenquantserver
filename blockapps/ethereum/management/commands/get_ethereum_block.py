@@ -13,8 +13,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         ip = options['ip']
         port = options['port']
-        loginfo('ip:'+str(ip))
-        loginfo('port:'+str(port))
         w3 = Web3(HTTPProvider(ip+':'+port))
         # ethereumblockmodel = EthereumBlockModel.objects.all().order_by('-number')[0]
         # startblockheight = ethereumblockmodel.height
