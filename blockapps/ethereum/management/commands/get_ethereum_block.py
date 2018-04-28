@@ -3,6 +3,7 @@ from django.core.management.base import BaseCommand
 from ethereum.models import EthereumBlockModel, EthereumTransactionModel, EthereumTransactionReceiptModel
 from web3 import Web3, HTTPProvider
 from logging import info as loginfo
+import ipdb
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
@@ -27,7 +28,7 @@ class Command(BaseCommand):
                 defaults={
                     'hash': block['hash'].hex(),
                     'parent_hash': block['parentHash'].hex(),
-                    'nonce': int(block['nonce'].hex(), 16),
+                    'nonce': block['nonce'].hex(),
                     'transactions_root': block['transactionsRoot'].hex(),
                     'state_root': block['stateRoot'].hex(),
                     'receipts_root': block['receiptsRoot'].hex(),
@@ -38,19 +39,22 @@ class Command(BaseCommand):
                     'size': block['size'],
                     'gas_limit': block['gasLimit'],
                     'gas_used': block['gasUsed'],
-                    'timestamp': block['timestamp'],
+                    'timestamp': int(block['timestamp']),
                 }
-            )
 
+            )
+            print("nummber:", block['number'], "block hash:", block['hash'].hex())
             # transactions
             transactions = block['transactions']
             for transaction in transactions:
+                print("transaction hash:", transaction['hash'].hex())
                 self.store_transaction(transaction)
-                self.store_transaction_receipt(w3, transaction['hash'])
+                self.store_transaction_receipt(w3, transaction['hash'].hex())
 
     # transaction
     def store_transaction_receipt(self, web3, txhash):
         receipt = web3.eth.getTransactionReceipt(txhash)
+        print("transaction receipt status:", receipt['status'])
         EthereumTransactionReceiptModel.objects.get_or_create(
             txhash=receipt['transactionHash'],
             defaults={
@@ -59,7 +63,7 @@ class Command(BaseCommand):
                 'block_hash': receipt['blockHash'].hex(),
                 'block_number': receipt['blockNumber'],
                 'total_gas': receipt['cumulativeGasUsed'],
-                'gas_used': receipt['gas_used'],
+                'gas_used': receipt['gasUsed'],
                 'contract_address': str(receipt['contractAddress']),
                 'root': receipt['root'].hex(),
                 'status': receipt['status'],
@@ -70,18 +74,18 @@ class Command(BaseCommand):
         loginfo("transaction:")
         loginfo(transaction)
         EthereumTransactionModel.objects.get_or_create(
-            txhash=transaction['hash'],
+            txhash=transaction['hash'].hex(),
             defaults={
-                'nonce': int(transaction['nonce'].hex(), 16),
+                'nonce': transaction['nonce'],
                 'block_hash': transaction['blockHash'].hex(),
                 'block_number': transaction['blockNumber'],
                 'txindex': transaction['transactionIndex'],
                 'from_address': str(transaction['from']),
                 'to_address': str(transaction['to']),
-                'value': transaction['value'],
+                'value': str(transaction['value']),
                 'gas_price': transaction['gasPrice'],
                 'gas': transaction['gas'],
-                'input_data': transaction['input'].hex(),
+                'input_data': transaction['input'],
 
             }
         )
