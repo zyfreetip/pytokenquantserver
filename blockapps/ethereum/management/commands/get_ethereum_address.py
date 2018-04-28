@@ -64,12 +64,14 @@ class Command(BaseCommand):
         if len(model_qs) != 0:
             data_qs = model_qs[0]
             print('data_qs', data_qs)
-            received_str = data_qs.received
+            received_or_sent_str = (data_qs.received, data_qs.sent)[opstr == 'received']
+            if received_or_sent_str == '':
+                received_or_sent_str = '0'
             tx_count = data_qs.tx_count+1
             EthereumAddressModel.objects.update_or_create(
                 address=address,
                 defaults={
-                    received_or_send: int(transaction['value']+int(received_str)),
+                    received_or_send: int(transaction['value']+int(received_or_sent_str)),
                     'tx_count': tx_count
                 }
             )
