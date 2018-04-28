@@ -53,7 +53,7 @@ class Command(BaseCommand):
         # 或者遍历的方式
         model_qs = EthereumAddressModel.objects.filter(address=address)
         if len(model_qs) != 0:
-            received_str = model_qs[0]['received']
+            received_str = model_qs[0].received
             EthereumAddressModel.objects.update_or_create(
                 address=address,
                 defaults={
