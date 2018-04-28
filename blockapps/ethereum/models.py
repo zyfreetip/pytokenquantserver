@@ -15,7 +15,7 @@ class EthereumBlockModel(PermissionsMixin):
     number = models.BigIntegerField(primary_key=True) # BigIntegerField
     hash = models.CharField(max_length=255, verbose_name='区块哈希', default='')
     parent_hash = models.CharField(max_length=255, verbose_name='父哈希', default='')
-    nonce = models.BigIntegerField(verbose_name='随机数', default=0)
+    nonce = models.CharField(max_length=255, verbose_name='随机数', default=0)
     transactions_root = models.CharField(max_length=255, verbose_name='根交易字典树', default='')
     state_root = models.CharField(max_length=255, verbose_name='根状态字典树', default='')
     receipts_root = models.CharField(max_length=255, verbose_name='根收据字典树', default='')
