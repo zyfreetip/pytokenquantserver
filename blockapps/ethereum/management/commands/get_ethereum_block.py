@@ -37,8 +37,8 @@ class Command(BaseCommand):
                     'total_difficulty': block['totalDifficulty'],
                     'extra_data': block['extraData'].hex(),
                     'size': block['size'],
-                    'gas_limit': block['gasLimit'],
-                    'gas_used': block['gasUsed'],
+                    'gas_limit': str(block['gasLimit']),
+                    'gas_used': str(block['gasUsed']),
                     'timestamp': int(block['timestamp']),
                 }
 
@@ -63,7 +63,7 @@ class Command(BaseCommand):
                 'block_hash': receipt['blockHash'].hex(),
                 'block_number': receipt['blockNumber'],
                 'total_gas': receipt['cumulativeGasUsed'],
-                'gas_used': receipt['gasUsed'],
+                'gas_used': str(receipt['gasUsed']),
                 'contract_address': str(receipt['contractAddress']),
                 'root': receipt['root'].hex(),
                 'status': receipt['status'],
@@ -84,7 +84,7 @@ class Command(BaseCommand):
                 'to_address': str(transaction['to']),
                 'value': str(transaction['value']),
                 'gas_price': transaction['gasPrice'],
-                'gas': transaction['gas'],
+                'gas': str(transaction['gas']),
                 'input_data': transaction['input'],
 
             }
