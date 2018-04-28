@@ -39,8 +39,10 @@ class Command(BaseCommand):
         for transaction in transactions:
             double_address = self.get_address_from_transaction(transaction)
             print('transaction: ', transaction['hash'].hex())
-            self.handle_by_address(double_address[0], transaction, 'received')
-            self.handle_by_address(double_address[1], transaction, 'sent')
+            if double_address[0]:
+                self.handle_by_address(double_address[0], transaction, 'received')
+            if double_address[1]:
+                self.handle_by_address(double_address[1], transaction, 'sent')
 
     def get_transactions_from_block(self, block):
         transactions_ = block['transactions']
