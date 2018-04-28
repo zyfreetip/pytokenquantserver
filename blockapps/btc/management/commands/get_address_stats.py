@@ -39,9 +39,10 @@ class Command(BaseCommand):
                 tx_count += 1
                 received += outputTx.value
             balance = received - sent
-            BtcAddressModel.objects.update(address=address,
-                                         received=received,
-                                         sent=sent,
-                                         balance=balance,
-                                         tx_count=tx_count,
-                                         )
+            BtcAddressModel.objects.update_or_create(address=address,
+                                        defaults={
+                                         'received': received,
+                                         'sent': sent,
+                                         'balance': balance,
+                                         'tx_count': tx_count,
+                                         })
