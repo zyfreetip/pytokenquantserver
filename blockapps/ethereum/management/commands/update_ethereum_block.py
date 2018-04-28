@@ -49,8 +49,13 @@ class Command(BaseCommand):
 
     def store_transaction_receipt(self, web3, txhash):
         receipt = web3.eth.getTransactionReceipt(txhash)
+        status = 0
+        try:
+            status = int(receipt['status'], 16)
+        except KeyError as e:
+            status = 0
         EthereumTransactionReceiptModel.objects.get_or_create(
-            txhash=receipt['transactionHash'],
+            txhash=receipt['transactionHash'].hex(),
             defaults={
                'txhash': receipt['transactionHash'].hex(),
                'txindex': receipt['transactionIndex'],
@@ -60,7 +65,7 @@ class Command(BaseCommand):
                'gas_used': receipt['gasUsed'],
                'contract_address': str(receipt['contractAddress']),
                'root': receipt['root'].hex(),
-               'status': receipt['status'],
+               'status': status,
                 }
         )
 
