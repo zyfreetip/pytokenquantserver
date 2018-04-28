@@ -31,7 +31,7 @@ class EthereumBlockModel(PermissionsMixin):
 
     def __str__(self):
         return 'number(%s) hash(%s) parentHash(%s) miner(%s)' % \
-            (self.number, self.hash, self.parentHash, self.miner)
+            (self.number, self.hash, self.parent_hash, self.miner)
 
 class EthereumAddressModel(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
@@ -42,8 +42,8 @@ class EthereumAddressModel(PermissionsMixin):
         verbose_name = u'以太坊地址余额表'
 
     address = models.CharField(max_length=255, primary_key=True)
-    received = models.BigIntegerField(verbose_name='总接收数量', default=0)
-    sent = models.BigIntegerField(verbose_name='总支出数量', default=0)
+    received = models.CharField(max_length=255, verbose_name='总接收数量', default='')
+    sent = models.CharField(max_length=255, verbose_name='总支出数量', default='')
     balance = models.CharField(max_length=255, verbose_name='当前余额', default=0)
     tx_count = models.BigIntegerField(verbose_name='交易数量', default=0)
     unconfirmed_tx_count = models.BigIntegerField(verbose_name='未确认交易数量', default=0)
@@ -76,7 +76,7 @@ class EthereumTransactionModel(PermissionsMixin):
     value = models.CharField(max_length=255, verbose_name='交易金额Wei', default=0)
     gas_price = models.CharField(max_length=255, verbose_name='gas价格', default=0)
     gas = models.BigIntegerField(verbose_name='gas数量', default=0)
-    input_data = models.CharField(max_length=255, verbose_name='交易发送的数据', default='')
+    input_data = models.TextField(verbose_name='交易发送的数据', default='')
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
 
     def __str__(self):
