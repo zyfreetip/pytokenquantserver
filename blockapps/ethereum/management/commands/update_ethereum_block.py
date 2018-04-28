@@ -3,6 +3,7 @@ from django.core.management.base import BaseCommand
 from ethereum.models import EthereumBlockModel, EthereumTransactionModel, EthereumTransactionReceiptModel
 from web3 import Web3, HTTPProvider
 from logging import info as loginfo
+import ipdb
 
 
 class Command(BaseCommand):
@@ -39,47 +40,46 @@ class Command(BaseCommand):
                     'timestamp': int(block['timestamp']),
                 }
             )
-
+            print("block Number:", block['number'], "Block Hash:", block['hash'])
             # transactions
             transactions = block['transactions']
             for transaction in transactions:
                 self.store_transaction(transaction)
                 self.store_transaction_receipt(w3, transaction['hash'])
 
-        # transaction
-        def store_transaction_receipt(self, web3, txhash):
-            receipt = web3.eth.getTransactionReceipt(txhash)
-            EthereumTransactionReceiptModel.objects.get_or_create(
-                txhash=receipt['transactionHash'],
-                defaults={
-                    'txhash': receipt['transactionHash'].hex(),
-                    'txindex': receipt['transactionIndex'],
-                    'block_hash': receipt['blockHash'].hex(),
-                    'block_number': receipt['blockNumber'],
-                    'total_gas': receipt['cumulativeGasUsed'],
-                    'gas_used': receipt['gas_used'],
-                    'contract_address': str(receipt['contractAddress']),
-                    'root': receipt['root'].hex(),
-                    'status': receipt['status'],
+    def store_transaction_receipt(self, web3, txhash):
+        receipt = web3.eth.getTransactionReceipt(txhash)
+        EthereumTransactionReceiptModel.objects.get_or_create(
+            txhash=receipt['transactionHash'],
+            defaults={
+               'txhash': receipt['transactionHash'].hex(),
+               'txindex': receipt['transactionIndex'],
+               'block_hash': receipt['blockHash'].hex(),
+               'block_number': receipt['blockNumber'],
+               'total_gas': receipt['cumulativeGasUsed'],
+               'gas_used': receipt['gas_used'],
+               'contract_address': str(receipt['contractAddress']),
+               'root': receipt['root'].hex(),
+               'status': receipt['status'],
                 }
-            )
+        )
 
-        def store_transaction(self, transaction):
-            loginfo("transaction:")
-            loginfo(transaction)
-            EthereumTransactionModel.objects.get_or_create(
-                txhash=transaction['hash'],
-                defaults={
-                    'nonce': int(transaction['nonce'].hex(), 16),
-                    'block_hash': transaction['blockHash'].hex(),
-                    'block_number': transaction['blockNumber'],
-                    'txindex': transaction['transactionIndex'],
-                    'from_address': str(transaction['from']),
-                    'to_address': str(transaction['to']),
-                    'value': transaction['value'],
-                    'gas_price': transaction['gasPrice'],
-                    'gas': transaction['gas'],
-                    'input_data': transaction['input'].hex(),
+    def store_transaction(self, transaction):
+        loginfo("transaction:")
+        loginfo(transaction)
+        EthereumTransactionModel.objects.get_or_create(
+            txhash=transaction['hash'],
+            defaults={
+             'nonce': int(transaction['nonce'].hex(), 16),
+             'block_hash': transaction['blockHash'].hex(),
+             'block_number': transaction['blockNumber'],
+             'txindex': transaction['transactionIndex'],
+             'from_address': str(transaction['from']),
+             'to_address': str(transaction['to']),
+             'value': transaction['value'],
+             'gas_price': transaction['gasPrice'],
+             'gas': transaction['gas'],
+             'input_data': transaction['input'].hex(),
 
-                }
-            )
+             }
+        )

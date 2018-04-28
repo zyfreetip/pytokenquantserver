@@ -3,6 +3,7 @@ from django.core.management.base import BaseCommand
 from ethereum.models import EthereumBlockModel, EthereumTransactionModel, EthereumTransactionReceiptModel
 from web3 import Web3, HTTPProvider
 from logging import info as loginfo
+import ipdb
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
