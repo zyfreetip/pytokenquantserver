@@ -27,7 +27,7 @@ class Command(BaseCommand):
                 defaults={
                     'hash': block['hash'].hex(),
                     'parent_hash': block['parentHash'].hex(),
-                    'nonce': int(block['nonce'].hex(), 16),
+                    'nonce': block['nonce'].hex(),
                     'transactions_root': block['transactionsRoot'].hex(),
                     'state_root': block['stateRoot'].hex(),
                     'receipts_root': block['receiptsRoot'].hex(),
@@ -38,8 +38,9 @@ class Command(BaseCommand):
                     'size': block['size'],
                     'gas_limit': block['gasLimit'],
                     'gas_used': block['gasUsed'],
-                    'timestamp': block['timestamp'],
+                    'timestamp': int(block['timestamp']),
                 }
+
             )
 
             # transactions
