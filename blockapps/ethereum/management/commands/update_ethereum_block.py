@@ -45,10 +45,10 @@ class Command(BaseCommand):
             transactions = block['transactions']
             for transaction in transactions:
                 self.store_transaction(transaction)
-                self.store_transaction_receipt(w3, transaction['hash'].hex())
+                self.store_transaction_receipt(w3, transaction['hash'])
 
     def store_transaction_receipt(self, web3, txhash):
-        receipt = web3.eth.getTransactionReceipt(txhash)
+        receipt = web3.eth.getTransactionReceipt(txhash.hex())
         status = 0
         try:
             status = int(receipt['status'], 16)
@@ -64,7 +64,7 @@ class Command(BaseCommand):
                'total_gas': receipt['cumulativeGasUsed'],
                'gas_used': receipt['gasUsed'],
                'contract_address': str(receipt['contractAddress']),
-               'root': receipt['root'].hex(),
+               'root': receipt['root'],
                'status': status,
                 }
         )
