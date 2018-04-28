@@ -40,33 +40,37 @@ class Command(BaseCommand):
                     'timestamp': int(block['timestamp']),
                 }
             )
-            print("block Number:", block['number'], "Block Hash:", block['hash'])
+            print("block Number:", block['number'], "Block Hash:", block['hash'].hex())
             # transactions
             transactions = block['transactions']
             for transaction in transactions:
                 self.store_transaction(transaction)
-                self.store_transaction_receipt(w3, transaction['hash'].hex())
+                self.store_transaction_receipt(w3, transaction['hash'])
 
     def store_transaction_receipt(self, web3, txhash):
-        receipt = web3.eth.getTransactionReceipt(txhash)
+        receipt = web3.eth.getTransactionReceipt(txhash.hex())
+        status = 0
+        try:
+            status = int(receipt['status'], 16)
+        except KeyError as e:
+            status = 9
+        print("transaction receipt status:", status)
         EthereumTransactionReceiptModel.objects.get_or_create(
-            txhash=receipt['transactionHash'],
+            txhash=receipt['transactionHash'].hex(),
             defaults={
                'txhash': receipt['transactionHash'].hex(),
                'txindex': receipt['transactionIndex'],
                'block_hash': receipt['blockHash'].hex(),
                'block_number': receipt['blockNumber'],
                'total_gas': receipt['cumulativeGasUsed'],
-               'gas_used': receipt['gas_used'],
+               'gas_used': receipt['gasUsed'],
                'contract_address': str(receipt['contractAddress']),
-               'root': receipt['root'].hex(),
-               'status': receipt['status'],
+               'root': receipt['root'],
+               'status': status,
                 }
         )
 
     def store_transaction(self, transaction):
-        loginfo("transaction:")
-        loginfo(transaction)
         EthereumTransactionModel.objects.get_or_create(
             txhash=transaction['hash'].hex(),
             defaults={
@@ -78,8 +82,9 @@ class Command(BaseCommand):
              'to_address': str(transaction['to']),
              'value': str(transaction['value']),
              'gas_price': transaction['gasPrice'],
-             'gas': transaction['gas'],
+             'gas': str(transaction['gas']),
              'input_data': transaction['input'],
 
              }
         )
+        print("Transaction Hash:", transaction['hash'].hex())
