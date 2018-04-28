@@ -40,7 +40,7 @@ class Command(BaseCommand):
                     'timestamp': int(block['timestamp']),
                 }
             )
-            print("block Number:", block['number'], "Block Hash:", block['hash'])
+            print("block Number:", block['number'], "Block Hash:", block['hash'].hex())
             # transactions
             transactions = block['transactions']
             for transaction in transactions:
@@ -54,6 +54,7 @@ class Command(BaseCommand):
             status = int(receipt['status'], 16)
         except KeyError as e:
             status = 9
+        print("transaction receipt status:", status)
         EthereumTransactionReceiptModel.objects.get_or_create(
             txhash=receipt['transactionHash'].hex(),
             defaults={
@@ -70,8 +71,6 @@ class Command(BaseCommand):
         )
 
     def store_transaction(self, transaction):
-        loginfo("transaction:")
-        loginfo(transaction)
         EthereumTransactionModel.objects.get_or_create(
             txhash=transaction['hash'].hex(),
             defaults={
@@ -88,3 +87,4 @@ class Command(BaseCommand):
 
              }
         )
+        print("Transaction Hash:", transaction['hash'].hex())

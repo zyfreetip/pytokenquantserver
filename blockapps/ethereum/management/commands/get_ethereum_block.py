@@ -76,8 +76,6 @@ class Command(BaseCommand):
         )
 
     def store_transaction(self, transaction):
-        loginfo("transaction:")
-        loginfo(transaction)
         EthereumTransactionModel.objects.get_or_create(
             txhash=transaction['hash'].hex(),
             defaults={
@@ -94,3 +92,4 @@ class Command(BaseCommand):
 
             }
         )
+        print("Transaction Hash:", transaction['hash'].hex())
