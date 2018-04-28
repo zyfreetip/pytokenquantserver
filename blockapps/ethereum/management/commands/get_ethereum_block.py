@@ -22,7 +22,6 @@ class Command(BaseCommand):
             block = w3.eth.getBlock(height, True)
             # block data
             loginfo(block['timestamp'])
-            print("nummber:", block['number'], "block hash:", block['hash'].hex())
             EthereumBlockModel.objects.get_or_create(
                 number=block['number'],
                 defaults={
@@ -43,7 +42,7 @@ class Command(BaseCommand):
                 }
 
             )
-
+            print("nummber:", block['number'], "block hash:", block['hash'].hex())
             # transactions
             transactions = block['transactions']
             for transaction in transactions:
@@ -85,7 +84,7 @@ class Command(BaseCommand):
                 'value': transaction['value'],
                 'gas_price': transaction['gasPrice'],
                 'gas': transaction['gas'],
-                'input_data': transaction['input'].hex(),
+                'input_data': transaction['input'],
 
             }
         )
