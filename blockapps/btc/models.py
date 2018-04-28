@@ -85,7 +85,7 @@ class BtcTransactionModel(PermissionsMixin):
     confirmations = models.BigIntegerField(verbose_name='确认数', default=0)
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
     
-    def __str_(self):
+    def __str__(self):
         return 'txhash(%s) block_height(%s) fee(%s)' %\
             (self.txhash, self.block_height, self.fee)
 class BtcInputTransactionModel(PermissionsMixin):

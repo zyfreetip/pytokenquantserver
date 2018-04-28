@@ -21,28 +21,27 @@ class Command(BaseCommand):
         rpc_connection = AuthServiceProxy("http://%s:%s@%s:%s"%(rpc_user, rpc_password, ip, port))
         blockcount = rpc_connection.getblockcount()
         print(blockcount)
-        commands = [ [ "getblockhash", height] for height in range(blockcount) ]
-        for height in range(blockcount):
+        for height in range(1, blockcount):
             block_hash = rpc_connection.getblockhash(height)
             block = rpc_connection.getblock(block_hash)
-            commands = [ ['getrawtransaction', tx, 'true' ] for tx in block['tx'] ]
+            commands = [ ['getrawtransaction', tx, True ] for tx in block['tx'] ]
             transactions = rpc_connection.batch_(commands)
             for tx in transactions:
                 inputs_value = 0
                 is_coinbase = 0
                 for vin in tx['vin']:
-                    if vin.has('coinbase'):
+                    if 'coinbase' in vin.keys():
                         is_coinbase = 1
                     else:
-                        trx = rpc_connection.getrawtransaction(vin['txid'],'true')
+                        trx = rpc_connection.getrawtransaction(vin['txid'],True)
                         for vout in trx['vout']:
                             if vin['vout'] == vout['n']:
                                 txhash = tx['hash']
-                                prev_value = vout['value']
+                                prev_value = vout['value']*pow(10,8)
                                 prev_position = vout['n']
                                 script_asm = vout['scriptPubKey']['asm']
                                 script_hex = vout['scriptPubKey']['hex']
-                                sequence = vout['scriptPubKey']['sequence']
+                                sequence = vin['sequence']
                                 prev_tx_hash = trx['hash']
                                 for address in vout['scriptPubKey']['addresses']:
                                     prev_address = address
@@ -60,8 +59,8 @@ class Command(BaseCommand):
                 outputs_value = 0
                 for vout in tx['vout']:
                     txhash = tx['hash']
-                    value = vout['value']
-                    for address in vout['scritPubKey']['address']:
+                    value = vout['value']*pow(10,8)
+                    for address in vout['scriptPubKey']['addresses']:
                         BtcAddressModel.objects.get_or_create(address=address)
                         BtcOutputTransactionModel.objects.create(txhash=txhash,
                                                                  value=value,
