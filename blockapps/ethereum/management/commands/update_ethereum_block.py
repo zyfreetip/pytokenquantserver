@@ -18,7 +18,7 @@ class Command(BaseCommand):
         ethereumblockmodel = EthereumBlockModel.objects.all().order_by('-number')[0]
         startblockheight = ethereumblockmodel.number
         blocknumber = w3.eth.blockNumber
-        for height in range(startblockheight+1, blocknumber+1):
+        for height in range(startblockheight, blocknumber+1):
             block = w3.eth.getBlock(height, True)
             # block data
             EthereumBlockModel.objects.get_or_create(
@@ -76,7 +76,7 @@ class Command(BaseCommand):
              'txindex': transaction['transactionIndex'],
              'from_address': str(transaction['from']),
              'to_address': str(transaction['to']),
-             'value': transaction['value'],
+             'value': str(transaction['value']),
              'gas_price': transaction['gasPrice'],
              'gas': transaction['gas'],
              'input_data': transaction['input'],
