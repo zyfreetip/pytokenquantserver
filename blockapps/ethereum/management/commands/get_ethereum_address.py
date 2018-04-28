@@ -33,9 +33,10 @@ class Command(BaseCommand):
 
     def get_info(self, block):
         transactions = self.get_transactions_from_block(block)
-        print("transactions:", transactions)
+        print("transactions count:", len(transactions), ' in block ', block['number'])
         for transaction in transactions:
             double_address = self.get_address_from_transaction(transaction)
+            print('transaction: ', transaction['hash'].hex())
             self.handle_by_address(double_address[0], transaction)
             self.handle_by_address(double_address[1], transaction)
 
