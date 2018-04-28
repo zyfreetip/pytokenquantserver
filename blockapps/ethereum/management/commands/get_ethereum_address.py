@@ -18,6 +18,8 @@ class Command(BaseCommand):
         w3 = Web3(HTTPProvider(ip + ':' + port))
         block_number = w3.eth.blockNumber
         ethereumblockmodels = EthereumBlockModel.objects.all().order_by('-number')
+        # 暂时去除增量更新功能
+        ethereumblockmodels = []
         if ethereumblockmodels:
             print('更新数据')
             start_block_number = ethereumblockmodels[0].number
