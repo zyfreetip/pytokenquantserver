@@ -35,7 +35,7 @@ class Command(BaseCommand):
         transactions = self.get_transactions_from_block(block)
         print("transactions:", transactions)
         for transaction in transactions:
-            double_address = self.get_address_from_transacton(transaction)
+            double_address = self.get_address_from_transaction(transaction)
             self.handle_by_address(double_address[0], transaction)
             self.handle_by_address(double_address[1], transaction)
 
