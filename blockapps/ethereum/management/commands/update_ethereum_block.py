@@ -57,7 +57,7 @@ class Command(BaseCommand):
                'block_hash': receipt['blockHash'].hex(),
                'block_number': receipt['blockNumber'],
                'total_gas': receipt['cumulativeGasUsed'],
-               'gas_used': receipt['gas_used'],
+               'gas_used': receipt['gasUsed'],
                'contract_address': str(receipt['contractAddress']),
                'root': receipt['root'].hex(),
                'status': receipt['status'],
