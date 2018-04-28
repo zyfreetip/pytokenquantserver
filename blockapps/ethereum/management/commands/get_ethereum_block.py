@@ -49,7 +49,7 @@ class Command(BaseCommand):
             for transaction in transactions:
                 print("transaction hash:", transaction['hash'].hex())
                 self.store_transaction(transaction)
-                self.store_transaction_receipt(w3, transaction['hash'])
+                self.store_transaction_receipt(w3, transaction['hash'].hex())
 
     # transaction
     def store_transaction_receipt(self, web3, txhash):
@@ -74,7 +74,7 @@ class Command(BaseCommand):
         loginfo("transaction:")
         loginfo(transaction)
         EthereumTransactionModel.objects.get_or_create(
-            txhash=transaction['hash'],
+            txhash=transaction['hash'].hex(),
             defaults={
                 'nonce': transaction['nonce'],
                 'block_hash': transaction['blockHash'].hex(),

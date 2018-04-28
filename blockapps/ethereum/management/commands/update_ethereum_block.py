@@ -16,7 +16,7 @@ class Command(BaseCommand):
         port = options['port']
         w3 = Web3(HTTPProvider(ip+':'+port))
         ethereumblockmodel = EthereumBlockModel.objects.all().order_by('-number')[0]
-        startblockheight = ethereumblockmodel.height
+        startblockheight = ethereumblockmodel.number
         blocknumber = w3.eth.blockNumber
         for height in range(startblockheight+1, blocknumber+1):
             block = w3.eth.getBlock(height, True)
@@ -45,7 +45,7 @@ class Command(BaseCommand):
             transactions = block['transactions']
             for transaction in transactions:
                 self.store_transaction(transaction)
-                self.store_transaction_receipt(w3, transaction['hash'])
+                self.store_transaction_receipt(w3, transaction['hash'].hex())
 
     def store_transaction_receipt(self, web3, txhash):
         receipt = web3.eth.getTransactionReceipt(txhash)
@@ -68,9 +68,9 @@ class Command(BaseCommand):
         loginfo("transaction:")
         loginfo(transaction)
         EthereumTransactionModel.objects.get_or_create(
-            txhash=transaction['hash'],
+            txhash=transaction['hash'].hex(),
             defaults={
-             'nonce': int(transaction['nonce'].hex(), 16),
+             'nonce': transaction['nonce'],
              'block_hash': transaction['blockHash'].hex(),
              'block_number': transaction['blockNumber'],
              'txindex': transaction['transactionIndex'],
@@ -79,7 +79,7 @@ class Command(BaseCommand):
              'value': transaction['value'],
              'gas_price': transaction['gasPrice'],
              'gas': transaction['gas'],
-             'input_data': transaction['input'].hex(),
+             'input_data': transaction['input'],
 
              }
         )
