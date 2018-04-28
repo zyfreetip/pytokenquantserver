@@ -22,6 +22,7 @@ class Command(BaseCommand):
             block = w3.eth.getBlock(height, True)
             # block data
             loginfo(block['timestamp'])
+            print("nummber:", block['number'], "block hash:", block['hash'])
             EthereumBlockModel.objects.get_or_create(
                 number=block['number'],
                 defaults={
@@ -46,12 +47,14 @@ class Command(BaseCommand):
             # transactions
             transactions = block['transactions']
             for transaction in transactions:
+                print("transaction hash:", transaction['hash'])
                 self.store_transaction(transaction)
                 self.store_transaction_receipt(w3, transaction['hash'])
 
     # transaction
     def store_transaction_receipt(self, web3, txhash):
         receipt = web3.eth.getTransactionReceipt(txhash)
+        print("transaction receipt status:", receipt['status'])
         EthereumTransactionReceiptModel.objects.get_or_create(
             txhash=receipt['transactionHash'],
             defaults={
