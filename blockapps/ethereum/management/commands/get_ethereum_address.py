@@ -23,13 +23,13 @@ class Command(BaseCommand):
             start_block_number = ethereumblockmodels[0].number
             for number in range(start_block_number, block_number+1):
                 block = w3.eth.getBlock(number, True)
-                self.get_address_info(block)
+                self.get_info(block)
 
         else:
             # 为空，第一次更新
             for number in range(1, block_number):
                 block = w3.eth.getBlock(number, True)
-                self.get_address_info(block)
+                self.get_info(block)
 
     def get_info(self, block):
         transactions = self.get_transactons_from_block(block)
