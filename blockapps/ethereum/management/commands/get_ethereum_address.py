@@ -18,6 +18,8 @@ class Command(BaseCommand):
         w3 = Web3(HTTPProvider(ip + ':' + port))
         block_number = w3.eth.blockNumber
         ethereumblockmodels = EthereumBlockModel.objects.all().order_by('-number')
+        # 暂时去除增量更新功能
+        ethereumblockmodels = []
         if ethereumblockmodels:
             print('更新数据')
             start_block_number = ethereumblockmodels[0].number
@@ -37,7 +39,7 @@ class Command(BaseCommand):
         for transaction in transactions:
             double_address = self.get_address_from_transaction(transaction)
             print('transaction: ', transaction['hash'].hex())
-            self.handle_by_address(double_address[0], transaction, 'recived')
+            self.handle_by_address(double_address[0], transaction, 'received')
             self.handle_by_address(double_address[1], transaction, 'sent')
 
     def get_transactions_from_block(self, block):
@@ -62,12 +64,14 @@ class Command(BaseCommand):
         if len(model_qs) != 0:
             data_qs = model_qs[0]
             print('data_qs', data_qs)
-            received_str = data_qs.received
+            received_or_sent_str = (data_qs.received, data_qs.sent)[opstr == 'received']
+            if received_or_sent_str == '':
+                received_or_sent_str = '0'
             tx_count = data_qs.tx_count+1
             EthereumAddressModel.objects.update_or_create(
                 address=address,
                 defaults={
-                    received_or_send: int(transaction['value']+int(received_str)),
+                    received_or_send: int(transaction['value']+int(received_or_sent_str)),
                     'tx_count': tx_count
                 }
             )
