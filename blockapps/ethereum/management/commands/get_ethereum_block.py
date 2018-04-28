@@ -22,7 +22,7 @@ class Command(BaseCommand):
             block = w3.eth.getBlock(height, True)
             # block data
             loginfo(block['timestamp'])
-            print("nummber:", block['number'], "block hash:", block['hash'])
+            print("nummber:", block['number'], "block hash:", block['hash'].hex())
             EthereumBlockModel.objects.get_or_create(
                 number=block['number'],
                 defaults={
@@ -47,7 +47,7 @@ class Command(BaseCommand):
             # transactions
             transactions = block['transactions']
             for transaction in transactions:
-                print("transaction hash:", transaction['hash'])
+                print("transaction hash:", transaction['hash'].hex())
                 self.store_transaction(transaction)
                 self.store_transaction_receipt(w3, transaction['hash'])
 
@@ -76,7 +76,7 @@ class Command(BaseCommand):
         EthereumTransactionModel.objects.get_or_create(
             txhash=transaction['hash'],
             defaults={
-                'nonce': int(transaction['nonce'].hex(), 16),
+                'nonce': transaction['nonce'],
                 'block_hash': transaction['blockHash'].hex(),
                 'block_number': transaction['blockNumber'],
                 'txindex': transaction['transactionIndex'],
