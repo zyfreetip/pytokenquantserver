@@ -53,7 +53,7 @@ class Command(BaseCommand):
         try:
             status = int(receipt['status'], 16)
         except KeyError as e:
-            status = 0
+            status = 9
         EthereumTransactionReceiptModel.objects.get_or_create(
             txhash=receipt['transactionHash'].hex(),
             defaults={
