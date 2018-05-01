@@ -39,7 +39,15 @@
             "filename": "/data/logs/blockserver/block_btc.log",
             "maxBytes": 104857600,
             "backupCount": 30,
-            "formatter": "standard"
+            "formatter": "simple"
+        },
+        "logfile_blockbtctx": {
+            "level": "INFO",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": "/data/logs/blockserver/block_btc_tx.log",
+            "maxBytes": 104857600,
+            "backupCount": 30,
+            "formatter": "simple"
         }
     },
     "loggers": {
@@ -54,7 +62,12 @@
         },
         "block_btc_logs": {
             "level": "INFO",
-            "handlers": ["console", "logfile_qfnotify"],
+            "handlers": ["console", "logfile_blockbtc"],
+            "propagate": true
+        },
+        "block_btc_tx_logs": {
+            "level": "INFO",
+            "handlers": ["console", "logfile_blockbtctx"],
             "propagate": true
         }
     }

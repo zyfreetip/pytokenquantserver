@@ -1,11 +1,14 @@
 #encoding=utf8
 from django.core.management.base import BaseCommand
+from blockserver import settings
 from bitcoinrpc.authproxy import AuthServiceProxy, JSONRPCException
 from btc.models import BtcInputTransactionModel
 from btc.models import BtcOutputTransactionModel
 from btc.models import BtcAddressModel
 from btc.models import BtcTransactionModel
+import logging
 
+log_notify = logging.getLogger('block_btc_tx_logs') 
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--ip', dest='ip', required=True, help='id address')
@@ -20,8 +23,12 @@ class Command(BaseCommand):
         rpc_password = options['rpc_password']
         rpc_connection = AuthServiceProxy("http://%s:%s@%s:%s"%(rpc_user, rpc_password, ip, port))
         blockcount = rpc_connection.getblockcount()
-        print(blockcount)
-        for height in range(1, blockcount):
+        blocks_flags = {}
+        settings.load_config(settings.FLAGS_PATH, blocks_flags)
+        start_block_height = blocks_flags['btc']['tx_block_height'] if blocks_flags['btc']['tx_block_height'] else 1
+        end_block_height = blockcount
+        log_notify.info('btc tx block height from %s to %s' % (start_block_height, end_block_height))
+        for height in range(start_block_height, end_block_height+1):
             block_hash = rpc_connection.getblockhash(height)
             block = rpc_connection.getblock(block_hash)
             commands = [ ['getrawtransaction', tx, True ] for tx in block['tx'] ]
@@ -45,7 +52,15 @@ class Command(BaseCommand):
                                 prev_tx_hash = trx['hash']
                                 for address in vout['scriptPubKey']['addresses']:
                                     prev_address = address
-                                    BtcAddressModel.objects.get_or_create(address=address)
+                                    btcaddressmodel, created = BtcAddressModel.objects.get_or_create(address=address, defaults={
+                                            'tx_count': 1,
+                                            'sent': prev_value,
+                                            'balance': 0})
+                                    if btcaddressmodel:
+                                        btcaddressmodel.tx_count +=1
+                                        btcaddressmodel.sent += prev_value
+                                        btcaddressmodel.balance = btcaddressmodel.received - btcaddressmodel.sent if btcaddressmodel.received - btcaddressmodel.sent > 0 else 0
+                                        btcaddressmodel.save()
                                     BtcInputTransactionModel.objects.create(txhash=txhash,
                                                                             prev_value=prev_value,
                                                                             prev_position=prev_position,
@@ -62,7 +77,14 @@ class Command(BaseCommand):
                     value = vout['value']*pow(10,8)
                     try:
                         for address in vout['scriptPubKey']['addresses']:
-                            BtcAddressModel.objects.get_or_create(address=address)
+                            btcaddressmodel, created = BtcAddressModel.objects.get_or_create(address=address, defaults={
+                                    'tx_count': 1,
+                                    'received': value})
+                            if btcaddressmodel:
+                                btcaddressmodel.tx_count += 1
+                                btcaddressmodel.received += value
+                                btcaddressmodel.balance = btcaddressmodel.received - btcaddressmodel.sent if btcaddressmodel.received - btcaddressmodel.sent > 0 else 0
+                                btcaddressmodel.save()
                             BtcOutputTransactionModel.objects.create(txhash=txhash,
                                                                      value=value,
                                                                      address=address)
@@ -88,3 +110,6 @@ class Command(BaseCommand):
                                                           'inputs_value': inputs_value,
                                                           'confirmations': confirmations,
                                                           })
+            log_notify.info('btc tx block height(%s) success' % (height))
+        blocks_flags['btc']['tx_block_height'] = end_block_height+1
+        settings.update_config(settings.FLAGS_PATH, blocks_flags)

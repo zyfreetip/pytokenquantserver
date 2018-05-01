@@ -29,6 +29,11 @@ class Command(BaseCommand):
         for height in range(start_block_height, end_block_height+1):
             block_hash = rpc_connection.getblockhash(height)
             block = rpc_connection.getblock(block_hash)
+            try:
+                next_block_hash = block['nextblockhash']
+            except KeyError as e:
+                next_block_hash = 0
+                log_notify.info('next block hash height(%s) keyerror' % (block['height']))
             BtcBlockModel.objects.get_or_create(
                 height=block['height'],
                     defaults={
@@ -41,9 +46,11 @@ class Command(BaseCommand):
                     'nonce': block['nonce'],
                     'hash': block['hash'],
                     'prev_block_hash': block['previousblockhash'] if block['height'] else 0,
-                    'next_block_hash': block['nextblockhash'],
+                    'next_block_hash': next_block_hash,
                     'difficulty': block['difficulty'],
                     'confirmations': block['confirmations'],
                     },)
+        
+            log_notify.info('get block(%s) success' % (block['height']))
         blocks_flags['btc']['block_height'] = end_block_height+1
         settings.update_config(settings.FLAGS_PATH, blocks_flags)

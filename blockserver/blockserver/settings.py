@@ -186,7 +186,7 @@ load_config(pathjoin(BASE_DIR, '..', 'conf', caches_name), CACHES)
 logsfile_name = 'loggings.json'
 load_config(pathjoin(BASE_DIR, '..', 'conf', logsfile_name), LOGGING)
 
-flags_name = 'blocks_flags.json'
+flags_name = 'blocks-flags.json'
 FLAGS_PATH = pathjoin(BASE_DIR, '..', 'conf', flags_name)
 
 THREADS_PERPAGE = 20
