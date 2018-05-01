@@ -50,26 +50,29 @@ class Command(BaseCommand):
                                 script_hex = vout['scriptPubKey']['hex']
                                 sequence = vin['sequence']
                                 prev_tx_hash = trx['hash']
-                                for address in vout['scriptPubKey']['addresses']:
-                                    prev_address = address
-                                    btcaddressmodel, created = BtcAddressModel.objects.get_or_create(address=address, defaults={
-                                            'tx_count': 1,
-                                            'sent': prev_value,
-                                            'balance': 0})
-                                    if btcaddressmodel:
-                                        btcaddressmodel.tx_count +=1
-                                        btcaddressmodel.sent += prev_value
-                                        btcaddressmodel.balance = btcaddressmodel.received - btcaddressmodel.sent if btcaddressmodel.received - btcaddressmodel.sent > 0 else 0
-                                        btcaddressmodel.save()
-                                    BtcInputTransactionModel.objects.create(txhash=txhash,
-                                                                            prev_value=prev_value,
-                                                                            prev_position=prev_position,
-                                                                            script_hex=script_hex,
-                                                                            script_asm=script_asm,
-                                                                            sequence=sequence,
-                                                                            prev_tx_hash=prev_tx_hash,
-                                                                            prev_address=prev_address,
-                                                                            )
+                                try :
+                                    for address in vout['scriptPubKey']['addresses']:
+                                        prev_address = address
+                                        btcaddressmodel, created = BtcAddressModel.objects.get_or_create(address=address, defaults={
+                                                'tx_count': 1,
+                                                'sent': prev_value,
+                                                'balance': 0})
+                                        if btcaddressmodel:
+                                            btcaddressmodel.tx_count +=1
+                                            btcaddressmodel.sent += prev_value
+                                            btcaddressmodel.balance = btcaddressmodel.received - btcaddressmodel.sent if btcaddressmodel.received - btcaddressmodel.sent > 0 else 0
+                                            btcaddressmodel.save()
+                                        BtcInputTransactionModel.objects.create(txhash=txhash,
+                                                                                prev_value=prev_value,
+                                                                                prev_position=prev_position,
+                                                                                script_hex=script_hex,
+                                                                                script_asm=script_asm,
+                                                                                sequence=sequence,
+                                                                                prev_tx_hash=prev_tx_hash,
+                                                                                prev_address=prev_address,
+                                                                                )
+                                except KeyError as e:
+                                    continue
                                 inputs_value += prev_value
                 outputs_value = 0
                 for vout in tx['vout']:
