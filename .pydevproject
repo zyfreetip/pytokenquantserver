@@ -4,6 +4,7 @@
 <path>/${PROJECT_DIR_NAME}</path>
 <path>/${PROJECT_DIR_NAME}/blockapps</path>
 <path>/${PROJECT_DIR_NAME}/blockmanage</path>
+<path>/${PROJECT_DIR_NAME}/blockserver</path>
 </pydev_pathproperty>
 <pydev_property name="org.python.pydev.PYTHON_PROJECT_VERSION">python interpreter</pydev_property>
 <pydev_property name="org.python.pydev.PYTHON_PROJECT_INTERPRETER">Default</pydev_property>

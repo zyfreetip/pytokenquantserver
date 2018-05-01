@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os, socket, sys
 from os.path import join as pathjoin, exists as pathexists
 from json import loads as jloads
+from json import dump as jdump
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -130,24 +131,20 @@ CACHE_SHARE_EXPIRE_TIME = 60
 
 SITE_CONFIG = {}
 CACHES = {}
+LOGGING = {}
 # custom settings
-def load_config(config_path):
-    global SITE_CONFIG
+def load_config(config_path, config={}):
     if not pathexists(config_path):
         sys.stderr.write('Can not get config file %s\n' % config_path)
     else:
         with open(config_path) as fp:
-            config = jloads(fp.read())
-        SITE_CONFIG.update(config)
+            item = jloads(fp.read())
+        config.update(item)
 
-def load_caches(caches_path):
-    global CACHES
-    if not pathexists(caches_path):
-        sys.stderr.write('Can not get caches file %s\n' % caches_path)
-    else:
-        with open(caches_path) as fp:
-            config = jloads(fp.read())
-        CACHES.update(config)
+def update_config(config_path, config={}):
+    with open(config_path, 'w') as fp:
+        jdump(config, fp)
+        
 TEST_MODE = 'test' in sys.argv or pathexists(pathjoin(BASE_DIR, '.localdb'))
 RUNSERVER_MODE = 'runserver' in sys.argv or 'runsrv' in sys.argv
 RUNSERVER_VERBOSE_MODE = 'runserver' in sys.argv
@@ -184,8 +181,14 @@ else:
     ENV_MODE_BLOCKSERVER = 'localhost'
 
 print('loading %s %s' % (config_name, caches_name))
-load_config(pathjoin(BASE_DIR, '..', 'conf', config_name))
-load_caches(pathjoin(BASE_DIR, '..', 'conf', caches_name))
+load_config(pathjoin(BASE_DIR, '..', 'conf', config_name), SITE_CONFIG)
+load_config(pathjoin(BASE_DIR, '..', 'conf', caches_name), CACHES)
+logsfile_name = 'loggings.json'
+load_config(pathjoin(BASE_DIR, '..', 'conf', logsfile_name), LOGGING)
+
+flags_name = 'blocks_flags.json'
+FLAGS_PATH = pathjoin(BASE_DIR, '..', 'conf', flags_name)
+
 THREADS_PERPAGE = 20
 PAGINATION_SETTINGS = {
     'PAGE_RANGE_DISPLAYED': 5,
@@ -267,57 +270,5 @@ SITE_NAME = ''
 
 DATABASE_ROUTERS = ['blockdjcom.router.DbRouter', ]
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
-        },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
-    },
-    'filters': {
-        #'special': {
-        #    '()': 'project.logging.SpecialFilter',
-        #    'foo': 'bar',
-        #},
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
-        },
-    },
-    'handlers': {
-        'console': {
-            'level': 'INFO',
-            'filters': ['require_debug_true'],
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple'
-        },
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
-        #    'filters': ['special']
-        },
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': '/data/logs/blockserver/blockserver.log',
-            'formatter': 'verbose',
-			'maxBytes': 100 * 1024 * 1024,
-			'backupCount': 30,
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'propagate': True,
-        },
-        'django.request': {
-            'handlers': ['file','console'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-    }
-}
+
 
