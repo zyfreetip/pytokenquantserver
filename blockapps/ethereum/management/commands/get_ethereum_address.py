@@ -40,10 +40,10 @@ class Command(BaseCommand):
             double_address = self.get_address_from_transaction(transaction)
             print('transaction: ', transaction['hash'].hex())
             if double_address[0]:
-                balance = str(w3.eth.getBalance(double_address[0]))
+                balance = w3.eth.getBalance(double_address[0])
                 self.handle_by_address(double_address[0], transaction, 'received', balance)
             if double_address[1]:
-                balance = str(w3.eth.getBalance(double_address[1]))
+                balance = w3.eth.getBalance(double_address[1])
                 self.handle_by_address(double_address[1], transaction, 'sent', balance)
 
     def get_transactions_from_block(self, block):
@@ -75,7 +75,7 @@ class Command(BaseCommand):
             EthereumAddressModel.objects.update_or_create(
                 address=address,
                 defaults={
-                    received_or_send: int(transaction['value']+int(received_or_sent_str)),
+                    received_or_send: transaction['value']+int(received_or_sent_str),
                     'tx_count': tx_count,
                     'balance': balance,
                 }
@@ -85,7 +85,7 @@ class Command(BaseCommand):
             EthereumAddressModel.objects.update_or_create(
                 address=address,
                 defaults={
-                    received_or_send: str(transaction['value']),
+                    received_or_send: transaction['value'],
                     'tx_count': 1,
                     'balance': balance
                 }
