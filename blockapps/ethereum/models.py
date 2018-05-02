@@ -21,7 +21,7 @@ class EthereumBlockModel(PermissionsMixin):
     receipts_root = models.CharField(max_length=255, verbose_name='根收据字典树', default='')
     miner = models.CharField(max_length=255, verbose_name='矿工', default='')
     difficulty = models.BigIntegerField(verbose_name='该区块难度', default=0)
-    total_difficulty = models.BigIntegerField(verbose_name='区块累计总难度', default=0)
+    total_difficulty = models.CharField(max_length=255, verbose_name='区块累计总难度', default=0)
     extra_data = models.CharField(max_length=255, verbose_name='区块额外信息', default='')
     size = models.BigIntegerField(verbose_name='区块字节数', default=0)
     gas_limit = models.BigIntegerField(verbose_name='gas上限', default=0)
@@ -104,7 +104,7 @@ class EthereumTransactionReceiptModel(PermissionsMixin):
     
     def __str__(self):
         return 'txhash(%s) txindex(%s) gas(%s) contract_address(%s) status(%s)' %\
-        (self.txhash, self.txindex, self.gas, self.contract_address, self.status)
+        (self.txhash, self.txindex, self.gas_used, self.contract_address, self.status)
 
 class EthereumStatsModel(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
