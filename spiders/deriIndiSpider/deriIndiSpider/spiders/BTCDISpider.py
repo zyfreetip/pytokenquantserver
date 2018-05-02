@@ -39,7 +39,7 @@ class BtcDiSpider(Spider):
 
     def parse(self, response):
 
-        print("开始获取相关信息 in ", time.time())
+        print("开始获取相关信息 in ", time.asctime( time.localtime(time.time())))
         item = DeriBtcSpiderItem()
         blocks_last_24h = response.xpath('//tr[@id="t_blocks24"]/td[@class="coin c_btc"]/text()').extract()[0]
 
