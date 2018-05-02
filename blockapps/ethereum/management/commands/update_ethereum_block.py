@@ -82,7 +82,7 @@ class Command(BaseCommand):
              'to_address': str(transaction['to']),
              'value': str(transaction['value']),
              'gas_price': transaction['gasPrice'],
-             'gas': str(transaction['gas']),
+             'gas': transaction['gas'],
              'input_data': transaction['input'],
 
              }

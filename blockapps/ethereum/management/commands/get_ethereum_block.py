@@ -66,7 +66,7 @@ class Command(BaseCommand):
                 'block_hash': receipt['blockHash'].hex(),
                 'block_number': receipt['blockNumber'],
                 'total_gas': receipt['cumulativeGasUsed'],
-                'gas_used': str(receipt['gasUsed']),
+                'gas_used': receipt['gasUsed'],
                 'contract_address': str(receipt['contractAddress']),
                 'root': receipt['root'],
                 'status': status,
@@ -83,9 +83,9 @@ class Command(BaseCommand):
                 'txindex': transaction['transactionIndex'],
                 'from_address': str(transaction['from']),
                 'to_address': str(transaction['to']),
-                'value': str(transaction['value']),
+                'value': transaction['value'],
                 'gas_price': transaction['gasPrice'],
-                'gas': str(transaction['gas']),
+                'gas': transaction['gas'],
                 'input_data': transaction['input'],
 
             }
