@@ -4,6 +4,7 @@ from deriIndiSpider.items import DeriindispiderItem
 import re
 import datetime
 from django.utils import timezone
+import time
 
 class BtcDiSpider(Spider):
     name = 'btc_di'
@@ -37,6 +38,7 @@ class BtcDiSpider(Spider):
 
     def parse(self, response):
 
+        print("开始获取相关信息 in ", time.time())
         item = DeriindispiderItem()
         blocks_last_24h = response.xpath('//tr[@id="t_blocks24"]/td[@class="coin c_btc"]/text()').extract()[0]
 
@@ -96,4 +98,5 @@ class BtcDiSpider(Spider):
         total = response.xpath('//tr[@id="t_total"]/td[@class="coin c_btc"]/text()').extract()[0]
         item['total'] = self.handle_string(total)
         item['create_time'] = timezone.now()
+        print(item)
         yield item
