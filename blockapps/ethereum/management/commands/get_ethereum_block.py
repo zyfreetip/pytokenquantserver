@@ -31,7 +31,7 @@ class Command(BaseCommand):
                     'state_root': block['stateRoot'].hex(),
                     'receipts_root': block['receiptsRoot'].hex(),
                     'miner': str(block['miner']),
-                    'difficulty': block['difficulty'],
+                    'difficulty': str(block['difficulty']),
                     'total_difficulty': block['totalDifficulty'],
                     'extra_data': block['extraData'].hex(),
                     'size': block['size'],

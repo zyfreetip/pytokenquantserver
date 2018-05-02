@@ -32,7 +32,7 @@ class Command(BaseCommand):
                     'receipts_root': block['receiptsRoot'].hex(),
                     'miner': str(block['miner']),
                     'difficulty': block['difficulty'],
-                    'total_difficulty': block['totalDifficulty'],
+                    'total_difficulty': str(block['totalDifficulty']),
                     'extra_data': block['extraData'].hex(),
                     'size': block['size'],
                     'gas_limit': block['gasLimit'],
