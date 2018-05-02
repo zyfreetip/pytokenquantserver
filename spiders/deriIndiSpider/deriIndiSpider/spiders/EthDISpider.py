@@ -53,40 +53,40 @@ class EthDiSpider(Spider):
                           self.handle_string(rewards_abbr[1].xpath("./text()").extract()[0], rtype=1) * 100000000
         item['reward_last_24h'] =int(reward_last_24h)
 
-        top_100_richest =response.xpath('//tr[@class="t_empty" and td[text()="Top 100 Richest"]]/td[@class="coin c_eth"]/a/span/text()').extract()[0]
-        top_100_richest = self.handle_string(top_100_richest)
-        item['top_100_richest'] = top_100_richest
+        # top_100_richest =response.xpath('//tr[@class="t_empty" and td[text()="Top 100 Richest"]]/td[@class="coin c_eth"]/a/span/text()').extract()[0]
+        # top_100_richest = self.handle_string(top_100_richest)
+        # item['top_100_richest'] = top_100_richest
 
-        wealth_distribution_list = response.xpath('//tr[@class="t_empty" and td[text()="Wealth Distribution"]]/td[@class="coin c_eth"]/text()').extract()[0]
-        wealth_distribution_list = self.handle_string_mulpercentage(wealth_distribution_list)
-        wealth_distribution_list = [int(float(i)*100) for i in wealth_distribution_list]
+        # wealth_distribution_list = response.xpath('//tr[@class="t_empty" and td[text()="Wealth Distribution"]]/td[@class="coin c_eth"]/text()').extract()[0]
+        # wealth_distribution_list = self.handle_string_mulpercentage(wealth_distribution_list)
+        # wealth_distribution_list = [int(float(i)*100) for i in wealth_distribution_list]
+        #
+        # wealth_distribution_top10 = wealth_distribution_list[0]
+        # item['wealth_distribution_top10'] = wealth_distribution_top10
+        #
+        # wealth_distribution_top100 = wealth_distribution_list[1]
+        # item['wealth_distribution_top100'] = wealth_distribution_top100
+        #
+        # wealth_distribution_top1000 = wealth_distribution_list[2]
+        # item['wealth_distribution_top1000'] = wealth_distribution_top1000
+        #
+        # wealth_distribution_top10000 = wealth_distribution_list[3]
+        # item['wealth_distribution_top10000'] = wealth_distribution_top10000
 
-        wealth_distribution_top10 = wealth_distribution_list[0]
-        item['wealth_distribution_top10'] = wealth_distribution_top10
-
-        wealth_distribution_top100 = wealth_distribution_list[1]
-        item['wealth_distribution_top100'] = wealth_distribution_top100
-
-        wealth_distribution_top1000 = wealth_distribution_list[2]
-        item['wealth_distribution_top1000'] = wealth_distribution_top1000
-
-        wealth_distribution_top10000 = wealth_distribution_list[3]
-        item['wealth_distribution_top10000'] = wealth_distribution_top10000
-
-        address_richer_than_list_str = response.xpath('//tr[@class="t_empty" and td[text()="Addresses richer than"]]/td[@class="coin c_eth"]/text()').extract()[0]
-        address_richer_than_list = self.handle_string_2(address_richer_than_list_str)
-
-        address_richer_than_1usd = address_richer_than_list[0]
-        item['address_richer_than_1usd'] = address_richer_than_1usd
-
-        address_richer_than_100usd = address_richer_than_list[1]
-        item['address_richer_than_100usd'] = address_richer_than_100usd
-
-        address_richer_than_1000usd = address_richer_than_list[2]
-        item['address_richer_than_1000usd'] = address_richer_than_1000usd
-
-        address_richer_than_10000usd = address_richer_than_list[3]
-        item['address_richer_than_10000usd'] = address_richer_than_10000usd
+        # address_richer_than_list_str = response.xpath('//tr[@class="t_empty" and td[text()="Addresses richer than"]]/td[@class="coin c_eth"]/text()').extract()[0]
+        # address_richer_than_list = self.handle_string_2(address_richer_than_list_str)
+        #
+        # address_richer_than_1usd = address_richer_than_list[0]
+        # item['address_richer_than_1usd'] = address_richer_than_1usd
+        #
+        # address_richer_than_100usd = address_richer_than_list[1]
+        # item['address_richer_than_100usd'] = address_richer_than_100usd
+        #
+        # address_richer_than_1000usd = address_richer_than_list[2]
+        # item['address_richer_than_1000usd'] = address_richer_than_1000usd
+        #
+        # address_richer_than_10000usd = address_richer_than_list[3]
+        # item['address_richer_than_10000usd'] = address_richer_than_10000usd
 
         active_addresses_last24h = response.xpath('//tr[@class="t_empty" and td/a[text()="Active Addresses last 24h"]]/td[@class="coin c_eth"]/a/text()').extract()[0]
         active_addresses_last24h = self.handle_string(active_addresses_last24h)
