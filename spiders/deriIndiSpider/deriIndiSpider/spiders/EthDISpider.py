@@ -1,6 +1,6 @@
 from scrapy.spiders import Spider
 from scrapy import Request
-from deriIndiSpider.items import DeriindispiderItem
+from deriIndiSpider.items import DeriEthSpiderItem
 import re
 import datetime
 from django.utils import timezone
@@ -39,7 +39,7 @@ class EthDiSpider(Spider):
     def parse(self, response):
 
         print("开始获取相关信息 in ", time.time())
-        item = DeriindispiderItem()
+        item = DeriEthSpiderItem()
         blocks_last_24h = response.xpath('//tr[@id="t_blocks24"]/td[@class="coin c_eth"]/text()').extract()[0]
 
         item['blocks_last_24h'] = self.handle_string(blocks_last_24h)

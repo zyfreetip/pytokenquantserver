@@ -8,9 +8,13 @@
 import scrapy
 from scrapy_djangoitem import DjangoItem
 from ethereum.models import EthereumStatsModel
+from btc.models import BtcStatsModel
 
 
-class DeriindispiderItem(DjangoItem):
+class DeriBtcSpiderItem(DjangoItem):
     # define the fields for your item here like:
     # name = scrapy.Field()
+    django_model = BtcStatsModel
+
+class DeriEthSpiderItem(DjangoItem):
     django_model = EthereumStatsModel
