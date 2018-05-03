@@ -7,7 +7,7 @@ from djcom.utils import dt1970
 class IcoDataModel(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
         abstract = False
-        app_label = 'ico'
+        app_label = 'icoinfo'
         db_table = 'ico_data'
         managed = True
         verbose_name = u'ico数据表'
