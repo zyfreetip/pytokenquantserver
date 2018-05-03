@@ -200,7 +200,8 @@ INSTALLED_APPS.extend((
     'blockdjcom',
     'blockserver',
 	'btc',
-    'ethereum'
+    'ethereum',
+    'icoinfo'
     ))
 
 
