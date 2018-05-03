@@ -21,7 +21,11 @@ class DbRouter:
                 'huobi':
                 {'huobi_btc_stats': ('huobi_btc_stats_ro', 'huobi_btc_stats'),
                  'huobi_ethereum_stats': ('huobi_ethereum_stats_ro', 'huobi_ethereum_stats'),
-                }
+                },
+				'icoinfo':
+				{
+				'ico_data': ('ico_data_ro', 'ico_data'),
+				}
             }
 
     def _getRoDB(self, mapinfo, model=None):

@@ -11,3 +11,4 @@ encoding//blockapps/ethereum/management/commands/get_ethereum_block.py=utf8
 encoding//blockapps/ethereum/management/commands/update_ethereum_block.py=utf8
 encoding//blockapps/ethereum/migrations/0001_initial.py=utf-8
 encoding//blockapps/ethereum/models.py=utf8
+encoding//blockapps/icoinfo/models.py=utf8
