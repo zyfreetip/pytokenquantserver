@@ -16,5 +16,6 @@ class DeriBtcSpiderItem(DjangoItem):
     # name = scrapy.Field()
     django_model = BtcStatsModel
 
+
 class DeriEthSpiderItem(DjangoItem):
     django_model = EthereumStatsModel
