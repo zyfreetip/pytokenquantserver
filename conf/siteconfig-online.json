@@ -1,4 +1,4 @@
-{	"idc":"uat",
+{	"idc":"pre",
     "DATABASES": {
         "default": {
             "ENGINE": "django.db.backends.mysql",
@@ -192,7 +192,7 @@
         },
         "ico_data": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "ico_info",
+            "NAME": "icoinfo",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
             "HOST": "online-mysql01.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
@@ -409,7 +409,7 @@
 			},
         "ico_data_ro": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "huobi",
+            "NAME": "icoinfo",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
             "HOST": "online-mysql01-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
