@@ -28,7 +28,7 @@
         "file": {
             "level": "INFO",
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": "/data/logs/blockserver/blockserver.log",
+            "filename": "/home/ubuntu/data/logs/blockserver/blockserver.log",
             "formatter": "verbose",
 			"maxBytes": 104857600,
 			"backupCount": 30
@@ -36,7 +36,7 @@
         "logfile_blockbtc": {
             "level": "INFO",
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": "/data/logs/blockserver/block_btc.log",
+            "filename": "/home/ubuntu/data/logs/blockserver/block_btc.log",
             "maxBytes": 104857600,
             "backupCount": 30,
             "formatter": "simple"
@@ -44,7 +44,7 @@
         "logfile_blockbtctx": {
             "level": "INFO",
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": "/data/logs/blockserver/block_btc_tx.log",
+            "filename": "/home/ubuntu/data/logs/blockserver/block_btc_tx.log",
             "maxBytes": 104857600,
             "backupCount": 30,
             "formatter": "simple"
