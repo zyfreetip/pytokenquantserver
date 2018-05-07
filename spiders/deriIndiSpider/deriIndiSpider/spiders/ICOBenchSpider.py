@@ -57,4 +57,4 @@ class ICOBenchSpider(Spider):
         #     print("Final Page , Over")
 
     def get_content_onepage(self, url):
-        yield Request(url, callback=self.parse)
+        yield Request(url)
