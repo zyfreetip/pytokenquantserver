@@ -52,7 +52,7 @@ class ICOBenchSpider(Spider):
             print("next_url::", next_url)
             yield Request('https://icobench.com'+next_url[0], callback=self.get_onepage_urls)
         else:
-            return
+            print("Final Page , Over")
 
     def get_content_onepage(self, url):
         yield Request(url, callback=self.parse)
