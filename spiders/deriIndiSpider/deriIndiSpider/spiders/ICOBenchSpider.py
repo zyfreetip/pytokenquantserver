@@ -10,6 +10,7 @@ class ICOBenchSpider(Spider):
         yield Request(url, callback=self.get_onepage_urls)
 
     def parse(self, response):
+        print("current url:", response.url)
         item = IcoInfoSpiderItem()
         project_name = response.xpath('//h1/text()').extract()[0]
         name = project_name[:project_name.find('(')].strip()
@@ -46,7 +47,7 @@ class ICOBenchSpider(Spider):
         # 一页上面的ico项目提取完成，进行下一页的数据处理
         next_url = response.xpath("//a[@class='next']/@href").extract()
         if next_url:
-            yield Request('https://icobench.com'+next_url, callback=self.get_onepage_urls)
+            yield Request('https://icobench.com'+next_url[0], callback=self.get_onepage_urls)
         else:
             return
 
