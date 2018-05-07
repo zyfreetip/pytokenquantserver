@@ -21,14 +21,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = staticfiles_urlpatterns()
 urlpatterns += [
     url(r'^eBlockTst_admin123/', include(admin.site.urls)),
-    url(r'^captcha/', include('captcha.urls')),
 ]
-
-if settings.DEBUG:
-    import debug_toolbar
-    urlpatterns += [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
-    ]
 
 urlpatterns += [
     url(r'blockchain/api/v1/icoinfo/', include('icoinfo.urls')),

@@ -60,7 +60,7 @@ class IcoSocialMediaModel(PermissionsMixin):
             (self.ico_name, self.token, self.reddit_subscribers, self.twitter_followers, self.twitter_per_day)
 
 class IcoGithubStatsModel(PermissionsMixin):
-    class Meta(PermissionsMixin):
+    class Meta(PermissionsMixin.Meta):
         abstract = False
         app_label = 'icoinfo'
         db_table = 'ico_github_stats'
@@ -91,7 +91,7 @@ class IcoGithubStatsModel(PermissionsMixin):
             (self.ico_name, self.token, self.release)
 
 class IcoExchangesStatsModel(PermissionsMixin):
-    class Meta(PermissionsMixin):
+    class Meta(PermissionsMixin.Meta):
         abstract = False
         app_label = 'icoinfo'
         db_table = 'ico_exchanges_stats'
@@ -102,7 +102,7 @@ class IcoExchangesStatsModel(PermissionsMixin):
     token = models.CharField(max_length=255, verbose_name='项目代号', default='')
     fair_price = models.DecimalField(max_digits=40, decimal_places=5, verbose_name='公允价格', default=0)
     change_24h = models.DecimalField(max_digits=40, decimal_places=5, verbose_name='24小时变化百分比', default=0)
-    circulating_supply = models.BigIntegerField(verbose_name='已供应币数', defalut=0)
+    circulating_supply = models.BigIntegerField(verbose_name='已供应币数', default=0)
     max_supply = models.BigIntegerField(verbose_name='总供应币数', default=0)
     market_capitalization = models.DecimalField(max_digits=40, decimal_places=5, verbose_name='市值', default=0)
     transactions_last_24h = models.BigIntegerField(verbose_name='24小时交易量', default=0)
