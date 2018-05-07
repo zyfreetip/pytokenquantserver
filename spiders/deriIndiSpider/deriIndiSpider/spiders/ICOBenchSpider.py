@@ -64,8 +64,9 @@ class ICOBenchSpider(Spider):
 
         time_xpath = '//small[contains(text(),"20") and contains(text(), "-")]/text()'
         time_string = response.xpath(time_xpath).extract()[0]
-        ico_start = time_string.split()[0]
-        ico_end = time_string.split()[1]
+
+        ico_start = time_string.split(' - ')[0]
+        ico_end = time_string.split(' - ')[1]
         item['ico_start'] = ico_start
         item['ico_end'] = ico_end
 
