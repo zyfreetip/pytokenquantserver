@@ -16,21 +16,59 @@ class ICOBenchSpider(Spider):
         name = project_name[:project_name.find('(')].strip()
         item['ico_name'] = name
 
-        token_name =  response.xpath('//div[@class="data_row"][1]/div[@class="col_2"][2]/b/text()').extract()[0]
+        token_name_xpath = '//div[@class="data_row"]/div[contains(text(), "Token")]/following-sibling::*/b/text()'
+        token_name =  response.xpath(token_name_xpath).extract()[0]
         item['token'] = token_name
 
-        price = response.xpath('//div[@class="data_row"][3]/div[@class="col_2"][2]/b/text()').extract()[0]
+        price_xpath = '//div[@class="data_row"]/div[contains(text(), "Price")]/following-sibling::*/b/text()'
+        price = response.xpath(price_xpath).extract()[0]
         item['price'] = price
 
-        country =  response.xpath('//div[@class="data_row"][10]/div[@class="col_2"][2]/b/a/text()').extract()[0]
+        country_xpath = '//div[@class="data_row"]/div[contains(text(), "Country")]/following-sibling::*/b/a/text()'
+        country =  response.xpath(country_xpath).extract()[0]
         item['country'] = country
 
         # 国家中文名字
         #todo
 
-        # token发行总量
+        # token总量
         tokens = response.xpath
         item['tokens'] = tokens
+
+        token_type_xpath = '//div[@class="label" and contains(text(), "Type")]/following-sibling::div/text()'
+        token_type = response.xpath(token_type_xpath).extract()[0]
+        item['token_type'] = token_type
+
+        #hardcap
+        hardcap_xpath = '//div[@class="data_row"]/div[contains(text(), "Hard cap")]/following-sibling::*/b/text()'
+        hardcap = response.xpath(hardcap_xpath).extract()[0]
+        item['hardcap'] = hardcap
+
+        # soft cap
+        softcap_xpath = '//div[@class="data_row"]/div[contains(text(), "Soft cap")]/following-sibling::*/b/text()'
+        softcap = response.xpath(softcap_xpath).extract()[0]
+        item['softcap'] = softcap
+
+        # raised
+        raised_xpath = '//div[@class="data_row"]/div[contains(text(), "Raised")]/following-sibling::*/b/text()'
+        raised = response.xpath(raised_xpath).extract()[0]
+        item['raised'] = raised
+
+        time_xpath = '//small[contains(text(),"20") and contains(text(), "-")]/text()'
+        time_string = response.xpath(time_xpath).extract()[0]
+        ico_start = time_string.split()[0]
+        ico_end = time_string.split()[1]
+        item['ico_start'] = ico_start
+        item['ico_end'] = ico_end
+
+        distributed_xpath = '//div[@class="label" and contains(text(), "Distributed")]/following-sibling::div/text()'
+        distributed = response.xpath(distributed_xpath).extract()[0]
+        item['distributed'] = distributed
+
+        tagline_xpath = "//div[@class='ico_information']/p/text()"
+        tagline = response.xpath(tagline_xpath).extract()[0].encode('utf-8')
+        item['tagline'] = tagline
+
         yield item
         #
 
@@ -40,7 +78,7 @@ class ICOBenchSpider(Spider):
     # 获取到单页上所有的项目url
     def get_onepage_urls(self, response):
         urls = response.xpath("//td[@class='ico_data']//a[@class='name']/@href").extract()
-        urls = list(map(lambda x: 'https://icobench.com'+x, urls))
+        urls = list(map(lambda x: 'https://icobench.com'+ x + '/financial', urls))
         for url in urls:
             print('urls:', url)
             yield Request(url)
