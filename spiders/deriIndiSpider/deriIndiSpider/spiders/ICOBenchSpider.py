@@ -39,14 +39,14 @@ class ICOBenchSpider(Spider):
     # 获取到单页上所有的项目url
     def get_onepage_urls(self, response):
         urls = response.xpath("//td[@class='ico_data']//a[@class='name']/@href").extract()
-        print('urls:', urls)
         urls = list(map(lambda x: 'https://icobench.com'+x, urls))
         for url in urls:
+            print('urls:', url)
             yield Request(url)
         # 一页上面的ico项目提取完成，进行下一页的数据处理
         next_url = response.xpath("//a[@class='next']/@href").extract()
         if next_url:
-            yield Request(next_url, callback=self.get_onepage_urls)
+            yield Request('https://icobench.com'+next_url, callback=self.get_onepage_urls)
         else:
             return
 
