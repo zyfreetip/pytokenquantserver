@@ -2,6 +2,7 @@ from scrapy.spiders import Spider
 from scrapy import Request
 from deriIndiSpider.items import IcoInfoSpiderItem
 
+
 class ICOBenchSpider(Spider):
     name = "icobench"
 
@@ -42,17 +43,18 @@ class ICOBenchSpider(Spider):
     # 获取到单页上所有的项目url
     def get_onepage_urls(self, response):
         urls = response.xpath("//td[@class='ico_data']//a[@class='name']/@href").extract()
-        print('urls:', urls)
+        # print('urls:', urls)
         urls = list(map(lambda x:'https://icobench.com'+x, urls))
         for url in urls:
+            print("urls:", url)
             self.get_content_onepage(url)
         # 一页上面的ico项目提取完成，进行下一页的数据处理
-        next_url = response.xpath("//a[@class='next']/@href").extract()
-        if next_url:
-            print("next_url::", next_url)
-            yield Request('https://icobench.com'+next_url[0], callback=self.get_onepage_urls)
-        else:
-            print("Final Page , Over")
+        # next_url = response.xpath("//a[@class='next']/@href").extract()
+        # if next_url:
+        #     print("next_url::", next_url)
+        #     yield Request('https://icobench.com'+next_url[0], callback=self.get_onepage_urls)
+        # else:
+        #     print("Final Page , Over")
 
     def get_content_onepage(self, url):
         yield Request(url, callback=self.parse)
