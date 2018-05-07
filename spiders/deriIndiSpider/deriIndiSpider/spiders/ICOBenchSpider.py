@@ -46,13 +46,21 @@ class ICOBenchSpider(Spider):
 
         # soft cap
         softcap_xpath = '//div[@class="data_row"]/div[contains(text(), "Soft cap")]/following-sibling::*/b/text()'
-        softcap = response.xpath(softcap_xpath).extract()[0]
-        item['softcap'] = softcap
+        try:
+            softcap = response.xpath(softcap_xpath).extract()[0]
+            item['softcap'] = softcap
+        except IndexError:
+            print("softcap 不存在 in", response.url)
 
         # raised
         raised_xpath = '//div[@class="data_row"]/div[contains(text(), "Raised")]/following-sibling::*/b/text()'
-        raised = response.xpath(raised_xpath).extract()[0]
-        item['raised'] = raised
+        try:
+            raised = response.xpath(raised_xpath).extract()[0]
+            item['raised'] = raised
+        except Exception as e:
+            # raise没有则不存
+            print("raised 不存在 in :", response.url)
+
 
         time_xpath = '//small[contains(text(),"20") and contains(text(), "-")]/text()'
         time_string = response.xpath(time_xpath).extract()[0]
