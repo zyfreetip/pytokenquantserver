@@ -5,9 +5,18 @@ from deriIndiSpider.items import IcoInfoSpiderItem
 class ICOBenchSpider(Spider):
     name = 'icobench'
 
+    def __init__(self):
+        super(self)
+        self.header = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36",
+        }
+
     def start_requests(self):
         url = 'https://icobench.com/icos'
-        yield Request(url, callback=self.get_onepage_urls)
+        header = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36",
+        }
+        yield Request(url, callback=self.get_onepage_urls, headers=header)
 
     def parse(self, response):
         print("current url:", response.url)
@@ -90,11 +99,11 @@ class ICOBenchSpider(Spider):
         urls = list(map(lambda x: 'https://icobench.com'+ x + '/financial', urls))
         for url in urls:
             print('urls:', url)
-            yield Request(url)
+            yield Request(url, headers=self.header)
         # 一页上面的ico项目提取完成，进行下一页的数据处理
         next_url = response.xpath("//a[@class='next']/@href").extract()
         if next_url:
-            yield Request('https://icobench.com'+next_url[0], callback=self.get_onepage_urls)
+            yield Request('https://icobench.com'+next_url[0], callback=self.get_onepage_urls, headers=self.header)
         else:
             return
 
