@@ -74,8 +74,8 @@ class ICOBenchSpider(Spider):
         distributed = response.xpath(distributed_xpath).extract()[0]
         item['distributed'] = distributed
 
-        tagline_xpath = "//div[@class='ico_information']/p/text()"
-        tagline = response.xpath(tagline_xpath).extract()[0].encode('utf-8')
+        tagline_xpath = '//div[@class="name"]/h2/text()'
+        tagline = response.xpath(tagline_xpath).extract()[0]
         item['tagline'] = tagline
 
         yield item
