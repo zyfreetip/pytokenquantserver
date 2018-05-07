@@ -80,8 +80,12 @@ class ICOBenchSpider(Spider):
         item['ico_end'] = ico_end
 
         distributed_xpath = '//div[@class="label" and contains(text(), "Distributed")]/following-sibling::div/text()'
-        distributed = response.xpath(distributed_xpath).extract()[0]
-        item['distributed'] = distributed
+        try:
+            distributed = response.xpath(distributed_xpath).extract()[0]
+            item['distributed'] = distributed
+        except IndexError:
+            print("distributed 不存在:", response.url)
+
 
         tagline_xpath = '//div[@class="name"]/h2/text()'
         tagline = response.xpath(tagline_xpath).extract()[0]
