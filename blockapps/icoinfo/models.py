@@ -143,6 +143,7 @@ class IcoStatsModel(PermissionsMixin):
     current_best_transaction_fees = models.DecimalField(verbose_name='最佳交易费用', max_digits=40, decimal_places=5, default=0)
     blocks_last_24h = models.BigIntegerField(verbose_name='24小时生成区块数', default=0)
     blocks_avg_perhour = models.BigIntegerField(verbose_name='每小时生成区块数', default=0)
+    block_time = models.CharField(verbose_name='平均区块生成时间', max_length=255, default='')
     reward_last_24h = models.BigIntegerField(verbose_name='24小时产生奖励数', default=0)
     top_100_richest = models.BigIntegerField(verbose_name='前100占有币情况', default=0)
     wealth_distribution_top10 = models.BigIntegerField(verbose_name='财富10', default=0)
