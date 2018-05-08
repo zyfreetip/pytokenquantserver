@@ -113,3 +113,51 @@ class IcoExchangesStatsModel(PermissionsMixin):
     def __str__(self):
         return 'ico exchanges stats ico_name(%s) token(%s) fair_price(%s)' % \
             (self.ico_name, self.token, self.fair_price)
+
+class IcoStatsModel(PermissionsMixin):
+    class Meta(PermissionsMixin.Meta):
+        abstract = False
+        app_label = 'icoinfo'
+        db_table = 'ico_stats'
+        managed = True
+        verbose_name = u'ico指标表'
+    
+    ico_name = models.CharField(max_length=255, verbose_name='项目名称', default='')
+    token = models.CharField(max_length=255, verbose_name='项目代号', default='')
+    category = models.CharField(max_length=255, verbose_name='类别（可挖不可挖矿平台币应用币）', default='')
+    first_block_time = models.DateTimeField(verbose_name='第一个区块生成时间', default=dt1970())
+    ico_price = models.CharField(max_length=255, verbose_name='ico价格', default='')
+    total_volumn = models.BigIntegerField(verbose_name='币总量', default=0)
+    maximum_tps = models.CharField(max_length=255, verbose_name='最大每秒传输量', default='')
+    transactions_number = models.BigIntegerField(max_length=255, verbose_name='当日总交易次数', default=0)
+    total_transactions_fees = models.DecimalField(max_digits=40, decimal_places=5, verbose_name='当日总交易费', default=0)
+    avg_transactions_value = models.DecimalField(max_digits=40, decimal_places=5, verbose_name='交易价值均值', default=0)
+    meidan_transactions_value = models.DecimalField(max_digits=40, decimal_places=5, verbose_name='交易价值中位数', default=0)
+    total_output_value = models.DecimalField(max_digits=40, decimal_places=5, verbose_name='当日总交易传出量', default=0)
+    assets_turnover_rate = models.DecimalField(max_digits=40, decimal_places=5, verbose_name='资产中转率', default=0)
+    actual_tps = models.BigIntegerField(verbose_name='实际每秒交易量', default=0)
+    tps_utilization_rate = models.DecimalField(verbose_name='tps利用率', max_digits=40, decimal_places=5, default=0)
+    median_confirmation_time = models.DateTimeField(verbose_name='确认时间中位数', default=dt1970())
+    mempool_size = models.BigIntegerField(verbose_name='未确认交易数量', default=0)
+    current_best_transaction_fees = models.DecimalField(verbose_name='最佳交易费用', max_digits=40, decimal_places=5, default=0)
+    blocks_last_24h = models.BigIntegerField(verbose_name='24小时生成区块数', default=0)
+    blocks_avg_perhour = models.BigIntegerField(verbose_name='每小时生成区块数', default=0)
+    reward_last_24h = models.BigIntegerField(verbose_name='24小时产生奖励数', default=0)
+    top_100_richest = models.BigIntegerField(verbose_name='前100占有币情况', default=0)
+    wealth_distribution_top10 = models.BigIntegerField(verbose_name='财富10', default=0)
+    wealth_distribution_top100 = models.BigIntegerField(verbose_name='财富100', default=0)
+    wealth_distribution_top1000 = models.BigIntegerField(verbose_name='财富1000', default=0)
+    wealth_distribution_top10000 = models.BigIntegerField(verbose_name='财富10000', default=0)
+    address_richer_than_1usd = models.BigIntegerField(verbose_name='金额超过1usd地址', default=0)
+    address_richer_than_100usd = models.BigIntegerField(verbose_name='金额超过100usd地址', default=0)
+    address_richer_than_1000usd = models.BigIntegerField(verbose_name='金额超过1000usd地址', default=0)
+    address_richer_than_10000usd = models.BigIntegerField(verbose_name='金额超过10000usd地址', default=0)
+    active_addresses_last24h = models.BigIntegerField(verbose_name='过去24小时活跃地址数', default=0)
+    new_addresses_last24h = models.BigIntegerField(verbose_name='过去24小时新建地址数', default=0)
+    transaction_largest100 = models.BigIntegerField(verbose_name='24小时最大100笔交易', default=0)
+    address_numbers = models.BigIntegerField(verbose_name='持币地址数', default=0)
+    create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
+
+    def __str__(self):
+        return 'blocks_last_24h(%s) blocks_avg_perhour(%s)' %\
+            (self.blocks_last_24h, self.blocks_avg_perhour)
