@@ -101,8 +101,8 @@ class BtcInputTransactionModel(PermissionsMixin):
     prev_position = models.BigIntegerField(verbose_name='前向交易的输出位置', default=0)
     prev_value = models.BigIntegerField(verbose_name='前向交易输入金额', default=0)
     prev_tx_hash = models.CharField(verbose_name='前向交易哈希', max_length=255, default='')
-    script_asm = models.CharField(verbose_name='asm脚本', max_length=255, default='')
-    script_hex = models.CharField(verbose_name='hex脚本', max_length=255, default='')
+    script_asm = models.TextField(verbose_name='asm脚本', default='')
+    script_hex = models.TextField(verbose_name='hex脚本', default='')
     sequence = models.BigIntegerField(verbose_name='序列', default=0)
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
     
