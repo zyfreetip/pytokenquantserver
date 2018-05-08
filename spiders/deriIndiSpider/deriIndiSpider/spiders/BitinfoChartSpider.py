@@ -9,7 +9,7 @@ import time
 
 
 class BitinfoChartSpider(Spider):
-    name = 'btc_di'
+    name = 'bitinfo'
 
     def __init__(self, coin_name=None, *args, **kwargs):
         super(BitinfoChartSpider, self).__init__(*args, **kwargs)
