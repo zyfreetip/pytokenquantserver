@@ -6,7 +6,6 @@ class ICOBenchSpider(Spider):
     name = 'icobench'
 
     def __init__(self):
-        super(self)
         self.header = {
             "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36",
         }

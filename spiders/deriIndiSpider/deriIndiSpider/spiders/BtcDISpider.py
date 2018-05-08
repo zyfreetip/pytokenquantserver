@@ -9,6 +9,9 @@ import time
 
 class BtcDiSpider(Spider):
     name = 'btc_di'
+    
+    def __init__(self):
+        self.coin_name = 'coin c_btc'
 
     def start_requests(self):
         url = 'https://bitinfocharts.com'
@@ -41,24 +44,24 @@ class BtcDiSpider(Spider):
 
         print("开始获取相关信息 in ", time.asctime( time.localtime(time.time())))
         item = DeriBtcSpiderItem()
-        blocks_last_24h = response.xpath('//tr[@id="t_blocks24"]/td[@class="coin c_btc"]/text()').extract()[0]
+        blocks_last_24h = response.xpath('//tr[@id="t_blocks24"]/td[@class='+self.coin_name+']/text()').extract()[0]
 
         item['blocks_last_24h'] = self.handle_string(blocks_last_24h)
 
-        blocks_avg_perhour = response.xpath('//tr[@id="t_blocksPerH"]/td[@class="coin c_btc"]/text()').extract()[0]
+        blocks_avg_perhour = response.xpath('//tr[@id="t_blocksPerH"]/td[@class='+self.coin_name+']/text()').extract()[0]
         item['blocks_avg_perhour'] = self.handle_string(blocks_avg_perhour)
 
 
-        rewards_abbr  = response.xpath('//tr[@class="t_empty" and td[text()="Reward last 24h"]]/td[@class="coin c_btc"]/span/abbr')
+        rewards_abbr  = response.xpath('//tr[@class="t_empty" and td[text()="Reward last 24h"]]/td[@class='+self.coin_name+']/span/abbr')
         reward_last_24h = self.handle_string(rewards_abbr[0].xpath("./text()").extract()[0], rtype=1) * 100000000+\
                           self.handle_string(rewards_abbr[1].xpath("./text()").extract()[0], rtype=1) * 100000000
         item['reward_last_24h'] =int(reward_last_24h)
 
-        top_100_richest =response.xpath('//tr[@class="t_empty" and td[text()="Top 100 Richest"]]/td[@class="coin c_btc"]/a/span/text()').extract()[0]
+        top_100_richest =response.xpath('//tr[@class="t_empty" and td[text()="Top 100 Richest"]]/td[@class='+self.coin_name+']/a/span/text()').extract()[0]
         top_100_richest = self.handle_string(top_100_richest)
         item['top_100_richest'] = top_100_richest
 
-        wealth_distribution_list = response.xpath('//tr[@class="t_empty" and td[text()="Wealth Distribution"]]/td[@class="coin c_btc"]/text()').extract()[0]
+        wealth_distribution_list = response.xpath('//tr[@class="t_empty" and td[text()="Wealth Distribution"]]/td[@class='+self.coin_name+']/text()').extract()[0]
         wealth_distribution_list = self.handle_string_mulpercentage(wealth_distribution_list)
         wealth_distribution_list = [int(float(i)*100) for i in wealth_distribution_list]
 
@@ -74,7 +77,7 @@ class BtcDiSpider(Spider):
         wealth_distribution_top10000 = wealth_distribution_list[3]
         item['wealth_distribution_top10000'] = wealth_distribution_top10000
 
-        address_richer_than_list_str = response.xpath('//tr[@class="t_empty" and td[text()="Addresses richer than"]]/td[@class="coin c_btc"]/text()').extract()[0]
+        address_richer_than_list_str = response.xpath('//tr[@class="t_empty" and td[text()="Addresses richer than"]]/td[@class='+self.coin_name+']/text()').extract()[0]
         address_richer_than_list = self.handle_string_2(address_richer_than_list_str)
 
         address_richer_than_1usd = address_richer_than_list[0]
@@ -89,14 +92,14 @@ class BtcDiSpider(Spider):
         address_richer_than_10000usd = address_richer_than_list[3]
         item['address_richer_than_10000usd'] = address_richer_than_10000usd
 
-        active_addresses_last24h = response.xpath('//tr[@class="t_empty" and td/a[text()="Active Addresses last 24h"]]/td[@class="coin c_btc"]/a/text()').extract()[0]
+        active_addresses_last24h = response.xpath('//tr[@class="t_empty" and td/a[text()="Active Addresses last 24h"]]/td[@class='+self.coin_name+']/a/text()').extract()[0]
         active_addresses_last24h = self.handle_string(active_addresses_last24h)
         item['active_addresses_last24h'] = active_addresses_last24h
 
-        transaction_largest100 =  response.xpath('//tr[@class="t_empty" and td[text()="100 Largest Transactions"]]/td[@class="coin c_btc"]/span/text()').extract()[0]
+        transaction_largest100 =  response.xpath('//tr[@class="t_empty" and td[text()="100 Largest Transactions"]]/td[@class='+self.coin_name+']/span/text()').extract()[0]
         item['transaction_largest100'] = self.handle_string(transaction_largest100) * 100000000
         # address_numbers = response.xpath('').extract()[0]
-        total = response.xpath('//tr[@id="t_total"]/td[@class="coin c_btc"]/text()').extract()[0]
+        total = response.xpath('//tr[@id="t_total"]/td[@class='+self.coin_name+']/text()').extract()[0]
         item['total'] = self.handle_string(total)
         item['create_time'] = timezone.now()
         print(item)
