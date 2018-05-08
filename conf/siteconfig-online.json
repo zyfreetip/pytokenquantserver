@@ -5,7 +5,7 @@
             "NAME": "blockchain_manage",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -16,7 +16,7 @@
             "NAME": "blockchain_manage",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -27,7 +27,7 @@
             "NAME": "blockchain_manage",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-ro-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -39,7 +39,7 @@
             "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -51,7 +51,7 @@
             "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -63,7 +63,7 @@
             "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -75,7 +75,7 @@
             "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -87,7 +87,7 @@
             "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -99,7 +99,7 @@
             "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -111,7 +111,7 @@
             "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -123,7 +123,7 @@
             "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -135,7 +135,7 @@
             "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -147,7 +147,7 @@
             "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -159,7 +159,7 @@
             "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -171,7 +171,7 @@
             "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -183,7 +183,7 @@
             "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -195,7 +195,7 @@
             "NAME": "icoinfo",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -208,7 +208,7 @@
             "NAME": "huobi",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -220,7 +220,7 @@
             "NAME": "huobi",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -232,7 +232,7 @@
             "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-ro-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -244,7 +244,7 @@
             "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-ro-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -256,7 +256,7 @@
             "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-ro-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -268,7 +268,7 @@
             "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-ro-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -280,7 +280,7 @@
             "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-ro-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -292,7 +292,7 @@
             "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-ro-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -304,7 +304,7 @@
             "NAME": "btc",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-ro-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -316,7 +316,7 @@
             "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-ro-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -328,7 +328,7 @@
             "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-ro-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -340,7 +340,7 @@
             "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-ro-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -352,7 +352,7 @@
             "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-ro-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -364,7 +364,7 @@
             "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-ro-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -376,7 +376,7 @@
             "NAME": "ethereum",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-ro-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -389,7 +389,7 @@
             "NAME": "huobi",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-ro-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -401,7 +401,7 @@
             "NAME": "huobi",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-ro-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
@@ -412,7 +412,7 @@
             "NAME": "icoinfo",
             "USER": "blockchainsh",
             "PASSWORD": "Blockchain001!$#",
-            "HOST": "online-mysql01-ap-northeast-1a.co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
+            "HOST": "online-mysql01-cluster.cluster-ro-co6y7bekwid1.ap-northeast-1.rds.amazonaws.com",
             "PORT": "3306",
             "CONN_MAX_AGE": 7200,
 			"OPTIONS": {
