@@ -145,6 +145,7 @@ class IcoStatsModel(PermissionsMixin):
     blocks_avg_perhour = models.BigIntegerField(verbose_name='每小时生成区块数', default=0)
     block_time = models.CharField(verbose_name='平均区块生成时间', max_length=255, default='')
     difficulty = models.CharField(verbose_name='难度', max_length=255, default='')
+    hashrate = models.CharField(verbose_name='算力', max_length=255, default='')
     block_count = models.BigIntegerField(verbose_name='区块总数',  default=0)
     block_pre_reward = models.DecimalField(verbose_name='当前区块奖励数', max_digits=40, decimal_places=5, default=0)
     reward_last_24h = models.DecimalField(verbose_name='24小时区块奖励数', max_digits=40, decimal_places=5, default=0)
