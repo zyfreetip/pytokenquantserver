@@ -10,7 +10,7 @@ class BaseTc(unittest.TestCase):
     def tearDown(self):
         pass
 
-class QrBaseJsonTc(BaseJsonTestCaseMixin, unittest.TestCase):
+class BaseJsonTc(BaseJsonTestCaseMixin, unittest.TestCase):
     def setUp(self):
         ctx = TcConfig.CreateContext()
         self.headers = {'apikey': ctx.apikey, 'apisecret': ctx.apisecret}
