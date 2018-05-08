@@ -1,6 +1,7 @@
 from scrapy.spiders import Spider
 from scrapy import Request
 from deriIndiSpider.items import DeriBtcSpiderItem
+from deriIndiSpider.items import IcoStatsItem
 
 import re
 import datetime
@@ -155,6 +156,93 @@ class BitinfoChartSpider(Spider):
             item['total'] = self.handle_string(total)
         except IndexError as e:
             print("total not exist in "+self.coin_name)
+
+        # Transaction last 24h
+        try:
+            transaction_number_day = response.xpath('//tr[@class="t_empty" and td/a[contains(text(), "Transactions")] and td[contains(text(), " last 24h")]]/td[@class="'+self.coin_name+'"]/a/text()').extract()[0]
+            item['transaction_number_day'] = transaction_number_day
+        except IndexError as e:
+            print("transactions last 24h not exist in "+self.coin_name)
+
+        # Transacton average hour
+        try:
+
+            transaction_number_hour = response.xpath('//tr[@class="t_empty" and td/a[contains(text(), "Transactions")] and td[contains(text(), " avg. per hour")]]/td[@class="'+self.coin_name+'"]/a/text()').extract()[0]
+            item['transaction_number_hour'] = transaction_number_hour
+        except IndexError as e:
+            print("Transaction average not exist in ",self.coin_name)
+
+        # total_output_value 当日交易sent数量
+        try:
+            total_output_value = response.xpath('//tr[@class="t_empty" and td/a[contains(text(), "Sent")] and td[contains(text(), " last 24h")]]/td[@class="'+self.coin_name+'"]/a/span/text()').extract()[1]
+            total_output_value = self.handle_string(total_output_value, rtype=1)
+            item['total_output_value'] = total_output_value
+        except IndexError as e:
+            print('total_output_value not exist in ', self.coin_name)
+
+        # avg_transactions_value
+        try:
+            avg_transactions_value =  response.xpath('//tr[@class="t_empty" and td[contains(text(), "Avg. Transaction Value")]]/td[@class="'+self.coin_name+'"]/span/text()').extract()[1]
+            avg_transactions_value = self.handle_string(avg_transactions_value, rtype=1)
+            item['avg_transactions_value'] = avg_transactions_value
+        except IndexError as e:
+            print("avg_transactions_value not exist in ", self.coin_name)
+
+        # meidan_transactions_value
+        try:
+            meidan_transactions_value =  response.xpath('//tr[@class="t_empty" and td[contains(text(), "Median Transaction Value")]]/td[@class="'+self.coin_name+'"]/span/text()').extract()[1]
+            meidan_transactions_value = self.handle_string(meidan_transactions_value, rtype=2)
+            item['meidan_transactions_value'] = meidan_transactions_value
+        except IndexError as e:
+            print('meidan_transactions_value not exist in ', self.coin_name)
+
+        try:
+            block_time = response.xpath('//tr[@id="t_time"]/td[@class="' + self.coin_name + '"]/a/text()').extract()[0]
+            item['block_time'] = block_time
+        except IndexError as e:
+            print('block_time', ' not exist in ', self.coin_name)
+
+
+        # block_count
+        try:
+            block_count = response.xpath('//tr[@id="t_blocks"]/td[@class="' + self.coin_name + '"]/text()').extract()[0]
+            block_count = self.handle_string(block_count)
+            item['block_count'] = block_count
+        except IndexError as e:
+            print('block count', 'not exist in ', self.coin_name)
+
+        try:
+            reward_block_pre = response.xpath('//tr[@class="t_empty" and td[contains(text(), "Reward Per Block")]]/td[@class="'+self.coin_name+'"]/span/text()').extract()[2]
+            reward_block_pre = self.handle_string(reward_block_pre)
+            item['reward_block_pre'] = float(reward_block_pre)
+        except IndexError as e:
+            print('reward_block_pre', 'not exist in ', self.coin_name)
+
+        # difficulty
+        try:
+            difficulty = response.xpath('//tr[@id="t_diff"]/td[@class="'+self.coin_name+'"]/a/text()').extract()[0]
+            difficulty = self.handle_string(difficulty)
+            item['difficulty'] = difficulty
+        except IndexError as e:
+            print('difficulty', 'not exist in ', self.coin_name)
+
+        # HashRate
+        try:
+            hashrate = response.xpath('//tr[@id="t_hash"]/td[@class="'+self.coin_name+'"]/a/abbr/text()').extract()[0]
+            item['hashrate'] = hashrate
+        except IndexError as e:
+            print('hashrate', ' not exist in ', self.coin_name)
+
+        try:
+            mining_pro = response.xpath('//tr[@class="t_empty" and td/a[contains(text(), "Mining Profitability")]]/td[@class="'+self.coin_name+'"]/a/text()').extract()[0]
+            item['mining_pro'] = mining_pro
+        except IndexError as e:
+            print('mining_pro', ' not exist in ', self.coin_name)
+
+        try:
+            pass
+        except IndexError as e:
+            print()
 
         item['create_time'] = timezone.now()
         print(item)
