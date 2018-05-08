@@ -13,7 +13,7 @@ class BitinfoChartSpider(Spider):
 
     def __init__(self, coin_name=None, *args, **kwargs):
         super(BitinfoChartSpider, self).__init__(*args, **kwargs)
-        if not coin_name:
+        if coin_name:
             self.coin_name = coin_name
         else:
             print("Please input the coin name")
