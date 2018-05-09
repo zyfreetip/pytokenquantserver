@@ -7,7 +7,7 @@ from acom.utils.designutil import override
 class getBlockDataView(JsonView):
     @override
     def init(self, ctx):
-        self.icoInfo = icoInfo
+        self.icoInfo = icoInfo()
     
     @verify_ctx_required
     @unify_params
