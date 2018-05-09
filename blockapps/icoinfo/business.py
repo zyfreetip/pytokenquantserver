@@ -23,8 +23,8 @@ class icoInfo(object):
         mempool_size = {}
         current_best_transaction_fees = {}
         ico_names = IcoStatsModel.objects.values('ico_name').distinct()
-        for ico_name in ico_names:
-            icoStats = IcoStatsModel.objects.filter(ico_name=ico_name['ico_name']).order_by('-create_time')
+        for ico_name in ico_names.values()
+            icoStats = IcoStatsModel.objects.filter(ico_name=ico_name).order_by('-create_time')
             if icoStats: 
                 transactions_number_day.update({ico_name: icoStats[0].transactions_number_day})
                 transactions_number_hour.updaet({ico_name: icoStats[0].transactions_number_hour})
