@@ -26,9 +26,9 @@ class DbRouter:
 				{
 				'ico_data': ('ico_data_ro', 'ico_data'),
                 'ico_social_medial': ('ico_social_medial_ro', 'ico_social_medial'),
-                'ico_github_stats': ('ico_github_stats_ro', 'ico_github_stat'),
+                'ico_github_stats': ('ico_github_stats_ro', 'ico_github_stats'),
                 'ico_exchanges_stats': ('ico_exchanges_stats_ro', 'ico_exchanges_stats'),
-                'ico_stats': ('ico_stats_ro', 'ico_stats')
+                'ico_stats': ('ico_stats_ro', 'ico_stats'),
 				}
             }
 
