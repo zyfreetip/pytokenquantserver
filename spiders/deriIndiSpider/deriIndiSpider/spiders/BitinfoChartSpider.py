@@ -50,7 +50,14 @@ class BitinfoChartSpider(Spider):
     def parse(self, response):
 
         print("开始获取相关信息 in ", time.asctime(time.localtime(time.time())))
-        item = DeriBtcSpiderItem()
+        item = IcoStatsItem()
+
+        # project_name
+        try:
+            ico_name = response.xpath('//tr[@class="t_coin"]/td[@class="coin c_eth"]/a/text()').extract()[1].strip()
+            item['ico_name'] = ico_name
+        except IndexError as e:
+            print('ico_name', 'not exist in ', self.coin_name)
 
         # blocks_last_24h
         try:
@@ -239,10 +246,10 @@ class BitinfoChartSpider(Spider):
         except IndexError as e:
             print('mining_pro', ' not exist in ', self.coin_name)
 
-        try:
-            pass
-        except IndexError as e:
-            print()
+        # try:
+        #     pass
+        # except IndexError as e:
+        #     print()
 
         item['create_time'] = timezone.now()
         print(item)
