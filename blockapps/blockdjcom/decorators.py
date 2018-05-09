@@ -248,7 +248,7 @@ from django_redis import get_redis_connection
 try:
     monit_conn = get_redis_connection('redis6')
 except InvalidCacheBackendError as e:
-    raise Exc_LogicAssertException(None,'redis monitor hook: can not connect to redis6 error!')
+    #raise Exc_LogicAssertException(None,'redis monitor hook: can not connect to redis6 error!')
     sys.stderr.write('can not use monit_time redis log')
     monit_conn = None
 
