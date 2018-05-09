@@ -175,7 +175,7 @@ class BitinfoChartSpider(Spider):
         try:
 
             transactions_number_hour = response.xpath('//tr[@class="t_empty" and td/a[contains(text(), "Transactions")] and td[contains(text(), " avg. per hour")]]/td[@class="'+self.coin_name+'"]/a/text()').extract()[0]
-            item['transactions_number_hour'] = transactions_number_hour
+            item['transactions_number_hour'] = self.handle_string(transactions_number_hour)
         except IndexError as e:
             print("Transactions average not exist in ",self.coin_name)
 
