@@ -167,7 +167,7 @@ class BitinfoChartSpider(Spider):
         # Transaction last 24h
         try:
             transactions_number_day = response.xpath('//tr[@class="t_empty" and td/a[contains(text(), "Transactions")] and td[contains(text(), " last 24h")]]/td[@class="'+self.coin_name+'"]/a/text()').extract()[0]
-            item['transactions_number_day'] = transactions_number_day
+            item['transactions_number_day'] =self.handle_string(transactions_number_day)
         except IndexError as e:
             print("transactions last 24h not exist in "+self.coin_name)
 
