@@ -158,11 +158,11 @@ class BitinfoChartSpider(Spider):
 
         # address_numbers = response.xpath('').extract()[0]
 
-        try:
-            total = response.xpath('//tr[@id="t_total"]/td[@class="' + self.coin_name + '"]/text()').extract()[0]
-            item['total'] = self.handle_string(total)
-        except IndexError as e:
-            print("total not exist in "+self.coin_name)
+        # try:
+        #     total = response.xpath('//tr[@id="t_total"]/td[@class="' + self.coin_name + '"]/text()').extract()[0]
+        #     item['total'] = self.handle_string(total)
+        # except IndexError as e:
+        #     print("total not exist in "+self.coin_name)
 
         # Transaction last 24h
         try:
