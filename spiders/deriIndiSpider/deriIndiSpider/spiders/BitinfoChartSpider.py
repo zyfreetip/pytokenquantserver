@@ -198,7 +198,7 @@ class BitinfoChartSpider(Spider):
         # meidan_transactions_value
         try:
             meidan_transactions_value =  response.xpath('//tr[@class="t_empty" and td[contains(text(), "Median Transaction Value")]]/td[@class="'+self.coin_name+'"]/span/text()').extract()[1]
-            meidan_transactions_value = self.handle_string(meidan_transactions_value, rtype=2)
+            meidan_transactions_value = self.handle_string(meidan_transactions_value, rtype=1)
             item['meidan_transactions_value'] = meidan_transactions_value
         except IndexError as e:
             print('meidan_transactions_value not exist in ', self.coin_name)
@@ -220,7 +220,7 @@ class BitinfoChartSpider(Spider):
 
         try:
             reward_block_pre = response.xpath('//tr[@class="t_empty" and td[contains(text(), "Reward Per Block")]]/td[@class="'+self.coin_name+'"]/span/text()').extract()[2]
-            reward_block_pre = self.handle_string(reward_block_pre)
+            reward_block_pre = self.handle_string(reward_block_pre, rtype=1)
             item['reward_block_pre'] = float(reward_block_pre)
         except IndexError as e:
             print('reward_block_pre', 'not exist in ', self.coin_name)
