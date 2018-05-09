@@ -12,9 +12,10 @@ class getBlockDataView(JsonView):
     @verify_ctx_required
     @unify_params
     def json(self, ctx, request, jrequest, params, *args, **kwargs):   
+        result = []
         data = params
         if not data:
-            result = self.doGet(ctx)
+            result.append(self.doGet(ctx))
         return result
 
     def unify_params(self, request, jrequest):
