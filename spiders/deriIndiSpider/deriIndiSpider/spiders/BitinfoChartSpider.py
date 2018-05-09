@@ -166,18 +166,18 @@ class BitinfoChartSpider(Spider):
 
         # Transaction last 24h
         try:
-            transaction_number_day = response.xpath('//tr[@class="t_empty" and td/a[contains(text(), "Transactions")] and td[contains(text(), " last 24h")]]/td[@class="'+self.coin_name+'"]/a/text()').extract()[0]
-            item['transaction_number_day'] = transaction_number_day
+            transactions_number_day = response.xpath('//tr[@class="t_empty" and td/a[contains(text(), "Transactions")] and td[contains(text(), " last 24h")]]/td[@class="'+self.coin_name+'"]/a/text()').extract()[0]
+            item['transactions_number_day'] = transactions_number_day
         except IndexError as e:
             print("transactions last 24h not exist in "+self.coin_name)
 
         # Transacton average hour
         try:
 
-            transaction_number_hour = response.xpath('//tr[@class="t_empty" and td/a[contains(text(), "Transactions")] and td[contains(text(), " avg. per hour")]]/td[@class="'+self.coin_name+'"]/a/text()').extract()[0]
-            item['transaction_number_hour'] = transaction_number_hour
+            transactions_number_hour = response.xpath('//tr[@class="t_empty" and td/a[contains(text(), "Transactions")] and td[contains(text(), " avg. per hour")]]/td[@class="'+self.coin_name+'"]/a/text()').extract()[0]
+            item['transactions_number_hour'] = transactions_number_hour
         except IndexError as e:
-            print("Transaction average not exist in ",self.coin_name)
+            print("Transactions average not exist in ",self.coin_name)
 
         # total_output_value 当日交易sent数量
         try:
