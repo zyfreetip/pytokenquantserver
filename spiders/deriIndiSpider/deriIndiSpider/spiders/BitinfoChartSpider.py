@@ -30,10 +30,10 @@ class BitinfoChartSpider(Spider):
         for single in number_list:
             target += single
         if rtype == 0:
-            number = int(target)
+            target = int(target)
         elif rtype == 1:
-            number = float(target)
-        return number
+            target = float(target)
+        return target
 
     def handle_string_mulpercentage(self, content):
         number_list = re.findall(r'\d+\.?\d*', content)
