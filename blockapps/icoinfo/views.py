@@ -1,27 +1,27 @@
 #encoding=utf8
 from blockdjcom.baseviews import JsonView
 from blockdjcom.decorators import unify_params, verify_ctx_required
-from blockcomm.net.exceptions import LogicErrorException, Exc_LogicAssertException
-from blockdjcom.basebusiness import SSingleton
+from icoinfo.business import icoInfo
 from acom.utils.designutil import override
-import time
 
-class BlockDataView(JsonView):
+class getBlockDataView(JsonView):
     @override
     def init(self, ctx):
-        pass
+        self.icoInfo = icoInfo
     
     @verify_ctx_required
     @unify_params
-    def json(self, ctx, request, jrequest, params, *args, **kwargs):
-        result = []     
+    def json(self, ctx, request, jrequest, params, *args, **kwargs):   
+        data = params
+        if not data:
+            result = self.doGet(ctx)
         return result
 
     def unify_params(self, request, jrequest):
         data = jrequest.get('data',[])
-        Exc_LogicAssertException(type(data) is list, 'data should be list,\n%s' \
-            % str(jrequest))
-        for item in data:
-            Exc_LogicAssertException(type(item) is dict, 'data item should be dict,\n%s' \
-                % str(jrequest))
         return data
+
+    # input { }
+    def doGet(self, ctx):
+        result = self.icoInfo.getBlockData(ctx)
+        return result
