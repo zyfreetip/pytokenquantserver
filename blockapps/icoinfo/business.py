@@ -151,7 +151,7 @@ class icoInfo(object):
                  ] 
         return result
 
-    def getBlockMediaInfoView(self, ctx):
+    def getBlockMediaInfo(self, ctx):
         result = []
         reddit_subscribers = {}
         twitter_per_day = {}
