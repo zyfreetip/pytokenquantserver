@@ -15,7 +15,7 @@ class getBlockDataView(JsonView):
         result = []
         data = params
         if not data:
-            result.append(self.doGet(ctx))
+            result.extend(self.doGet(ctx))
         return result
 
     def unify_params(self, request, jrequest):

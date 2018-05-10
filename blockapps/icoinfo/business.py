@@ -6,6 +6,7 @@ class icoInfo(object):
         pass
     # 获取区块链数据信息
     def getBlockData(self, ctx):
+        result = []
         transactions_number_day = {}
         transactions_number_hour = {}
         total_output_value = {}
@@ -42,21 +43,21 @@ class icoInfo(object):
                 median_confirmation_time.update({ico_name['ico_name']: icoStats[0].median_confirmation_time})
                 mempool_size.update({ico_name['ico_name']: icoStats[0].mempool_size})
                 current_best_transaction_fees.update({ico_name['ico_name']: icoStats[0].current_best_transaction_fees})
-        result = { 'transactions_number_day': transactions_number_day,
-                    'transactions_number_hour': transactions_number_hour,
-                    'total_output_value': total_output_value,
-                    'meidan_transactions_value': meidan_transactions_value,
-                    'block_time': block_time,
-                    'block_count': block_count,
-                    'block_pre_reward': block_pre_reward,
-                    'total_transactions_fees': total_transactions_fees,
-                    'avg_transactions_value': avg_transactions_value,
-                    'difficulty': difficulty,
-                    'hashrate': hashrate,
-                    'blocks_mined_day': blocks_mined_day,
-                    'bitcoins_mined_total': bitcoins_mined_total,
-                    'median_confirmation_time': median_confirmation_time,
-                    'mempool_size': mempool_size,
-                    'current_best_transaction_fees': current_best_transaction_fees
-                    } 
+        result = [ {'transactions_number_day': transactions_number_day},
+                   { 'transactions_number_hour': transactions_number_hour},
+                   {'total_output_value': total_output_value},
+                   { 'meidan_transactions_value': meidan_transactions_value},
+                   { 'block_time': block_time},
+                   { 'block_count': block_count},
+                   { 'block_pre_reward': block_pre_reward},
+                   {'total_transactions_fees': total_transactions_fees},
+                   { 'avg_transactions_value': avg_transactions_value},
+                   {'difficulty': difficulty},
+                   { 'hashrate': hashrate},
+                   { 'blocks_mined_day': blocks_mined_day},
+                   {'bitcoins_mined_total': bitcoins_mined_total},
+                   {'median_confirmation_time': median_confirmation_time},
+                   {'mempool_size': mempool_size},
+                   { 'current_best_transaction_fees': current_best_transaction_fees}
+                 ] 
         return result
