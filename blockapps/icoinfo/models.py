@@ -56,8 +56,8 @@ class IcoSocialMediaModel(PermissionsMixin):
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
     
     def __str__(self):
-        return 'ico social media ico_name(%s) token(%s) reddit_subscribers(%s) twitter_per_day(%s)' % \
-            (self.ico_name, self.token, self.reddit_subscribers, self.twitter_followers, self.twitter_per_day)
+        return 'ico_name(%s) token(%s) ' % \
+            (self.ico_name, self.token)
 
 class IcoGithubStatsModel(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
