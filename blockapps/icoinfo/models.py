@@ -79,6 +79,7 @@ class IcoGithubStatsModel(PermissionsMixin):
     codes_last_week = models.IntegerField(verbose_name='上周代码提交量', default=0) 
     codes_this_week = models.IntegerField(verbose_name='本周代码提交量', default=0) 
     branches = models.IntegerField(verbose_name='分支数', default=0)
+    forks = models.IntegerField(verbose_name='fork数', default=0)
     issues = models.IntegerField(verbose_name='问题数', default=0)
     watchers = models.IntegerField(verbose_name='关注数', default=0)
     projects = models.TextField(verbose_name='项目库', default='')
@@ -129,7 +130,8 @@ class IcoBasicInfoModel(PermissionsMixin):
     ico_price = models.CharField(max_length=255, verbose_name='ico价格', default='')
     total_volumn = models.BigIntegerField(verbose_name='币总量', default=0)
     maximum_tps = models.CharField(max_length=255, verbose_name='最大每秒传输量', default='')
-    
+    create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
+ 
     def __str__(self):
         return 'ico basic info ico_name(%s) token(%s)' % \
             (self.ico_name, self.token)
