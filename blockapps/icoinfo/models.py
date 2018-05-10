@@ -129,7 +129,8 @@ class IcoBasicInfoModel(PermissionsMixin):
     ico_price = models.CharField(max_length=255, verbose_name='ico价格', default='')
     total_volumn = models.BigIntegerField(verbose_name='币总量', default=0)
     maximum_tps = models.CharField(max_length=255, verbose_name='最大每秒传输量', default='')
-    
+    create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
+ 
     def __str__(self):
         return 'ico basic info ico_name(%s) token(%s)' % \
             (self.ico_name, self.token)
