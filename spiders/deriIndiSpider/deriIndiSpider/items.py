@@ -10,7 +10,7 @@ from scrapy_djangoitem import DjangoItem
 from ethereum.models import EthereumStatsModel
 from btc.models import BtcStatsModel
 from icoinfo.models import IcoDataModel
-from icoinfo.models import IcoStatsModel, IcoSocialMediaModel
+from icoinfo.models import IcoStatsModel, IcoSocialMediaModel, IcoGithubStatsModel
 
 
 class DeriBtcSpiderItem(DjangoItem):
@@ -30,3 +30,7 @@ class IcoStatsItem(DjangoItem):
 
 class IcoMeiaItem(DjangoItem):
     django_model = IcoSocialMediaModel
+
+
+class IcoGithubItem(DjangoItem):
+    django_model = IcoGithubStatsModel
