@@ -88,7 +88,7 @@ class icoInfo(object):
                 ]
         return result 
         
-    def getblockaddrinfo(self, ctx):
+    def getBlockAddrInfo(self, ctx):
         result = []
         wealth_distribution_top10 = {}
         wealth_distribution_top100 = {}
@@ -127,7 +127,7 @@ class icoInfo(object):
                  ] 
         return result
     
-    def getblockmineinfo(self, ctx):
+    def getBlockMineInfo(self, ctx):
         result = []
         mining_pro = {}
         transactions_fees = {}
@@ -151,7 +151,7 @@ class icoInfo(object):
                  ] 
         return result
 
-    def getblockmediainfo(self, ctx):
+    def getBlockMediaInfoView(self, ctx):
         result = []
         reddit_subscribers = {}
         twitter_per_day = {}
@@ -199,7 +199,7 @@ class icoInfo(object):
             ]
         return result
     
-    def getblockmarketcap(self, ctx):
+    def getBlockMarketCapView(self, ctx):
         result = []
         fair_price = {}
         change_24h = {}
