@@ -232,7 +232,11 @@ class BitinfoChartSpider(Spider):
 
         # difficulty
         try:
-            difficulty = response.xpath('//tr[@id="t_diff"]/td[@class="'+self.coin_name+'"]/a/text()').extract()[0]
+            difficulty = ''
+            if self.coin_name == 'coin c_eth' or self.coin_name == self.coin_name == 'coin c_xmr' or self.coin_name == 'coin c_etc':
+                difficulty = response.xpath('//tr[@id="t_diff"]/td[@class="'+self.coin_name+'"]/a/abbr/text()').extract()[0]
+            else:
+                difficulty = response.xpath('//tr[@id="t_diff"]/td[@class="'+self.coin_name+'"]/a/text()').extract()[0]
             difficulty = self.handle_string(difficulty)
             item['difficulty'] = difficulty
         except IndexError as e:
