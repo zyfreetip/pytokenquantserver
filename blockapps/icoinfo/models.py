@@ -114,6 +114,26 @@ class IcoExchangesStatsModel(PermissionsMixin):
         return 'ico exchanges stats ico_name(%s) token(%s) fair_price(%s)' % \
             (self.ico_name, self.token, self.fair_price)
 
+class IcoBasicInfoModel(PermissionsMixin):
+    class Meta(PermissionsMixin.Meta):
+        abstract = False
+        app_label = 'icoinfo'
+        db_table = 'ico_basic_info'
+        managed = True
+        verbose_name = u'ico基本信息表'
+    
+    ico_name = models.CharField(max_length=255, verbose_name='项目名称', default='')
+    token = models.CharField(max_length=255, verbose_name='项目代号', default='')
+    category = models.CharField(max_length=255, verbose_name='类别（可挖不可挖矿平台币应用币）', default='')
+    first_block_time = models.DateTimeField(verbose_name='第一个区块生成时间', default=dt1970())
+    ico_price = models.CharField(max_length=255, verbose_name='ico价格', default='')
+    total_volumn = models.BigIntegerField(verbose_name='币总量', default=0)
+    maximum_tps = models.CharField(max_length=255, verbose_name='最大每秒传输量', default='')
+    
+    def __str__(self):
+        return 'ico basic info ico_name(%s) token(%s)' % \
+            (self.ico_name, self.token)
+
 class IcoStatsModel(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
         abstract = False
@@ -124,11 +144,6 @@ class IcoStatsModel(PermissionsMixin):
     
     ico_name = models.CharField(max_length=255, verbose_name='项目名称', default='')
     token = models.CharField(max_length=255, verbose_name='项目代号', default='')
-    category = models.CharField(max_length=255, verbose_name='类别（可挖不可挖矿平台币应用币）', default='')
-    first_block_time = models.DateTimeField(verbose_name='第一个区块生成时间', default=dt1970())
-    ico_price = models.CharField(max_length=255, verbose_name='ico价格', default='')
-    total_volumn = models.BigIntegerField(verbose_name='币总量', default=0)
-    maximum_tps = models.CharField(max_length=255, verbose_name='最大每秒传输量', default='')
     transactions_number_day = models.BigIntegerField(verbose_name='当日总交易次数', default=0)
     transactions_number_hour = models.BigIntegerField(verbose_name='小时总交易次数', default=0)
     total_transactions_fees = models.DecimalField(max_digits=40, decimal_places=5, verbose_name='当日总交易费', default=0)
@@ -165,6 +180,7 @@ class IcoStatsModel(PermissionsMixin):
     transaction_largest100 = models.BigIntegerField(verbose_name='24小时最大100笔交易', default=0)
     mining_pro = models.CharField(verbose_name='24小时矿工收入', max_length=255, default='')
     transactions_fees = models.CharField(verbose_name='交易费用百分比', max_length=255, default='')
+    per_transactions_volume = models.CharField(verbose_name='矿工收入/交易量', max_length=255, default='')
     cost_per_transaction = models.CharField(verbose_name='平均每次交易成本(usd)', max_length=255, default='')
     mining_pro_1thash = models.CharField(verbose_name='1thash/s的算力估计收益', max_length=255, default='')
     address_numbers = models.BigIntegerField(verbose_name='持币地址数', default=0)

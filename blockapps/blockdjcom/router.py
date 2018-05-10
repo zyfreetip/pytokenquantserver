@@ -29,6 +29,7 @@ class DbRouter:
                 'ico_github_stats': ('ico_github_stats_ro', 'ico_github_stats'),
                 'ico_exchanges_stats': ('ico_exchanges_stats_ro', 'ico_exchanges_stats'),
                 'ico_stats': ('ico_stats_ro', 'ico_stats'),
+                'ico_basic_info': ('ico_basic_info_ro', 'ico_basic_info'),
 				}
             }
 
