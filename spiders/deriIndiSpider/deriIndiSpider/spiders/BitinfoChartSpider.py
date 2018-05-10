@@ -220,7 +220,11 @@ class BitinfoChartSpider(Spider):
             print('block count', 'not exist in ', self.coin_name)
 
         try:
-            block_pre_reward = response.xpath('//tr[@class="t_empty" and td[contains(text(), "Reward Per Block")]]/td[@class="'+self.coin_name+'"]/span/text()').extract()[2]
+            block_pre_reward = ''
+            if self.coin_name == 'coin c_dash' :
+                block_pre_reward = response.xpath('//tr[@class="t_empty" and td[contains(text(), "Reward Per Block")]]/td[@class="'+self.coin_name+'"]/span/abbr/text()').extract()[-1]
+            else:
+                block_pre_reward = response.xpath('//tr[@class="t_empty" and td[contains(text(), "Reward Per Block")]]/td[@class="'+self.coin_name+'"]/span/text()').extract()[-1]
             block_pre_reward = self.handle_string(block_pre_reward, rtype=1)
             item['block_pre_reward'] = float(block_pre_reward)
         except IndexError as e:
