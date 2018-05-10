@@ -213,7 +213,7 @@ class icoInfo(object):
         for ico_name in ico_names:
             icoExchanges = IcoExchangesStatsModel.objects.filter(ico_name=ico_name['ico_name']).order_by('-create_time')
             if icoExchanges:
-                fair_price.update({ico_name['ico_name']: icoExchanges[0].release}) 
+                fair_price.update({ico_name['ico_name']: icoExchanges[0].fair_price}) 
                 change_24h.update({ico_name['ico_name']: icoExchanges[0].change_24h})
                 circulating_supply.update({ico_name['ico_name']: icoExchanges[0].circulating_supply})
                 max_supply.update({ico_name['ico_name']: icoExchanges[0].max_supply})
