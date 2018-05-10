@@ -237,7 +237,7 @@ class BitinfoChartSpider(Spider):
                 difficulty = response.xpath('//tr[@id="t_diff"]/td[@class="'+self.coin_name+'"]/a/abbr/text()').extract()[0]
             else:
                 difficulty = response.xpath('//tr[@id="t_diff"]/td[@class="'+self.coin_name+'"]/a/text()').extract()[0]
-            difficulty = self.handle_string(difficulty)
+            difficulty = difficulty
             item['difficulty'] = difficulty
         except IndexError as e:
             print('difficulty', 'not exist in ', self.coin_name)
