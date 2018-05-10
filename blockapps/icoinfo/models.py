@@ -79,6 +79,7 @@ class IcoGithubStatsModel(PermissionsMixin):
     codes_last_week = models.IntegerField(verbose_name='上周代码提交量', default=0) 
     codes_this_week = models.IntegerField(verbose_name='本周代码提交量', default=0) 
     branches = models.IntegerField(verbose_name='分支数', default=0)
+    forks = models.IntegerField(verbose_name='fork数', default=0)
     issues = models.IntegerField(verbose_name='问题数', default=0)
     watchers = models.IntegerField(verbose_name='关注数', default=0)
     projects = models.TextField(verbose_name='项目库', default='')

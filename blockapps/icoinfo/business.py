@@ -158,7 +158,7 @@ class icoInfo(object):
         release = {}
         stars = {}
         project_update_time = {}
-        branches = {}
+        forks = {}
         issues = {}
         watchers = {}
         codes_this_month = {}
@@ -176,7 +176,7 @@ class icoInfo(object):
                 release.update({ico_name['ico_name']: icoGithub[0].release}) 
                 stars.update({ico_name['ico_name']: icoGithub[0].stars})
                 project_update_time.update({ico_name['ico_name']: icoGithub[0].project_update_time})
-                branches.update({ico_name['ico_name']: icoGithub[0].branches})
+                forks.update({ico_name['ico_name']: icoGithub[0].forks})
                 issues.update({ico_name['ico_name']: icoGithub[0].issues})
                 watchers.update({ico_name['ico_name']: icoGithub[0].watchers})
                 codes_this_month.update({ico_name['ico_name']: icoGithub[0].codes_this_month})
@@ -189,7 +189,7 @@ class icoInfo(object):
                 {'release': release},
                 {'stars': stars},
                 {'project_update_time': project_update_time},
-                {'branches': branches},
+                {'forks': forks},
                 {'issues': issues},
                 {'watchers': watchers},
                 {'codes_this_month': codes_this_month},
