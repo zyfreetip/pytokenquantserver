@@ -199,7 +199,7 @@ class icoInfo(object):
             ]
         return result
     
-    def getBlockMarketCapView(self, ctx):
+    def getBlockMarketcap(self, ctx):
         result = []
         fair_price = {}
         change_24h = {}
