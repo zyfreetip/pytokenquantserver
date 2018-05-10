@@ -29,7 +29,9 @@ class MediaSpider(Spider):
         # reddit订阅数
         try:
             reddits = response.xpath('//tr[@id="t_reddit"]/td/text()').extract()[1:9]
+            reddits = list(map(lambda x:self.handle_string(x), reddits))
             twitters = response.xpath('//tr[@id="t_twitter"]/td/text()').extract()[0:8]
+            twitters = list(map(lambda x: self.handle_string(x), twitters))
             names =  response.xpath('//tr[@class="t_coin"]/td/a/text()').extract()[:8]
             names =list(map(lambda x:x.strip(), names))
             for i in range(8):
@@ -37,6 +39,7 @@ class MediaSpider(Spider):
                 item['ico_name'] = names[i]
                 item['reddit_subscribers'] = reddits[i]
                 item['twitter_per_day'] = twitters[i]
+                print("item is :", item)
                 yield item
 
         except IndexError as e:
