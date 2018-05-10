@@ -29,6 +29,7 @@ class BitinfoChartSpider(Spider):
         target = ''
         for single in number_list:
             target += single
+        print("targt>>>>>>", )
         if rtype == 0:
             target = int(target)
         elif rtype == 1:
@@ -54,7 +55,7 @@ class BitinfoChartSpider(Spider):
 
         # project_name
         try:
-            ico_name = response.xpath('//tr[@class="t_coin"]/td[@class="coin c_eth"]/a/text()').extract()[1].strip()
+            ico_name = response.xpath('//tr[@class="t_coin"]/td[@class="'+self.coin_name+'"]/a/text()').extract()[1].strip()
             item['ico_name'] = ico_name
         except IndexError as e:
             print('ico_name', 'not exist in ', self.coin_name)
