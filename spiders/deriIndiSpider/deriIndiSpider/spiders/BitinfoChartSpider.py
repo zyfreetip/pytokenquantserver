@@ -2,6 +2,9 @@ from scrapy.spiders import Spider
 from scrapy import Request
 from deriIndiSpider.items import DeriBtcSpiderItem
 from deriIndiSpider.items import IcoStatsItem
+import requests
+import json
+# form bs4 import BeautifulSoup as bs
 
 import re
 import datetime
@@ -256,10 +259,39 @@ class BitinfoChartSpider(Spider):
             print('mining_pro', ' not exist in ', self.coin_name)
 
         # try:
+        #    pass
+        # except IndexError as e:
+        #     print()
+
+        # try:
         #     pass
         # except IndexError as e:
         #     print()
 
         item['create_time'] = timezone.now()
         print(item)
+        # if self.coin_name == 'coin c_btc':
+        #     self.getinfo_from_blockcain(item)
         yield item
+
+    def getinfo_from_blockcain(self, item):
+        statistics = requests.get('https://api.blockchain.info/stats')
+        btc = statistics.json()
+        # 矿工指标24h
+        miners_revenue_btc = btc['miners_revenue_btc']
+        miners_revenue_usd = btc['miners_revenue_usd']
+        n_blocks_mined = btc['n_blocks_mined']
+        minutes_between_blocks = btc['minutes_between_blocks']
+        blocks_size = btc['blocks_size']
+
+        # item['mining_pro'] =
+        transaction_fees = requests.get('https://api.blockchain.info/charts/cost-per-transaction?timespan=5weeks&rollingAverage=8hours&format=json')
+        transaction = transaction_fees.json()
+        transaction_fees = transaction['values'][-1]['y']
+        item['transaction_fees'] = transaction_fees
+
+        # 交易费用所占百分比
+        cost_per_transaction = requests.get('https://api.blockchain.info/charts/cost-per-transaction-percent?timespan=5weeks&rollingAverage=8hours&format=json')
+        cost_per_trans = cost_per_transaction.json()
+        cpt = cost_per_trans['values'][len(cost_per_trans['values']) - 1]['y']
+        # item[]
