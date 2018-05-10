@@ -29,6 +29,7 @@ class BitinfoChartSpider(Spider):
         target = ''
         for single in number_list:
             target += single
+        print("targt>>>>>>", )
         if rtype == 0:
             target = int(target)
         elif rtype == 1:
@@ -54,7 +55,7 @@ class BitinfoChartSpider(Spider):
 
         # project_name
         try:
-            ico_name = response.xpath('//tr[@class="t_coin"]/td[@class="coin c_eth"]/a/text()').extract()[1].strip()
+            ico_name = response.xpath('//tr[@class="t_coin"]/td[@class="'+self.coin_name+'"]/a/text()').extract()[1].strip()
             item['ico_name'] = ico_name
         except IndexError as e:
             print('ico_name', 'not exist in ', self.coin_name)
@@ -219,7 +220,11 @@ class BitinfoChartSpider(Spider):
             print('block count', 'not exist in ', self.coin_name)
 
         try:
-            block_pre_reward = response.xpath('//tr[@class="t_empty" and td[contains(text(), "Reward Per Block")]]/td[@class="'+self.coin_name+'"]/span/text()').extract()[2]
+            block_pre_reward = ''
+            if self.coin_name == 'coin c_dash' :
+                block_pre_reward = response.xpath('//tr[@class="t_empty" and td[contains(text(), "Reward Per Block")]]/td[@class="'+self.coin_name+'"]/span/abbr/text()').extract()[-1]
+            else:
+                block_pre_reward = response.xpath('//tr[@class="t_empty" and td[contains(text(), "Reward Per Block")]]/td[@class="'+self.coin_name+'"]/span/text()').extract()[-1]
             block_pre_reward = self.handle_string(block_pre_reward, rtype=1)
             item['block_pre_reward'] = float(block_pre_reward)
         except IndexError as e:
@@ -227,8 +232,12 @@ class BitinfoChartSpider(Spider):
 
         # difficulty
         try:
-            difficulty = response.xpath('//tr[@id="t_diff"]/td[@class="'+self.coin_name+'"]/a/text()').extract()[0]
-            difficulty = self.handle_string(difficulty)
+            difficulty = ''
+            if self.coin_name == 'coin c_eth' or self.coin_name == self.coin_name == 'coin c_xmr' or self.coin_name == 'coin c_etc':
+                difficulty = response.xpath('//tr[@id="t_diff"]/td[@class="'+self.coin_name+'"]/a/abbr/text()').extract()[0]
+            else:
+                difficulty = response.xpath('//tr[@id="t_diff"]/td[@class="'+self.coin_name+'"]/a/text()').extract()[0]
+            difficulty = difficulty
             item['difficulty'] = difficulty
         except IndexError as e:
             print('difficulty', 'not exist in ', self.coin_name)
