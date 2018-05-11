@@ -46,15 +46,15 @@ ROBOTSTXT_OBEY = False
 
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    'deriIndiSpider.middlewares.DeriindispiderSpiderMiddleware': 543,
-#}
+SPIDER_MIDDLEWARES = {
+   'deriIndiSpider.middlewares.DeriindispiderSpiderMiddleware': 543,
+}
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
+# DOWNLOADER_MIDDLEWARES = {
 #    'deriIndiSpider.middlewares.DeriindispiderDownloaderMiddleware': 543,
-#}
+# }
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -67,12 +67,12 @@ ROBOTSTXT_OBEY = False
 ITEM_PIPELINES = {
     'deriIndiSpider.pipelines.DeriindispiderPipeline': 300,
 }
-DEPTH_LIMIT = 8
+# DEPTH_LIMIT = 8
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True
 # The initial download delay
-#AUTOTHROTTLE_START_DELAY = 5
+# AUTOTHROTTLE_START_DELAY = 5
 # The maximum download delay to be set in case of high latencies
 #AUTOTHROTTLE_MAX_DELAY = 60
 # The average number of requests Scrapy should be sending in parallel to

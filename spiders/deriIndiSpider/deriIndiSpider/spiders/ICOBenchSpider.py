@@ -48,9 +48,12 @@ class ICOBenchSpider(Spider):
         item['token_type'] = token_type
 
         #hardcap
-        hardcap_xpath = '//div[@class="data_row"]/div[contains(text(), "Hard cap")]/following-sibling::*/b/text()'
-        hardcap = response.xpath(hardcap_xpath).extract()[0]
-        item['hardcap'] = hardcap
+        try:
+            hardcap_xpath = '//div[@class="data_row"]/div[contains(text(), "Hard cap")]/following-sibling::*/b/text()'
+            hardcap = response.xpath(hardcap_xpath).extract()[0]
+            item['hardcap'] = hardcap
+        except:
+            print("hardcap not exist in ", response.url)
 
         # soft cap
         softcap_xpath = '//div[@class="data_row"]/div[contains(text(), "Soft cap")]/following-sibling::*/b/text()'
