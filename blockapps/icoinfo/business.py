@@ -130,6 +130,16 @@ class icoInfo(object):
                 address_richer_than_10000usd.update({ico_name['ico_name']: icoStats[0].address_richer_than_10000usd})
                 new_addresses_last24h.update({ico_name['ico_name']: icoStats[0].new_addresses_last24h})
                 active_addresses_last24h.update({ico_name['ico_name']: icoStats[0].active_addresses_last24h})
+        wealth_distribution_top10.update({'cn_name': IcoStatsModel._meta.get_field('wealth_distribution_top10').verbose_name})
+        wealth_distribution_top100.update({'cn_name': IcoStatsModel._meta.get_field('wealth_distribution_top100').verbose_name})
+        wealth_distribution_top1000.update({'cn_name': IcoStatsModel._meta.get_field('wealth_distribution_top1000').verbose_name})
+        wealth_distribution_top10000.update({'cn_name': IcoStatsModel._meta.get_field('wealth_distribution_top10000').verbose_name})
+        address_richer_than_1usd.update({'cn_name': IcoStatsModel._meta.get_field('address_richer_than_1usd').verbose_name})
+        address_richer_than_100usd.update({'cn_name': IcoStatsModel._meta.get_field('address_richer_than_100usd').verbose_name})
+        address_richer_than_1000usd.update({'cn_name': IcoStatsModel._meta.get_field('address_richer_than_1000usd').verbose_name})
+        address_richer_than_10000usd.update({'cn_name': IcoStatsModel._meta.get_field('address_richer_than_10000usd').verbose_name})
+        new_addresses_last24h.update({'cn_name': IcoStatsModel._meta.get_field('new_addresses_last24h').verbose_name})
+        active_addresses_last24h.update({'cn_name': IcoStatsModel._meta.get_field('active_addresses_last24h').verbose_name})
         result = [ {'wealth_distribution_top10': wealth_distribution_top10},
                    {'wealth_distribution_top100': wealth_distribution_top100},
                    {'wealth_distribution_top1000': wealth_distribution_top1000},
@@ -159,6 +169,11 @@ class icoInfo(object):
                 cost_per_transaction.update({ico_name['ico_name']: icoStats[0].cost_per_transaction})
                 mining_pro_1thash.update({ico_name['ico_name']: icoStats[0].mining_pro_1thash})
                 per_transactions_volume.update({ico_name['ico_name']: icoStats[0].per_transactions_volume})
+        mining_pro.update({'cn_name': IcoStatsModel._meta.get_field('mining_pro').verbose_name})
+        transactions_fees.update({'cn_name': IcoStatsModel._meta.get_field('transactions_fees').verbose_name})
+        cost_per_transaction.update({'cn_name': IcoStatsModel._meta.get_field('cost_per_transaction').verbose_name})
+        mining_pro_1thash.update({'cn_name': IcoStatsModel._meta.get_field('mining_pro_1thash').verbose_name})
+        per_transactions_volume.update({'cn_name': IcoStatsModel._meta.get_field('per_transactions_volume').verbose_name})
         result = [ { 'mining_pro': mining_pro},
                    { 'transactions_fees': transactions_fees},
                    {'cost_per_transaction': cost_per_transaction},
@@ -199,6 +214,18 @@ class icoInfo(object):
                 codes_this_week.update({ico_name['ico_name']: icoGithub[0].codes_this_week})
                 commits_this_week.update({ico_name['ico_name']: icoGithub[0].commits_this_week})
                 commits_this_month.update({ico_name['ico_name']: icoGithub[0].commits_this_month})
+        reddit_subscribers.update({'cn_name': IcoSocialMediaModel._meta.get_field('reddit_subscribers').verbose_name})
+        twitter_per_day.update({'cn_name': IcoSocialMediaModel._meta.get_field('twitter_per_day').verbose_name})
+        release.update({'cn_name': IcoGithubStatsModel._meta.get_field('release').verbose_name})
+        stars.update({'cn_name': IcoGithubStatsModel._meta.get_field('stars').verbose_name})
+        project_update_time.update({'cn_name': IcoGithubStatsModel._meta.get_field('project_update_time').verbose_name})
+        forks.update({'cn_name': IcoGithubStatsModel._meta.get_field('forks').verbose_name})
+        issues.update({'cn_name': IcoGithubStatsModel._meta.get_field('issues').verbose_name})
+        watchers.update({'cn_name': IcoGithubStatsModel._meta.get_field('watchers').verbose_name})
+        codes_this_month.update({'cn_name': IcoGithubStatsModel._meta.get_field('codes_this_month').verbose_name})
+        codes_this_week.update({'cn_name': IcoGithubStatsModel._meta.get_field('codes_this_month').verbose_name})
+        commits_this_week.update({'cn_name': IcoGithubStatsModel._meta.get_field('commits_this_week').verbose_name})
+        commits_this_month.update({'cn_name': IcoGithubStatsModel._meta.get_field('commits_this_month').verbose_name})
         result = [
                 {'reddit_subscribers': reddit_subscribers},
                 {'twitter_per_day': twitter_per_day},
@@ -237,6 +264,14 @@ class icoInfo(object):
                 transactions_last_24h.update({ico_name['ico_name']: icoExchanges[0].transactions_last_24h})
                 total_trade_volume_24h.update({ico_name['ico_name']: icoExchanges[0].total_trade_volume_24h})
                 turnover_rate.update({ico_name['ico_name']: icoExchanges[0].turnover_rate})
+        fair_price.update({'cn_name': IcoExchangesStatsModel._meta.get_field('fair_price').verbose_name})
+        change_24h.update({'cn_name': IcoExchangesStatsModel._meta.get_field('change_24h').verbose_name})
+        circulating_supply.update({'cn_name': IcoExchangesStatsModel._meta.get_field('circulating_supply').verbose_name})
+        max_supply.update({'cn_name': IcoExchangesStatsModel._meta.get_field('max_supply').verbose_name})
+        market_capitalization.update({'cn_name': IcoExchangesStatsModel._meta.get_field('market_capitalization').verbose_name})
+        transactions_last_24h.update({'cn_name': IcoExchangesStatsModel._meta.get_field('transactions_last_24h').verbose_name})
+        total_trade_volume_24h.update({'cn_name': IcoExchangesStatsModel._meta.get_field('total_trade_volume_24h').verbose_name})
+        turnover_rate.update({'cn_name': IcoExchangesStatsModel._meta.get_field('turnover_rate').verbose_name})
         result = [
                 {'fair_price': fair_price},
                 {'change_24h': change_24h},
