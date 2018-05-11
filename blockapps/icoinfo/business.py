@@ -44,6 +44,22 @@ class icoInfo(object):
                 median_confirmation_time.update({ico_name['ico_name']: icoStats[0].median_confirmation_time})
                 mempool_size.update({ico_name['ico_name']: icoStats[0].mempool_size})
                 current_best_transaction_fees.update({ico_name['ico_name']: icoStats[0].current_best_transaction_fees})
+        transactions_number_day.update({'cn_name': IcoStatsModel._meta.get_field('transactions_number_day').verbose_name})
+        transactions_number_hour.update({'cn_name': IcoStatsModel._meta.get_field('transactions_number_hour').verbose_name})
+        total_output_value.update({'cn_name': IcoStatsModel._meta.get_field('total_output_value').verbose_name})
+        meidan_transactions_value.update({'cn_name': IcoStatsModel._meta.get_field('meidan_transactions_value').verbose_name})
+        block_time.update({'cn_name': IcoStatsModel._meta.get_field('block_time').verbose_name})
+        block_count.update({'cn_name': IcoStatsModel._meta.get_field('block_count').verbose_name})
+        block_pre_reward.update({'cn_name': IcoStatsModel._meta.get_field('block_pre_reward').verbose_name})
+        total_transactions_fees.update({'cn_name': IcoStatsModel._meta.get_field('total_transactions_fees').verbose_name})
+        avg_transactions_value.update({'cn_name': IcoStatsModel._meta.get_field('avg_transactions_value').verbose_name})
+        difficulty.update({'cn_name': IcoStatsModel._meta.get_field('difficulty').verbose_name})
+        hashrate.update({'cn_name': IcoStatsModel._meta.get_field('hashrate').verbose_name})
+        blocks_mined_day.update({'cn_name': IcoStatsModel._meta.get_field('blocks_mined_day').verbose_name})
+        bitcoins_mined_total.update({'cn_name': IcoStatsModel._meta.get_field('bitcoins_mined_total').verbose_name})
+        median_confirmation_time.update({'cn_name': IcoStatsModel._meta.get_field('median_confirmation_time').verbose_name})
+        mempool_size.update({'cn_name': IcoStatsModel._meta.get_field('mempool_size').verbose_name})
+        current_best_transaction_fees.update({'cn_name': IcoStatsModel._meta.get_field('current_best_transaction_fees').verbose_name})
         result = [ {'transactions_number_day': transactions_number_day},
                    { 'transactions_number_hour': transactions_number_hour},
                    {'total_output_value': total_output_value},
