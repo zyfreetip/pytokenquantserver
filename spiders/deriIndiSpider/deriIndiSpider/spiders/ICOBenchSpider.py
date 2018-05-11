@@ -15,7 +15,10 @@ class ICOBenchSpider(Spider):
         header = {
             "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36",
         }
-        yield Request(url, callback=self.get_onepage_urls, headers=header)
+        Request.meta
+        request = Request(url, callback=self.get_onepage_urls, headers=header)
+        request.meta['proxy'] = "59.110.221.27:8080"
+        yield request
 
     def parse(self, response):
         print("current url:", response.url)
@@ -48,9 +51,12 @@ class ICOBenchSpider(Spider):
         item['token_type'] = token_type
 
         #hardcap
-        hardcap_xpath = '//div[@class="data_row"]/div[contains(text(), "Hard cap")]/following-sibling::*/b/text()'
-        hardcap = response.xpath(hardcap_xpath).extract()[0]
-        item['hardcap'] = hardcap
+        try:
+            hardcap_xpath = '//div[@class="data_row"]/div[contains(text(), "Hard cap")]/following-sibling::*/b/text()'
+            hardcap = response.xpath(hardcap_xpath).extract()[0]
+            item['hardcap'] = hardcap
+        except:
+            print("hardcap not exist in ", response.url)
 
         # soft cap
         softcap_xpath = '//div[@class="data_row"]/div[contains(text(), "Soft cap")]/following-sibling::*/b/text()'
