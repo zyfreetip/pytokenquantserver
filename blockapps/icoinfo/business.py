@@ -96,6 +96,11 @@ class icoInfo(object):
                 ico_price.update({ico_name['ico_name']: icoStats[0].ico_price})
                 total_volumn.update({ico_name['ico_name']: icoStats[0].total_volumn})
                 maximum_tps.update({ico_name['ico_name']: icoStats[0].maximum_tps})
+        category.update({'cn_name': IcoBasicInfoModel._meta.get_field('category').verbose_name})
+        first_block_time.update({'cn_name': IcoBasicInfoModel._meta.get_field('first_block_time').verbose_name})
+        ico_price.update({'cn_name': IcoBasicInfoModel._meta.get_field('ico_price').verbose_name})
+        total_volumn.update({'cn_name': IcoBasicInfoModel._meta.get_field('total_volumn').verbose_name})
+        maximum_tps.update({'cn_name': IcoBasicInfoModel._meta.get_field('maximum_tps').verbose_name})
         result = [ {'category': category},
                   {'first_block_time': first_block_time},
                   {'ico_price': ico_price},
