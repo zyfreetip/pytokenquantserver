@@ -270,13 +270,13 @@ class icoInfo(object):
                 total_trade_volume_24h.update({ico_name['ico_name']: icoExchanges[0].total_trade_volume_24h})
                 turnover_rate.update({ico_name['ico_name']: icoExchanges[0].turnover_rate})
         fair_price.update({'cn_name': IcoExchangesStatsModel._meta.get_field('fair_price').verbose_name})
-        change_24h.update({'cn_name': IcoExchangesStatsModel._meta.get_field('change_24h').verbose_name})
+        change_24h.update({'cn_name': '{:.2%}'.format(IcoExchangesStatsModel._meta.get_field('change_24h').verbose_name}))
         circulating_supply.update({'cn_name': IcoExchangesStatsModel._meta.get_field('circulating_supply').verbose_name})
         max_supply.update({'cn_name': IcoExchangesStatsModel._meta.get_field('max_supply').verbose_name})
         market_capitalization.update({'cn_name': IcoExchangesStatsModel._meta.get_field('market_capitalization').verbose_name})
         transactions_last_24h.update({'cn_name': IcoExchangesStatsModel._meta.get_field('transactions_last_24h').verbose_name})
         total_trade_volume_24h.update({'cn_name': IcoExchangesStatsModel._meta.get_field('total_trade_volume_24h').verbose_name})
-        turnover_rate.update({'cn_name': IcoExchangesStatsModel._meta.get_field('turnover_rate').verbose_name})
+        turnover_rate.update({'cn_name': '{:.2%}'.format(IcoExchangesStatsModel._meta.get_field('turnover_rate').verbose_name}))
         result = [
                 {'fair_price': fair_price},
                 {'change_24h': change_24h},
