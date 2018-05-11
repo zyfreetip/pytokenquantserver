@@ -15,7 +15,10 @@ class ICOBenchSpider(Spider):
         header = {
             "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36",
         }
-        yield Request(url, callback=self.get_onepage_urls, headers=header)
+        Request.meta
+        request = Request(url, callback=self.get_onepage_urls, headers=header)
+        request.meta['proxy'] = "59.110.221.27:8080"
+        yield request
 
     def parse(self, response):
         print("current url:", response.url)
