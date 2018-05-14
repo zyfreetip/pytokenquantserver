@@ -40,7 +40,17 @@ class Command(BaseCommand):
                     if 'coinbase' in vin.keys():
                         is_coinbase = 1
                     else:
-                        trx = rpc_connection.getrawtransaction(vin['txid'],True)
+                        max_count = 3
+                        try_count = 1
+                        while True:
+                            try:
+                                trx = rpc_connection.getrawtransaction(vin['txid'],True)
+                                break
+                            except:
+                                try_count += 1
+                                if try_count > max_count:
+                                    log_notify.info('btc tx block height(%s) failed, txid(%s)' % (height, trx))
+                                    return
                         for vout in trx['vout']:
                             if vin['vout'] == vout['n']:
                                 txhash = tx['hash']
