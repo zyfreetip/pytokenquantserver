@@ -11,7 +11,6 @@ import logging
 
 log_notify = logging.getLogger('block_btc_tx_logs') 
 class Command(BaseCommand):
-    RPC_CONNECTION = 0
     def add_arguments(self, parser):
         parser.add_argument('--ip', dest='ip', required=True, help='id address')
         parser.add_argument('--port', dest='port', required=True, help='rpc port')
@@ -33,17 +32,18 @@ class Command(BaseCommand):
         log_notify.info('btc tx block height from %s to %s' % (start_block_height, end_block_height))
         processpools = Pool(16)  
         for height in range(start_block_height, end_block_height+1):
-            processpools.apply_async(func=self.parse_txs, args=(height, ))
+            processpools.apply(func=self.parse_txs, args=(height, ip, port, rpc_user, rpc_password))
         processpools.close()
         processpools.join()
         blocks_flags['btc']['tx_block_height'] = end_block_height+1
         settings.update_config(settings.FLAGS_PATH, blocks_flags)
         
-    def parse_txs(self, height):
-        block_hash = self.RPC_CONNECTION.getblockhash(height)
-        block = self.RPC_CONNECTION.getblock(block_hash)
+    def parse_txs(self, height, ip, port ,rpc_user, rpc_password):
+        rpc_connection = AuthServiceProxy("http://%s:%s@%s:%s"%(rpc_user, rpc_password, ip, port))
+        block_hash = rpc_connection.getblockhash(height)
+        block = rpc_connection.getblock(block_hash)
         commands = [ ['getrawtransaction', tx, True ] for tx in block['tx'] ]
-        transactions = self.RPC_CONNECTION.batch_(commands)
+        transactions = rpc_connection.batch_(commands)
         for tx in transactions:
             inputs_value = 0
             is_coinbase = 0
