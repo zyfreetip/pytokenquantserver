@@ -125,10 +125,10 @@ class icoInfo(object):
         for ico_name in ico_names:
             icoStats = IcoStatsModel.objects.filter(ico_name=ico_name['ico_name']).order_by('-create_time')
             if icoStats: 
-                wealth_distribution_top10.update({ico_name['ico_name']: icoStats[0].wealth_distribution_top10})
-                wealth_distribution_top100.update({ico_name['ico_name']: icoStats[0].wealth_distribution_top100})
-                wealth_distribution_top1000.update({ico_name['ico_name']: icoStats[0].wealth_distribution_top1000})
-                wealth_distribution_top10000.update({ico_name['ico_name']: icoStats[0].wealth_distribution_top10000})
+                wealth_distribution_top10.update({ico_name['ico_name']: '{:.2%}'.format(icoStats[0].wealth_distribution_top10/10000)})
+                wealth_distribution_top100.update({ico_name['ico_name']: '{:.2%}'.format(icoStats[0].wealth_distribution_top100/10000)})
+                wealth_distribution_top1000.update({ico_name['ico_name']: '{:.2%}'.format(icoStats[0].wealth_distribution_top1000/10000)})
+                wealth_distribution_top10000.update({ico_name['ico_name']: '{:.2%}'.format(icoStats[0].wealth_distribution_top10000/10000)})
                 address_richer_than_1usd.update({ico_name['ico_name']: icoStats[0].address_richer_than_1usd})
                 address_richer_than_100usd.update({ico_name['ico_name']: icoStats[0].address_richer_than_100usd})
                 address_richer_than_1000usd.update({ico_name['ico_name']: icoStats[0].address_richer_than_1000usd})
@@ -262,21 +262,21 @@ class icoInfo(object):
             icoExchanges = IcoExchangesStatsModel.objects.filter(ico_name=ico_name['ico_name']).order_by('-create_time')
             if icoExchanges:
                 fair_price.update({ico_name['ico_name']: icoExchanges[0].fair_price}) 
-                change_24h.update({ico_name['ico_name']: icoExchanges[0].change_24h})
+                change_24h.update({ico_name['ico_name']: '{:.2%}'.format(icoExchanges[0].change_24h/100)})
                 circulating_supply.update({ico_name['ico_name']: icoExchanges[0].circulating_supply})
                 max_supply.update({ico_name['ico_name']: icoExchanges[0].max_supply})
                 market_capitalization.update({ico_name['ico_name']: icoExchanges[0].market_capitalization})
                 transactions_last_24h.update({ico_name['ico_name']: icoExchanges[0].transactions_last_24h})
                 total_trade_volume_24h.update({ico_name['ico_name']: icoExchanges[0].total_trade_volume_24h})
-                turnover_rate.update({ico_name['ico_name']: icoExchanges[0].turnover_rate})
+                turnover_rate.update({ico_name['ico_name']: '{:.2%}'.format(icoExchanges[0].turnover_rate)})
         fair_price.update({'cn_name': IcoExchangesStatsModel._meta.get_field('fair_price').verbose_name})
-        change_24h.update({'cn_name': '{:.2%}'.format(IcoExchangesStatsModel._meta.get_field('change_24h').verbose_name}))
+        change_24h.update({'cn_name': IcoExchangesStatsModel._meta.get_field('change_24h').verbose_name})
         circulating_supply.update({'cn_name': IcoExchangesStatsModel._meta.get_field('circulating_supply').verbose_name})
         max_supply.update({'cn_name': IcoExchangesStatsModel._meta.get_field('max_supply').verbose_name})
         market_capitalization.update({'cn_name': IcoExchangesStatsModel._meta.get_field('market_capitalization').verbose_name})
         transactions_last_24h.update({'cn_name': IcoExchangesStatsModel._meta.get_field('transactions_last_24h').verbose_name})
         total_trade_volume_24h.update({'cn_name': IcoExchangesStatsModel._meta.get_field('total_trade_volume_24h').verbose_name})
-        turnover_rate.update({'cn_name': '{:.2%}'.format(IcoExchangesStatsModel._meta.get_field('turnover_rate').verbose_name}))
+        turnover_rate.update({'cn_name': IcoExchangesStatsModel._meta.get_field('turnover_rate').verbose_name})
         result = [
                 {'fair_price': fair_price},
                 {'change_24h': change_24h},
