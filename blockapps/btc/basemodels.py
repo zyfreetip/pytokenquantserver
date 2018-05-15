@@ -9,7 +9,7 @@ class BaseBtcAddressModel(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
         abstract = True
         app_label = 'btc'
-        managed = False
+        managed = True
     
     address = models.CharField(max_length=255, primary_key=True, default='')
     received = models.BigIntegerField(verbose_name='总接收数量', default=0)
