@@ -30,14 +30,19 @@ class ICOBenchSpider(Spider):
             item['token'] = token_name
         except IndexError as e:
             print("token name not exist or xpath error in ", response.url)
+        try:
+            price_xpath = '//div[@class="data_row"]/div[contains(text(), "Price")]/following-sibling::*/b/text()'
+            price = response.xpath(price_xpath).extract()[0]
+            item['price'] = price
+        except IndexError as e:
+            print("price not exist or xpath error in ", response.url)
 
-        price_xpath = '//div[@class="data_row"]/div[contains(text(), "Price")]/following-sibling::*/b/text()'
-        price = response.xpath(price_xpath).extract()[0]
-        item['price'] = price
-
-        country_xpath = '//div[@class="data_row"]/div[contains(text(), "Country")]/following-sibling::*/b/a/text()'
-        country =  response.xpath(country_xpath).extract()[0]
-        item['country'] = country
+        try:
+            country_xpath = '//div[@class="data_row"]/div[contains(text(), "Country")]/following-sibling::*/b/a/text()'
+            country =  response.xpath(country_xpath).extract()[0]
+            item['country'] = country
+        except IndexError as e:
+            print("country not exist or xpath error in ", response.url)
 
         # 国家中文名字
         #todo
