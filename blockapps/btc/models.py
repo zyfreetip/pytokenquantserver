@@ -11,7 +11,7 @@ from random import randint
 from django.forms.models import model_to_dict
 from django.db.transaction import atomic
 from traceback import print_exc
-
+from .basemodels import BaseBtcAddressModel
 class BtcBlockModel(PermissionsMixin):
 
     class Meta(PermissionsMixin.Meta):
@@ -205,16 +205,16 @@ class ModelGroup(object):
     def __iter__(self):
         return ModelGroupIterator(self)
 
-BtcAddressModels = ModelGroup(DBNUM, 1000,
+BtcAddressModels = ModelGroup(DBNUM, 200,
 '''
 from .basemodels import BaseBtcAddressModel
-class Db%(dbnum)02dBtcAddress%(suffix)03dModel(BtcAddressModel):
-    class Meta(BtcAddressModel.Meta):
+class Db%(dbnum)02dBtcAddress%(suffix)03dModel(BaseBtcAddressModel):
+    class Meta(BaseBtcAddressModel.Meta):
         abstract = False
         db_table = 'btc_address%(suffix)03d'
 %(varname)s = Db%(dbnum)02dBtcAddress%(suffix)03dModel
 ''')
 
 for dbindex in range(DBNUM):
-    for suffix in range(1000):
+    for suffix in range(200):
         BtcAddressModels.model(dbindex, suffix)

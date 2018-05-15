@@ -9,11 +9,9 @@ class BaseBtcAddressModel(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
         abstract = True
         app_label = 'btc'
-        db_table = 'btc_address'
         managed = False
-        verbose_name = u'比特币地址表'
     
-    address = models.CharField(max_length=255, primary_key=True)
+    address = models.CharField(max_length=255, primary_key=True, default='')
     received = models.BigIntegerField(verbose_name='总接收数量', default=0)
     sent = models.BigIntegerField(verbose_name='总支出数量', default=0)
     balance = models.BigIntegerField(verbose_name='当前余额', default=0)
@@ -22,8 +20,8 @@ class BaseBtcAddressModel(PermissionsMixin):
     unconfirmed_rx_count = models.BigIntegerField(verbose_name='未确认总接收', default=0)
     unconfirmed_sent = models.BigIntegerField(verbose_name='未确认总支出', default=0)
     unspent_tx_count = models.BigIntegerField(verbose_name='未花费交易数量', default=0)
-    create_time = models.DateTimeField(verbose_name='记录创建时间',auto_now_add=True)
-    update_time = models.DateTimeField(verbose_name='最后更新时间', auto_now=True)
+    create_time = models.DateTimeField(verbose_name='记录创建时间',null=True, blank=True, auto_now_add=True)
+    update_time = models.DateTimeField(verbose_name='最后更新时间',null=True, blank=True, auto_now=True)
     
     def __str__(self):
         return 'address(%s) balance(%s)' % \
@@ -33,9 +31,7 @@ class BaseBtcTransactionModel(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
         abstract = True
         app_label = 'btc'
-        db_table = 'btc_transaction'
         managed = False
-        verbose_name = u'比特币交易记录表'
         
     txhash = models.CharField(max_length=255, primary_key=True)
     block_height = models.BigIntegerField(verbose_name='所在块高度', default=0)
@@ -59,9 +55,7 @@ class BaseBtcInputTransactionModel(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
         abstract = True
         app_label ='btc'
-        db_table = 'btc_input_transaction'
         managed = False
-        verbose_name = u'比特币输入交易记录表'
     
     txhash = models.CharField(max_length=255, verbose_name='交易hash', default='')
     prev_address = models.CharField(max_length=255, verbose_name='输入地址', default='')
@@ -81,9 +75,7 @@ class BaseBtcOutputTransactionModel(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
         abstract = True
         app_label ='btc'
-        db_table = 'btc_output_transaction'
         managed = False
-        verbose_name = u'比特币输出交易记录表'
     
     txhash = models.CharField(max_length=255, verbose_name='交易hash', default='')
     address = models.CharField(max_length=255, verbose_name='输出地址', default='')
