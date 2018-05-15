@@ -5,7 +5,7 @@ from web3 import Web3, HTTPProvider
 import logging
 import ipdb
 from concurrent.futures import ThreadPoolExecutor
-log_notify = logging.getLogger('block_eth_block')
+# log_notify = logging.getLogger('block_eth_block')
 import threading
 
 class Command(BaseCommand):
@@ -24,7 +24,7 @@ class Command(BaseCommand):
         startblockheight = ethereumblockmodel.number
         blocknumber = w3.eth.blockNumber
         for height in range(startblockheight, blocknumber+1):
-            self.pool.submit(self.handle_block, (w3, height))
+            self.pool.submit(self.handle_block, w3, height)
 
     def handle_block(self,w3, height):
         block = w3.eth.getBlock(height, True)
@@ -48,7 +48,7 @@ class Command(BaseCommand):
                 'timestamp': int(block['timestamp']),
             }
         )
-        log_notify.info("block Number:", block['number'], "Block Hash:", block['hash'].hex())
+        print("block Number:", block['number'], "Block Hash:", block['hash'].hex())
         # transactions
         transactions = block['transactions']
         for transaction in transactions:
@@ -62,7 +62,7 @@ class Command(BaseCommand):
             status = int(receipt['status'], 16)
         except KeyError as e:
             status = 9
-        log_notify.info("transaction receipt status:", status)
+        print("transaction receipt status:", status)
         EthereumTransactionReceiptModel.objects.get_or_create(
             txhash=receipt['transactionHash'].hex(),
             defaults={
@@ -95,4 +95,4 @@ class Command(BaseCommand):
 
              }
         )
-        log_notify.info("Transaction Hash:", transaction['hash'].hex())
+        print("Transaction Hash:", transaction['hash'].hex())
