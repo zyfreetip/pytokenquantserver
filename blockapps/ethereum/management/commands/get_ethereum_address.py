@@ -4,6 +4,7 @@ from ethereum.models import EthereumAddressModel, EthereumBlockModel, EthereumTr
 from web3 import Web3, HTTPProvider
 from logging import info as loginfo
 import ipdb
+from multiprocessing import Pool
 
 
 class Command(BaseCommand):
@@ -19,19 +20,24 @@ class Command(BaseCommand):
         block_number = w3.eth.blockNumber
         ethereumblockmodels = EthereumBlockModel.objects.all().order_by('-number')
         # 暂时去除增量更新功能
+        pools = Pool(16)
         ethereumblockmodels = []
         if ethereumblockmodels:
             print('更新数据')
             start_block_number = ethereumblockmodels[0].number
             for number in range(start_block_number, block_number+1):
                 block = w3.eth.getBlock(number, True)
-                self.get_info(block, w3)
+                # self.get_info(block, w3)
+                pools.apply_async(func=self.get_info, args=(block, w3))
 
         else:
             print('第一次获取数据')
             for number in range(1, block_number):
                 block = w3.eth.getBlock(number, True)
-                self.get_info(block, w3)
+                # self.get_info(block, w3)
+                pools.apply_async(func=self.get_info, args=(block, w3))
+        pools.close()
+        pools.join()
 
     def get_info(self, block, w3):
         transactions = self.get_transactions_from_block(block)
