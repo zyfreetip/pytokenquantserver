@@ -84,7 +84,9 @@ class DbRouter:
                     if mapinfo[1] == db:
                         return True
         return None
-
 # init mult db map
-
-
+for suffix in range(1000):
+    DbRouter.DB_MAP['btc']['btc_address%03d' % suffix] = ('btc_address%(dbnum)s_ro', 'btc_transaction%(dbnum)s')
+    DbRouter.DB_MAP['btc']['btc_transaction%03d' % suffix] = ('btc_transaction%(dbnum)s_ro', 'btc_transaction%(dbnum)s')
+    DbRouter.DB_MAP['btc']['btc_output_transaction%03d' % suffix] = ('btc_output_transaction%(dbnum)s_ro', 'btc_output_transaction%(dbnum)s')
+    DbRouter.DB_MAP['btc']['btc_input_transaction%03d' % suffix] = ('btc_input_transaction%(dbnum)s_ro', 'btc_input_transaction%(dbnum)s')
