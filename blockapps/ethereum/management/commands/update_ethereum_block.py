@@ -4,7 +4,7 @@ from ethereum.models import EthereumBlockModel, EthereumTransactionModel, Ethere
 from web3 import Web3, HTTPProvider
 from logging import info as loginfo
 import ipdb
-
+from multiprocessing import Pool
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
@@ -18,34 +18,40 @@ class Command(BaseCommand):
         ethereumblockmodel = EthereumBlockModel.objects.all().order_by('-number')[0]
         startblockheight = ethereumblockmodel.number
         blocknumber = w3.eth.blockNumber
+        pools = Pool(16)
         for height in range(startblockheight, blocknumber+1):
-            block = w3.eth.getBlock(height, True)
-            # block data
-            EthereumBlockModel.objects.get_or_create(
-                number=block['number'],
-                defaults={
-                    'hash': block['hash'].hex(),
-                    'parent_hash': block['parentHash'].hex(),
-                    'nonce': block['nonce'].hex(),
-                    'transactions_root': block['transactionsRoot'].hex(),
-                    'state_root': block['stateRoot'].hex(),
-                    'receipts_root': block['receiptsRoot'].hex(),
-                    'miner': str(block['miner']),
-                    'difficulty': block['difficulty'],
-                    'total_difficulty': block['totalDifficulty'],
-                    'extra_data': block['extraData'].hex(),
-                    'size': block['size'],
-                    'gas_limit': str(block['gasLimit']),
-                    'gas_used': str(block['gasUsed']),
-                    'timestamp': int(block['timestamp']),
-                }
-            )
-            print("block Number:", block['number'], "Block Hash:", block['hash'].hex())
-            # transactions
-            transactions = block['transactions']
-            for transaction in transactions:
-                self.store_transaction(transaction)
-                self.store_transaction_receipt(w3, transaction['hash'])
+            pools.apply_async(func=self.handle_block, args=(w3, height))
+        pools.close()
+        pools.join()
+
+    def handle_block(self,w3, height):
+        block = w3.eth.getBlock(height, True)
+        # block data
+        EthereumBlockModel.objects.get_or_create(
+            number=block['number'],
+            defaults={
+                'hash': block['hash'].hex(),
+                'parent_hash': block['parentHash'].hex(),
+                'nonce': block['nonce'].hex(),
+                'transactions_root': block['transactionsRoot'].hex(),
+                'state_root': block['stateRoot'].hex(),
+                'receipts_root': block['receiptsRoot'].hex(),
+                'miner': str(block['miner']),
+                'difficulty': block['difficulty'],
+                'total_difficulty': block['totalDifficulty'],
+                'extra_data': block['extraData'].hex(),
+                'size': block['size'],
+                'gas_limit': str(block['gasLimit']),
+                'gas_used': str(block['gasUsed']),
+                'timestamp': int(block['timestamp']),
+            }
+        )
+        print("block Number:", block['number'], "Block Hash:", block['hash'].hex())
+        # transactions
+        transactions = block['transactions']
+        for transaction in transactions:
+            self.store_transaction(transaction)
+            self.store_transaction_receipt(w3, transaction['hash'])
 
     def store_transaction_receipt(self, web3, txhash):
         receipt = web3.eth.getTransactionReceipt(txhash.hex())
