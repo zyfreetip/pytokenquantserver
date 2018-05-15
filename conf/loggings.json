@@ -94,7 +94,7 @@
         },
         "block_eth_address": {
             "level": "INFO",
-            "handlers": ["console", "logfile_eth_adress"],
+            "handlers": ["console", "logfile_eth_address"],
             "propagate": true
         }
     }
