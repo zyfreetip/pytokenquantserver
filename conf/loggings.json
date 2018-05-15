@@ -59,7 +59,7 @@
         },
         "logfile_eth_block": {
             "level": "INFO",
-            "class": "logging.handlers.RotatingFilelHandler",
+            "class": "logging.handlers.RotatingFileHandler",
             "filename": "/home/ubuntu/data/logs/blockserver/block_eth_block.log",
             "maxBytes": 104857600,
             "backupCount": 30,
