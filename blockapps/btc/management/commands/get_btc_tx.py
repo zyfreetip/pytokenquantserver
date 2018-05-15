@@ -133,5 +133,5 @@ def parse_txs(height, ip, port ,rpc_user, rpc_password):
                                                   'inputs_value': inputs_value,
                                                   'confirmations': confirmations,
                                                   })
-        log_notify.info('btc tx block height(%s) success' % (height))
+    log_notify.info('btc tx block height(%s) success' % (height))
         
