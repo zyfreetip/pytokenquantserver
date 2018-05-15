@@ -5,6 +5,7 @@ encoding//blockapps/blockdjcom/basecommand.py=utf8
 encoding//blockapps/blockdjcom/baseviews.py=utf8
 encoding//blockapps/blockdjcom/decorators.py=utf8
 encoding//blockapps/blockdjcom/utils.py=utf8
+encoding//blockapps/btc/basemodels.py=utf8
 encoding//blockapps/btc/management/commands/get_address_stats.py=utf8
 encoding//blockapps/btc/management/commands/get_btc_block.py=utf8
 encoding//blockapps/btc/management/commands/get_btc_tx.py=utf8

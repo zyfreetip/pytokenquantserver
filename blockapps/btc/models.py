@@ -214,3 +214,7 @@ class Db%(dbnum)02dBtcAddress%(suffix)03dModel(BtcAddressModel):
         db_table = 'btc_address%(suffix)03d'
 %(varname)s = Db%(dbnum)02dBtcAddress%(suffix)03dModel
 ''')
+
+for dbindex in range(DBNUM):
+    for suffix in range(1000):
+        BtcAddressModels.model(dbindex, suffix)
