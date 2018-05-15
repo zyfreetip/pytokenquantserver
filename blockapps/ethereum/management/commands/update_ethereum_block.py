@@ -62,7 +62,7 @@ class Command(BaseCommand):
             status = int(receipt['status'], 16)
         except KeyError as e:
             status = 9
-        print("transaction receipt status:", status)
+        print("transaction receipt status:", status, " current thread:", threading.current_thread().name)
         EthereumTransactionReceiptModel.objects.get_or_create(
             txhash=receipt['transactionHash'].hex(),
             defaults={
@@ -95,4 +95,4 @@ class Command(BaseCommand):
 
              }
         )
-        print("Transaction Hash:", transaction['hash'].hex())
+        print("Transaction Hash:", transaction['hash'].hex(), " current thread:", threading.current_thread().name)

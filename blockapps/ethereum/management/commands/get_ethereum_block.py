@@ -3,13 +3,15 @@ from django.core.management.base import BaseCommand
 from ethereum.models import EthereumBlockModel, EthereumTransactionModel, EthereumTransactionReceiptModel
 from web3 import Web3, HTTPProvider
 from logging import info as loginfo
+import threading
 import ipdb
-from multiprocessing import Pool
+from concurrent.futures import ThreadPoolExecutor
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--ip', dest='ip', required=True, help='ip address')
         parser.add_argument('--port', dest='port', required=True, help='RPC port')
+        self.pool = ThreadPoolExecutor(max_workers=32)
 
     def handle(self, *args, **options):
         ip = options['ip']
@@ -18,12 +20,9 @@ class Command(BaseCommand):
         # ethereumblockmodel = EthereumBlockModel.objects.all().order_by('-number')[0]
         # startblockheight = ethereumblockmodel.height
         blocknumber = w3.eth.blockNumber
-        pools = Pool(16)
         for height in range(1, blocknumber+1):
             block = w3.eth.getBlock(height, True)
-            pools.apply_async(func=self.handle_block, args=(w3, block))
-        pools.close()
-        pools.join()
+            self.pool.submit(self.handle_block, w3, block)
 
     def handle_block(self, w3, block):
         # block data
@@ -48,7 +47,7 @@ class Command(BaseCommand):
             }
 
         )
-        print("nummber:", block['number'], "block hash:", block['hash'].hex())
+        print("nummber:", block['number'], "block hash:", block['hash'].hex(), threading.current_thread().name)
         # transactions
         transactions = block['transactions']
         for transaction in transactions:

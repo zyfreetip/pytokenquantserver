@@ -5,17 +5,20 @@ from web3 import Web3, HTTPProvider
 from logging import info as loginfo
 import ipdb
 from multiprocessing import Pool
+import threading
+from concurrent.futures import ThreadPoolExecutor
 
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--ip', dest='ip', required=True, help='ip address')
         parser.add_argument('--port', dest='port', required=True, help='RPC port')
+        self.pool = ThreadPoolExecutor(max_workers=32)
 
     def handle(self, *args, **options):
         ip = options['ip']
         port = options['port']
-        print("ip:", ip, "port", port)
+        print("ip:", ip, "port", port, threading.current_thread().name)
         w3 = Web3(HTTPProvider(ip + ':' + port))
         block_number = w3.eth.blockNumber
         ethereumblockmodels = EthereumBlockModel.objects.all().order_by('-number')
@@ -28,20 +31,18 @@ class Command(BaseCommand):
             for number in range(start_block_number, block_number+1):
                 block = w3.eth.getBlock(number, True)
                 # self.get_info(block, w3)
-                pools.apply_async(func=self.get_info, args=(block, w3))
+                self.pool.submit(self.get_info, block, w3)
 
         else:
             print('第一次获取数据')
             for number in range(1, block_number):
                 block = w3.eth.getBlock(number, True)
                 # self.get_info(block, w3)
-                pools.apply_async(func=self.get_info, args=(block, w3))
-        pools.close()
-        pools.join()
+                self.pool.submit(self.get_info, block, w3)
 
     def get_info(self, block, w3):
         transactions = self.get_transactions_from_block(block)
-        print("transactions count:", len(transactions), ' in block ', block['number'])
+        print("transactions count:", len(transactions), ' in block ', block['number'], threading.current_thread().name)
         for transaction in transactions:
             double_address = self.get_address_from_transaction(transaction)
             print('transaction: ', transaction['hash'].hex())
