@@ -1,6 +1,6 @@
 from scrapy.spiders import Spider
 from scrapy import Request
-from scrapytest.items import ScrapytestItem
+from deriIndiSpider.items import IcoStatsItem
 
 class ICOBenchSpider(Spider):
     name = 'icobench'
@@ -19,7 +19,7 @@ class ICOBenchSpider(Spider):
 
     def parse(self, response):
         print("current url:", response.url)
-        item = ScrapytestItem()
+        item = IcoStatsItem()
         project_name = response.xpath('//h1/text()').extract()[0]
         name = project_name[:project_name.find('(')].strip()
         item['ico_name'] = name
