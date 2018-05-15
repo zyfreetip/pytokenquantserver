@@ -207,6 +207,7 @@ class ModelGroup(object):
 
 BtcAddressModels = ModelGroup(DBNUM, 1000,
 '''
+from .basemodels import BaseBtcAddressModel
 class Db%(dbnum)02dBtcAddress%(suffix)03dModel(BtcAddressModel):
     class Meta(BtcAddressModel.Meta):
         abstract = False
