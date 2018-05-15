@@ -4,10 +4,14 @@ from ethereum.models import EthereumBlockModel, EthereumTransactionModel, Ethere
 from web3 import Web3, HTTPProvider
 import logging
 import ipdb
-from multiprocessing import Pool
-
+from concurrent.futures import ThreadPoolExecutor
 log_notify = logging.getLogger('block_eth_block')
+import threading
+
 class Command(BaseCommand):
+    def __init__(self):
+        self.pool = ThreadPoolExecutor(max_workers=32)
+
     def add_arguments(self, parser):
         parser.add_argument('--ip', dest='ip', required=True, help='ip address')
         parser.add_argument('--port', dest='port', required=True, help='RPC port')
@@ -19,11 +23,8 @@ class Command(BaseCommand):
         ethereumblockmodel = EthereumBlockModel.objects.all().order_by('-number')[0]
         startblockheight = ethereumblockmodel.number
         blocknumber = w3.eth.blockNumber
-        pools = Pool(16)
         for height in range(startblockheight, blocknumber+1):
-            pools.apply_async(func=self.handle_block, args=(w3, height))
-        pools.close()
-        pools.join()
+            self.pool.submit(self.handle_block, (w3, height))
 
     def handle_block(self,w3, height):
         block = w3.eth.getBlock(height, True)
