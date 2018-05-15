@@ -48,7 +48,7 @@ class Command(BaseCommand):
                 'timestamp': int(block['timestamp']),
             }
         )
-        print("block Number:", block['number'], "Block Hash:", block['hash'].hex())
+        print("block Number:", block['number'], "Block Hash:", block['hash'].hex(), " current thread:", threading.current_thread().name)
         # transactions
         transactions = block['transactions']
         for transaction in transactions:
