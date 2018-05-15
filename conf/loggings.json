@@ -52,7 +52,7 @@
         "logfile_eth_address": {
             "level": "INFO",
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": "/home/ubuntu/data/logs/blockserver/block_eth_adress.log"
+            "filename": "/home/ubuntu/data/logs/blockserver/block_eth_adress.log",
             "maxBytes": 104857600,
             "backupCount": 30,
             "formatter": "simple"
