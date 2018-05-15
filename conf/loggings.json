@@ -51,13 +51,19 @@
         },
         "logfile_eth_address": {
             "level": "INFO",
-            "class": "logging.handlers.RotatingFielHandler",
+            "class": "logging.handlers.RotatingFileHandler",
             "filename": "/home/ubuntu/data/logs/blockserver/block_eth_adress.log"
+            "maxBytes": 104857600,
+            "backupCount": 30,
+            "formatter": "simple"
         },
         "logfile_eth_block": {
             "level": "INFO",
-            "class": "logging.handlers.RotatingFielHandler",
-            "filename": "/home/ubuntu/data/logs/blockserver/block_eth_block.log"
+            "class": "logging.handlers.RotatingFilelHandler",
+            "filename": "/home/ubuntu/data/logs/blockserver/block_eth_block.log",
+            "maxBytes": 104857600,
+            "backupCount": 30,
+            "formatter": "simple"
         }
 
     },
