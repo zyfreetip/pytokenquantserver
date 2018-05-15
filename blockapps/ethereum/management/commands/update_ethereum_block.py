@@ -2,10 +2,11 @@
 from django.core.management.base import BaseCommand
 from ethereum.models import EthereumBlockModel, EthereumTransactionModel, EthereumTransactionReceiptModel
 from web3 import Web3, HTTPProvider
-from logging import info as loginfo
+import logging
 import ipdb
 from multiprocessing import Pool
 
+log_notify = logging.getLogger('block_eth_block')
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--ip', dest='ip', required=True, help='ip address')
@@ -46,7 +47,7 @@ class Command(BaseCommand):
                 'timestamp': int(block['timestamp']),
             }
         )
-        print("block Number:", block['number'], "Block Hash:", block['hash'].hex())
+        log_notify.info("block Number:", block['number'], "Block Hash:", block['hash'].hex())
         # transactions
         transactions = block['transactions']
         for transaction in transactions:
@@ -60,7 +61,7 @@ class Command(BaseCommand):
             status = int(receipt['status'], 16)
         except KeyError as e:
             status = 9
-        print("transaction receipt status:", status)
+        log_notify.info("transaction receipt status:", status)
         EthereumTransactionReceiptModel.objects.get_or_create(
             txhash=receipt['transactionHash'].hex(),
             defaults={
@@ -93,4 +94,4 @@ class Command(BaseCommand):
 
              }
         )
-        print("Transaction Hash:", transaction['hash'].hex())
+        log_notify.info("Transaction Hash:", transaction['hash'].hex())

@@ -48,7 +48,18 @@
             "maxBytes": 104857600,
             "backupCount": 30,
             "formatter": "simple"
+        },
+        "logfile_eth_address": {
+            "level": "INFO",
+            "class": "logging.handlers.RotatingFielHandler",
+            "filename": "/home/ubuntu/data/logs/blockserver/block_eth_adress.log"
+        },
+        "logfile_eth_block": {
+            "level": "INFO",
+            "class": "logging.handlers.RotatingFielHandler",
+            "filename": "/home/ubuntu/data/logs/blockserver/block_eth_block.log"
         }
+
     },
     "loggers": {
         "django": {
@@ -68,6 +79,16 @@
         "block_btc_tx_logs": {
             "level": "INFO",
             "handlers": ["console", "logfile_blockbtctx"],
+            "propagate": true
+        },
+        "block_eth_block": {
+            "level": "INFO",
+            "handlers": ["console", "logfile_eth_block"],
+            "propagate": true
+        },
+        "block_eth_address": {
+            "level": "INFO",
+            "handlers": ["console", "logfile_eth_adress"],
             "propagate": true
         }
     }
