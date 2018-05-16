@@ -300,8 +300,8 @@ class icoInfo(object):
             ipdb.set_trace()
             record_json_str = serializers.serialize('json', [record,])
             record_json_object = json.loads(record_json_str)
-            fields_json = record_json_object["fields"]
+            fields_json = record_json_object[0]["fields"]
             result.append(fields_json)
-            print(result)
+            # print(result)
 
         return result
