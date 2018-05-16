@@ -298,7 +298,10 @@ class icoInfo(object):
         ico_records = IcoDataModel.objects.all()
         for record in ico_records:
             ipdb.set_trace()
-            record = serializers.serialize('json', [record,])
-            record = json.loads(record)
-            result.append(record["fields"])
+            record_json_str = serializers.serialize('json', [record,])
+            record_json_object = json.loads(record)
+            fields_json = record["fields"]
+            result.append(fields_json)
+            print(result)
+
         return result
