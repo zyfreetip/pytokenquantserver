@@ -1,5 +1,5 @@
 from icoinfo.models import IcoStatsModel, IcoSocialMediaModel, IcoGithubStatsModel, IcoExchangesStatsModel,\
-                            IcoBasicInfoModel
+                            IcoBasicInfoModel, IcoDataModel
 
 class icoInfo(object):
 
@@ -288,3 +288,7 @@ class icoInfo(object):
                 {'turnover_rate': turnover_rate},
             ]
         return result
+
+    def getIcoinfo(self, ctx):
+        ico_records = IcoDataModel.objects.get()
+        return ico_records

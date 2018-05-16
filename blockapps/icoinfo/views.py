@@ -141,4 +141,25 @@ class getBlockMarketCapView(JsonView):
     def doGet(self, ctx):
         result = self.icoInfo.getBlockMarketcap(ctx)
         return result
-    
+
+class getIcoinfoView(JsonView):
+    @override
+    def init(self, ctx):
+        self.icoInfo = icoInfo()
+
+    @verify_ctx_required
+    @unify_params
+    def json(self, ctx, request, jrequest, params, *args, **kwargs):
+        result = []
+        data = params
+        if not data:
+            result.extend(self.doGet(ctx))
+        return result
+
+    def unify_params(self, request, jrequest):
+        data = jrequest.get('data', [])
+        return data
+
+    def doGet(self, ctx):
+        result = self.icoInfo.getIcoinfo(ctx)
+        return result
