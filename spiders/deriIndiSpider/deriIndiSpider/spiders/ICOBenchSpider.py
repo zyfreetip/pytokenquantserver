@@ -49,7 +49,7 @@ class ICOBenchSpider(Spider):
 
         # token总量
         try:
-            tokens = response.xpath
+            tokens = response.xpath("//div[@class='label' and text()='Tokens for sale']/following-sibling::div/text()").extract()[0]
             item['tokens'] = tokens
         except IndexError as e:
             print("token name not exist or xpath error in ", response.url)
