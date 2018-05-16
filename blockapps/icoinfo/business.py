@@ -2,6 +2,7 @@ from icoinfo.models import IcoStatsModel, IcoSocialMediaModel, IcoGithubStatsMod
                             IcoBasicInfoModel, IcoDataModel
 import ipdb;
 from django.core import serializers
+import json
 
 
 class icoInfo(object):
@@ -293,9 +294,11 @@ class icoInfo(object):
         return result
 
     def getIcoinfo(self, ctx):
+        result = []
         ico_records = IcoDataModel.objects.all()
         for record in ico_records:
             ipdb.set_trace()
             record = serializers.serialize('json', [record,])
-            print(record)
-        return record
+            record = json.loads(record)
+            result.append(record["fields"])
+        return result
