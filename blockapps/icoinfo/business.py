@@ -1,5 +1,7 @@
 from icoinfo.models import IcoStatsModel, IcoSocialMediaModel, IcoGithubStatsModel, IcoExchangesStatsModel,\
                             IcoBasicInfoModel, IcoDataModel
+import ipdb;
+
 
 class icoInfo(object):
 
@@ -290,5 +292,8 @@ class icoInfo(object):
         return result
 
     def getIcoinfo(self, ctx):
-        ico_records = IcoDataModel.objects.get()
-        return ico_records
+        ico_records = IcoDataModel.objects.all()
+        for record in ico_records:
+            ipdb.set_trace()
+            print(record)
+        return record
