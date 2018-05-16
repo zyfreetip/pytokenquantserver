@@ -23,7 +23,6 @@ class Command(BaseCommand):
         block_number = w3.eth.blockNumber
         ethereumblockmodels = EthereumBlockModel.objects.all().order_by('-number')
         # 暂时去除增量更新功能
-        pools = Pool(16)
         ethereumblockmodels = []
         if ethereumblockmodels:
             print('更新数据')
