@@ -29,7 +29,7 @@ class Command(BaseCommand):
         start_block_height = blocks_flags['btc']['tx_block_height'] if blocks_flags['btc']['tx_block_height'] else 1
         end_block_height = blockcount
         log_notify.info('btc tx block height from %s to %s' % (start_block_height, end_block_height))
-        processpools = Pool(16)  
+        processpools = Pool(30)  
         for height in range(start_block_height, end_block_height+1):
             processpools.apply_async(func=parse_txs, args=(height, ip, port, rpc_user, rpc_password))
         processpools.close()

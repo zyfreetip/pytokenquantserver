@@ -3,7 +3,15 @@ from django.db import models
 from django.utils import timezone
 from djcom.admin_perms import PermissionsMixin
 from djcom.utils import dt1970
-
+import math
+from django.db import models, router, connections
+from djcom.admin_perms import PermissionsMixin
+from blockdjcom.constants import DBNUM
+from random import randint
+from django.forms.models import model_to_dict
+from django.db.transaction import atomic
+from traceback import print_exc
+from .basemodels import BaseBtcAddressModel
 class BtcBlockModel(PermissionsMixin):
 
     class Meta(PermissionsMixin.Meta):
@@ -157,3 +165,56 @@ class BtcStatsModel(PermissionsMixin):
         return 'blocks_last_24h(%s) blocks_avg_perhour(%s)' %\
             (self.blocks_last_24h, self.blocks_avg_perhour)
     
+class ModelGroupIterator(object):
+    def __init__(self, sself):
+        self.sself = sself
+        self._iterIndex = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self._iterIndex < self.sself.endIndex:
+            dbindex = self._iterIndex / self.sself.suffixCount
+            suffixindex = self._iterIndex % self.sself.suffixCount
+            self._iterIndex += 1
+            return self.sself.model(dbindex, suffixindex)
+        else:
+            raise StopIteration
+
+class ModelGroup(object):
+    def __init__(self, dbnumCount, suffixCount, pyfmt):
+        self.pyfmt = pyfmt
+        self.mod_objid = 100
+        self.dbnumCount = dbnumCount
+        self.suffixCount = suffixCount
+        self.endIndex = self.dbnumCount * self.suffixCount
+        self.modelMap = {}
+        for dbnum in range(dbnumCount):
+            self.modelMap[dbnum] = [None] * suffixCount
+
+    def model(self, dbindex, suffix=0):
+        modelList = self.modelMap[dbindex]
+        if modelList[suffix] is None:
+            pycode = self.pyfmt % {'dbnum': dbindex+1, 'suffix': suffix,
+                                   'varname': 'modelx'}
+            exec(pycode)
+            modelList[suffix] = eval('modelx')
+        return modelList[suffix]
+
+    def __iter__(self):
+        return ModelGroupIterator(self)
+
+BtcAddressModels = ModelGroup(DBNUM, 200,
+'''
+from .basemodels import BaseBtcAddressModel
+class Db%(dbnum)02dBtcAddress%(suffix)03dModel(BaseBtcAddressModel):
+    class Meta(BaseBtcAddressModel.Meta):
+        abstract = False
+        db_table = 'btc_address%(suffix)03d'
+%(varname)s = Db%(dbnum)02dBtcAddress%(suffix)03dModel
+''')
+
+for dbindex in range(DBNUM):
+    for suffix in range(200):
+        BtcAddressModels.model(dbindex, suffix)
