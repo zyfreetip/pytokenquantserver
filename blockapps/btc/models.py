@@ -196,7 +196,7 @@ class ModelGroup(object):
     def model(self, dbindex, suffix=0):
         modelList = self.modelMap[dbindex]
         if modelList[suffix] is None:
-            pycode = self.pyfmt % {'dbnum': dbindex+1, 'suffix': suffix,
+            pycode = self.pyfmt % {'dbnum': dbindex+1, 'suffix': suffix+1,
                                    'varname': 'modelx'}
             exec(pycode)
             modelList[suffix] = eval('modelx')
@@ -205,7 +205,7 @@ class ModelGroup(object):
     def __iter__(self):
         return ModelGroupIterator(self)
 
-BtcAddressModels = ModelGroup(DBNUM, 200,
+BtcAddressModels = ModelGroup(DBNUM, 10,
 '''
 from .basemodels import BaseBtcAddressModel
 class Db%(dbnum)02dBtcAddress%(suffix)03dModel(BaseBtcAddressModel):
@@ -216,5 +216,5 @@ class Db%(dbnum)02dBtcAddress%(suffix)03dModel(BaseBtcAddressModel):
 ''')
 
 for dbindex in range(DBNUM):
-    for suffix in range(200):
+    for suffix in range(10):
         BtcAddressModels.model(dbindex, suffix)
