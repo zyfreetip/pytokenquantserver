@@ -85,5 +85,5 @@ class DbRouter:
                         return True
         return None
 # init mult db map
-for suffix in range(1,11):
+for suffix in range(1,10):
     DbRouter.DB_MAP['btc']['btc_address%03d' % suffix] = ('btc_address_ro', 'btc_address')

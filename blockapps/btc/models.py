@@ -218,3 +218,17 @@ class Db%(dbnum)02dBtcAddress%(suffix)03dModel(BaseBtcAddressModel):
 for dbindex in range(DBNUM):
     for suffix in range(10):
         BtcAddressModels.model(dbindex, suffix)
+        
+class BtcAddressDao(object):
+    def getModel(self, address):
+        lastchar = address[-1]
+        dbindex = 0 
+        suffix = ord(lastchar) % 10
+        model = BtcAddressModels.model(dbindex, suffix)
+        return model
+    
+    def getAddress(self, address):
+        model = self.getModel(address)
+        addressmodel = model.objects.filter(address=address)
+        return addressmodel
+        
