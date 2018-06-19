@@ -30,42 +30,25 @@
             "class": "logging.handlers.RotatingFileHandler",
             "filename": "/home/ubuntu/data/logs/blockserver/blockserver.log",
             "formatter": "verbose",
-			"maxBytes": 104857600,
-			"backupCount": 30
+	    "maxBytes": 104857600,
+	    "backupCount": 30
         },
-        "logfile_blockbtc": {
+        "logfile_markettrade_fcoin": {
             "level": "INFO",
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": "/home/ubuntu/data/logs/blockserver/block_btc.log",
+            "filename": "/home/ubuntu/data/logs/fcoin/market_trade.log",
             "maxBytes": 104857600,
             "backupCount": 30,
             "formatter": "simple"
         },
-        "logfile_blockbtctx": {
+        "logfile_fcoin_auto_trade_log":{
             "level": "INFO",
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": "/home/ubuntu/data/logs/blockserver/block_btc_tx.log",
+            "filename": "/home/ubuntu/data/logs/fcoin/auto_trade.log",
             "maxBytes": 104857600,
             "backupCount": 30,
-            "formatter": "simple"
-        },
-        "logfile_eth_address": {
-            "level": "INFO",
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": "/home/ubuntu/data/logs/blockserver/block_eth_adress.log",
-            "maxBytes": 104857600,
-            "backupCount": 30,
-            "formatter": "simple"
-        },
-        "logfile_eth_block": {
-            "level": "INFO",
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": "/home/ubuntu/data/logs/blockserver/block_eth_block.log",
-            "maxBytes": 104857600,
-            "backupCount": 30,
-            "formatter": "simple"
+            "formatter": "verbose"
         }
-
     },
     "loggers": {
         "django": {
@@ -77,24 +60,14 @@
             "level": "INFO",
             "propagate": true
         },
-        "block_btc_logs": {
+        "fcoin_market_trade_log": {
             "level": "INFO",
-            "handlers": ["console", "logfile_blockbtc"],
+            "handlers": ["console", "logfile_markettrade_fcoin"],
             "propagate": true
         },
-        "block_btc_tx_logs": {
+        "fcoin_auto_trade_log": {
             "level": "INFO",
-            "handlers": ["console", "logfile_blockbtctx"],
-            "propagate": true
-        },
-        "block_eth_block": {
-            "level": "INFO",
-            "handlers": ["console", "logfile_eth_block"],
-            "propagate": true
-        },
-        "block_eth_address": {
-            "level": "INFO",
-            "handlers": ["console", "logfile_eth_address"],
+            "handlers": ["console", "logfile_fcoin_auto_trade_log"],
             "propagate": true
         }
     }

@@ -201,9 +201,7 @@ INSTALLED_APPS.extend((
     'djcom',
     'blockdjcom',
     'blockserver',
-	'btc',
-    'ethereum',
-    'icoinfo'
+    'fcoin'
     ))
 
 

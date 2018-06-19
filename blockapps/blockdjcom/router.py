@@ -1,36 +1,9 @@
 class DbRouter:
-    DB_MAP = {  'btc':
+    DB_MAP = {
+                'fcoin':
                 {
-                 'btc_block': ('btc_block_ro', 'btc_block'),
-                 'btc_address': ('btc_address_ro', 'btc_address'),
-                 'btc_transaction':('btc_transaction_ro', 'btc_transaction'),
-                 'btc_output_transaction':('btc_output_transaction_ro', 'btc_output_transaction'),
-                 'btc_input_transaction':('btc_input_transaction_ro', 'btc_input_transaction'),
-                 'btc_stats':('btc_stats_ro', 'btc_stats'),
-                 'btc_index':('btc_index_ro', 'btc_index'),
+                 'market_trade_order': ('market_trade_order_ro', 'market_trade_order'),
                 },
-                'ethereum':
-                {
-                 'ethereum_block': ('ethereum_block_ro', 'ethereum_block'),
-                 'ethereum_address': ('ethereum_address_ro', 'ethereum_address'),
-                 'ethereum_transaction':('ethereum_transaction_ro', 'ethereum_transaction'),
-                 'ethereum_transaction_receipt':('ethereum_transaction_receipt_ro', 'ethereum_transaction_receipt'),
-                 'ethereum_stats':('ethereum_stats_ro', 'ethereum_stats'),
-                 'ethereum_index':('ethereum_index_ro', 'ethereum_index'),
-                },
-                'huobi':
-                {'huobi_btc_stats': ('huobi_btc_stats_ro', 'huobi_btc_stats'),
-                 'huobi_ethereum_stats': ('huobi_ethereum_stats_ro', 'huobi_ethereum_stats'),
-                },
-				'icoinfo':
-				{
-				'ico_data': ('ico_data_ro', 'ico_data'),
-                'ico_social_medial': ('ico_social_medial_ro', 'ico_social_medial'),
-                'ico_github_stats': ('ico_github_stats_ro', 'ico_github_stats'),
-                'ico_exchanges_stats': ('ico_exchanges_stats_ro', 'ico_exchanges_stats'),
-                'ico_stats': ('ico_stats_ro', 'ico_stats'),
-                'ico_basic_info': ('ico_basic_info_ro', 'ico_basic_info'),
-				}
             }
 
     def _getRoDB(self, mapinfo, model=None):
@@ -84,6 +57,3 @@ class DbRouter:
                     if mapinfo[1] == db:
                         return True
         return None
-# init mult db map
-for suffix in range(1,10):
-    DbRouter.DB_MAP['btc']['btc_address%03d' % suffix] = ('btc_address_ro', 'btc_address')

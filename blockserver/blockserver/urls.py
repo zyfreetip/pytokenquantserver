@@ -24,5 +24,4 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    url(r'blockchain/api/v1/icoinfo/', include('icoinfo.urls')),
 ]
