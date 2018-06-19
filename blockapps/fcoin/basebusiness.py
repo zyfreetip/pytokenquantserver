@@ -37,6 +37,12 @@ class baseFcoin(object):
         result = requests.get(self.url + suf)
         return result.json()
 
+    # 获取蜡烛图
+    def get_market_candles(self, symbol, level):
+        suf = 'market/candles/' + level + '/' + symbol
+        result = requests.get(self.url + suf)
+        return result.json()
+
     # 获取用户资产
     def get_balance(self):
         suf = 'accounts/balance'
