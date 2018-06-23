@@ -50,7 +50,6 @@ class baseFcoin(object):
         TIMESTAMP = str(int(round(t * 1000)))
         self.create_headers('GET', self.access_url + suf, TIMESTAMP, '', self.public_key, self.secret_key)
         r = requests.get(self.url + suf, headers=self.headers)
-        print(r.json())
         return r.json()
 
     # 创建新的订单
@@ -76,8 +75,6 @@ class baseFcoin(object):
         TIMESTAMP = int(round(time.time() * 1000))
         self.create_headers('POST', self.access_url + suf, TIMESTAMP, payload, self.public_key, self.secret_key)
         r = requests.post(self.url + suf, data=json.dumps(payload), headers=self.headers)
-        print(r.url)
-        print(r.json())
         return r.json()
 
 
@@ -113,7 +110,6 @@ class baseFcoin(object):
         TIMESTAMP = str(int(round(time.time() * 1000)))
         self.create_headers('GET', url_suf, TIMESTAMP, '', self.public_key, self.secret_key)
         r = requests.get(self.url + suf, params=payload, headers=self.headers)
-        print(r.json())
         return r.json()
 
 
@@ -127,7 +123,6 @@ class baseFcoin(object):
         TIMESTAMP = str(int(round(time.time() * 1000)))
         self.create_headers('GET', self.access_url + suf, TIMESTAMP, '', self.public_key, self.secret_key)
         r = requests.get(self.url + suf, headers=self.headers)
-        print(r.json())
         return r.json()
 
     # 申请撤销订单
@@ -136,7 +131,6 @@ class baseFcoin(object):
         TIMESTAMP = str(int(round(time.time() * 1000)))
         self.create_headers('POST', self.access_url + suf, TIMESTAMP, '', self.public_key, self.secret_key)
         r = requests.post(self.url + suf, headers=self.headers)
-        print(r.json())
         return r.json()
 
     # 查询指定订单的成交记录
@@ -145,8 +139,6 @@ class baseFcoin(object):
         TIMESTAMP = str(int(round(time.time() * 1000)))
         self.create_headers('GET', self.access_url + suf, TIMESTAMP, '', self.public_key, self.secret_key)
         r = requests.get(self.url + suf, headers=self.headers)
-        print(r.url)
-        print(r.json())
         return r.json()
 
     def sort_payload(self, payload):

@@ -25,7 +25,8 @@ class Command(BaseCommand):
         ordersToSell = fcoin.get_orders_to_sell(symbol)
         # 否则就先卖出该笔订单
         for orderToSell in ordersToSell:
-            fcoin.do_sell_policy(orderToSell['symbol'], float(orderToSell['buy_price']), float(orderToSell['filled_amount']))
+            pass
+            #fcoin.do_sell_policy(orderToSell['symbol'], float(orderToSell['buy_price']), float(orderToSell['filled_amount']))
         # policy1: 低买高卖策略: buy_price < sell_price * (1 + 0.00004)
         buy_price, buy_amount = fcoin.do_buy_policy(symbol, percent)
         fcoin.do_sell_policy(symbol, buy_price, buy_amount)
