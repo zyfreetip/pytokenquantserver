@@ -1,0 +1,236 @@
+﻿{% extends "base.html" %}
+{% block base_content %}
+<div class="ui container grid">
+  <div class="six wide column">
+    <div class="ui segment">
+      <div class="data statics">
+    <form class="ui form" action="{% url 'manage_datastats' %}" target="_blank" method="get">
+    <h1>数据统计</h1>
+    <div class="ui divider"></div>
+    <div class="ui header"><label for="hardware">设备型号</label></div>
+      <div class="fields">
+        {% for hardware,name in hardwares %}
+        <div class="field">
+          <div class="ui checkbox" >
+            <input type="checkbox" name="{{ name }}" tabindex="0" class="hidden">
+            <label>{{ hardware }}</label> 
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+       <div class="ui header"><label for="channel">制造商(供货商)</label></div>
+      <div>
+        {% for channel,name in channels %}
+        <div class="field">
+          <div class="ui checkbox" >
+            <input type="checkbox" name="{{ name }}" tabindex="0" class="hidden">
+            <label>{{ channel }}</label> 
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="ui header"><label for="sales">销售商(客户)</label></div>
+      <div>
+        {% for sale, name in sales %}
+        <div class="field">
+          <div class="ui checkbox" >
+            <input type="checkbox" name="{{ name }}" tabindex="0" class="hidden">
+            <label>{{ sale }}</label> 
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="ui header"><label for="activecode">奖励卡类型</label></div>
+      <div class="fields">
+        {% for activecode, name in activecodes %}
+        <div class="field">
+          <div class="ui checkbox" >
+            <input type="checkbox" name="{{ name }}" tabindex="0" class="hidden">
+            <label>{{ activecode }}</label> 
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="inline fields">
+        <div class="ui grid">
+          <div class="ui five wide column">
+            <div class="ui header"><label> 入库时间 </label></div>
+          </div>
+          <div class="ui five wide column">
+                <div class="field">
+                  <div class="ui small input icon left" id="date1">
+                    <i class="calendar icon"></i>
+                      <input type="text" placeholder="开始" name="starttime1" style="width: 100px;">
+                  </div>
+                </div>
+              </div>
+            <div class="six wide column">
+            <div class="field">
+              <div class="ui small input icon left" id="date2">
+                <i class="calendar icon"></i>
+                <input type="text" placeholder="结束" name="endtime1" style="width: 100px;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+       <div class="inline fields">
+        <div class="ui grid">
+          <div class="ui five wide column">
+            <div class="ui header"><label> 出库时间 </label></div>
+          </div>
+          <div class="ui five wide column">
+                <div class="field">
+                  <div class="ui small input icon left" id="date3">
+                    <i class="calendar icon"></i>
+                      <input type="text" placeholder="开始" name="starttime1" style="width: 100px;">
+                  </div>
+                </div>
+              </div>
+            <div class="six wide column">
+            <div class="field">
+              <div class="ui small input icon left" id="date4">
+                <i class="calendar icon"></i>
+                <input type="text" placeholder="结束" name="endtime1" style="width: 100px;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <input class="ui primary submit button" type="submit" value="生成统计" />
+    </form>
+  </div>
+</div>
+  </div>
+  <div class="six wide column">
+    <div class="ui segment">
+      <div class="device statics">
+    <form class="ui form" action="{% url 'manage_devstats' %}" target="_blank" method="get">
+    <h1>数据统计</h1>
+    <div class="ui divider"></div>
+    <div class="ui header"><label for="hardware">设备型号</label></div>
+      <div class="fields">
+        {% for hardware,name in hardwares %}
+        <div class="field">
+          <div class="ui checkbox" >
+            <input type="checkbox" name="{{ name }}" tabindex="0" class="hidden">
+            <label>{{ hardware }}</label> 
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+       <div class="ui header"><label for="channel">制造商(供货商)</label></div>
+      <div>
+       {% for channel,name in channels %}
+        <div class="field">
+          <div class="ui checkbox" >
+            <input type="checkbox" name="{{ name }}" tabindex="0" class="hidden">
+            <label>{{ channel }}</label> 
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="ui header"><label for="sales">销售商(客户)</label></div>
+      <div>
+       {% for sale, name in sales %}
+        <div class="field">
+          <div class="ui checkbox" >
+            <input type="checkbox" name="{{ name }}" tabindex="0" class="hidden">
+            <label>{{ sale }}</label> 
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="ui header"><label for="activecode">奖励卡类型</label></div>
+      <div>
+        {% for activecode, name in activecodes %}
+        <div class="field">
+          <div class="ui checkbox" >
+            <input type="checkbox" name="{{ name }}" tabindex="0" class="hidden">
+            <label>{{ activecode }}</label> 
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="inline fields">
+        <div class="ui grid">
+          <div class="ui five wide column">
+            <div class="ui header"><label> 入库时间 </label></div>
+          </div>
+          <div class="ui five wide column">
+                <div class="field">
+                  <div class="ui small input icon left" id="date1">
+                    <i class="calendar icon"></i>
+                      <input type="text" placeholder="开始" name="starttime1" style="width: 100px;">
+                  </div>
+                </div>
+              </div>
+            <div class="six wide column">
+            <div class="field">
+              <div class="ui small input icon left" id="date2">
+                <i class="calendar icon"></i>
+                <input type="text" placeholder="结束" name="endtime1" style="width: 100px;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+       <div class="inline fields">
+        <div class="ui grid">
+          <div class="ui five wide column">
+            <div class="ui header"><label> 出库时间 </label></div>
+          </div>
+          <div class="ui five wide column">
+                <div class="field">
+                  <div class="ui small input icon left" id="date3">
+                    <i class="calendar icon"></i>
+                      <input type="text" placeholder="开始" name="starttime2" style="width: 100px;">
+                  </div>
+                </div>
+              </div>
+            <div class="six wide column">
+            <div class="field">
+              <div class="ui small input icon left" id="date4">
+                <i class="calendar icon"></i>
+                <input type="text" placeholder="结束" name="endtime2" style="width: 100px;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <input class="ui primary submit button" type="submit" value="查询" />
+    </form>
+  </div>
+</div>
+  </div>
+  <div class="four wide column">
+    <div class="device info">
+    <form class="ui form" action="{% url 'manage_devinfo' %}" target="_blank" method="get">
+    <div class="ui field"><div class="ui search input">
+      <input type="text" class="search" placeholder="输入设备序列号，查看某一设备详情" name="serial">
+      <input class="ui primary submit button" type="submit" value="查询" />
+    </div>
+  </div>
+  </form>
+  </div>
+</div>
+</div>
+</body>
+<script>
+  $('.ui.checkbox')
+  .checkbox()
+  ;
+  $('#date1, #date2, #date3, #date4').calendar({
+      type:'month',
+      formatter: { 
+        date: function(date, settings) {
+            if (!date) return '';
+            var year  = date.getFullYear();
+            var month = date.getMonth() + 1;
+            month = month < 10 ? '0'+month : month;
+            return year + '-' + month ;
+        }}});
+</script>
+
+
+{% endblock %}

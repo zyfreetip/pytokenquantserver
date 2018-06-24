@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block base_meta %}
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta name="description" content="{{ SITE_DESC }}"/>
+  <meta name="keywords" content="{{ SITE_KEYWORDS }}" />
+{% block meta %}{% endblock %}
+{% endblock %}
+
+{% block base_head %}{% block head %}{% endblock %}{% endblock %}
+{% block base_script %}{% block script %}{% endblock %}{% endblock %}
+{% block base_postscript %}
+{% block postscript %}{% endblock %}
+<script>
+$(function() {
+    $('.popup').popup();
+});
+</script>
+{% endblock %}
+
+{% block base_title %}
+{% block title %}{{ SITE_NAME }}{% endblock %} | {{ SITE_DOMAIN }} | {{ SITE_SLOGAN }}
+{% endblock %}
+
+{% block base_content %}
+{% block content %}
+<div class="ui stackable grid container">
+    <div class="ui four wide column">
+      {% include "snippets/main_sidebar.html" %}
+    </div>
+    <div class="ui twelve wide column">
+      {% block manage %}
+      {% endblock %}
+    </div>
+</div>
+{% endblock %}
+{% endblock %}

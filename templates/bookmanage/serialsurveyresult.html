@@ -1,0 +1,41 @@
+﻿{% extends "bookmanage/base.html" %}
+{% block manage %}
+<div class="ui segment">
+	<div class="ui header">体验管理</div>
+		<div class="ui two column stackable grid">
+			<div class="ui column">
+				<div class="ui left">
+					<div class="ui basic button"><a href={% url 'manage_surveyresult' %}>返回体验管理页面</a></div>
+				</div>
+			</div>
+			<div class="ui column">
+				<div class="ui right">
+					<form action="{% url 'manage_surveyserial' %}" method="get" accept-charset="utf-8">
+				  		<div class="ui search">
+							<div class="ui icon input small">
+						  		<input type="text" name="serial" placeholder="输入序列号，查询历月评价" />
+						  		<input type="submit" value="查询" />
+						  		<i class="search icon"></i>
+							</div>
+							<div class="results"></div>
+			  			</div>
+			 		</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<table class="ui celled table">
+   <div class="ui header">{{ serial }} 的历月评价</div>
+  	<tbody>
+  		{% for result in surveyresult %}
+  			<tr>
+  			{% for item in result %}
+  			<td>{{ item }}</td>
+  			{% endfor %}
+            </tr>
+    	{% endfor %}
+  	</tbody>
+  </table>
+<div class="ui right aligned container"><a href="{% url 'manage_surveyserial' %}?starttime={{endtime}}&serial={{ serial}}">显示更早12个月的评价>></a></div>
+</div>
+{% endblock %}

@@ -1,0 +1,337 @@
+﻿{% extends "bookmanage/base.html" %} {% block content %} <div class="ui segment"> <div class="ui dividing header ">数据管理</div> <div class="ui two column stackable grid">
+          <div class="ui column">
+            <div class="ui action left">
+              <form id="search_device_status" action="">
+                  <div class="ui search">
+            <div class="ui calendar inline">
+              <div class="ui input icon left" id="date">
+                            <input type="text" placeholder="选择出库日期" name="starttime" id="starttime">
+                <i class="ui dropdown icon"></i>
+              </div>
+              <select class="ui small dropdown" name="channel" id="channelid">
+                <option value="65535" >全部</option>
+                {% for channel in channelresults %}
+                <option value={{channel.0}} > {{ channel.1 }} </option>
+                {% endfor %}
+              </select>
+                          <input type="submit"  value="关键指标计算" />
+                    </div>
+        <div class="ui small modal" id="search_device_results">
+        <i class="close icon"></i>
+        <table class="ui celled table">
+          <div class="ui header" id="search_header"></div>
+          <tbody>
+            <tr>
+              <td>出货总量</td>
+              <td><div id="total"></div></td>
+            </tr>
+            <tr>
+              <td>售后率</td>
+              <td><div id="percentaftersale"></div></td>
+            </tr>
+              <tr>
+              <td>设备联网率</td>
+              <td><div id="percentdeviceonline"></div></td>
+            </tr>
+              <tr>
+              <td>首次登录间隔均值</td>
+              <td><div id="avgfirstlogin"></div></td>
+            </tr>
+              <tr>
+              <td>奖励码使用率</td>
+              <td><div id="percentactiveused"></div></td>
+            </tr>
+              <tr>
+              <td>设备使用率</td>
+              <td><div id="percentdeviceidle"></div></td>
+            </tr>
+              <tr>
+              <td>账户设备比</td>
+              <td><div id="percentdeviceaccount"></div></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+              </div>
+             </form>
+    </div>
+         </div>
+         <div class="ui column">
+         <div class="ui action right">
+            <form action="" accept-charset="utf-8" id="search_serial_stats">
+                <div class="ui search">
+                        <div class="ui input icon">
+                            <input type="text" placeholder="输入设备号" name="serial">
+                        </div>
+                        <input type="submit" value="查询" />
+                        <i class="search icon"></i>
+                </div>
+        <div class="ui small modal" id="search_none_results">
+        </div>
+        <div class="ui small modal" id="search_serial_results">
+        <i class="close icon"></i>
+       <table class="ui celled table">
+          <thead>
+    <tr>
+    <th><div id="serial"></div></th>
+    </tr></thead>
+          <tbody>
+            <tr>
+              <td><div id="aftersalestatus"></div></td>
+            </tr>
+            <tr>
+              <td><div id="firstonlinetime"></div></td>
+            </tr>
+              <tr>
+              <td><div id="firstlogintime"></div></td>
+            </tr>
+              <tr>
+              <td><div id="firstactivetime"></div></td>
+            </tr>
+              <tr>
+              <td><div id="firstdeposittime"></div></td>
+            </tr>
+              <tr>
+              <td><div id="firstconsumetime"></div></td>
+            </tr>
+              <tr>
+               <td><div id="deviceaccountnum"></div></td>
+            </tr>
+              <tr>
+               <td><div id="totaldepositnum"></div></td>
+            </tr>
+             <tr>
+               <td><div id="totalconsumenum"></div></td>
+            </tr>
+               <tr>
+               <td><div id="idledays"></div></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+                </div>
+            </form>
+            </div>
+         </div>
+    </div>
+  <div class="ui right aligned container" >共{{ pager.totalItemCount }}条相关数据 <a href="{% url 'manage_devicestats_export' %}?aftersale_status_choosed={{ aftersale_status_choosed }}&device_idle_choosed={{device_idle_choosed}}">导出当前表格</a></div>
+  <table class="ui celled table">
+   <div class="ui header"></div>
+    <thead>
+    <tr><th>出库日期</th>
+    <th>渠道商/往来单位</th>
+    <th>序列号</th>
+    <th><div class="ui pointing dropdown">
+      <div class="text">售后/设备状态</div>
+      <i class="ui dropdown icon"></i>
+      <div class="menu">
+        <a class="item" href="{% url 'manage_devicestats' %}">全部 </a>
+        {% for aftersale_status in aftersalestatuss %}
+        <a class="item" href="{% url 'manage_devicestats' %}?aftersale_status={{ aftersale_status.0 }}"> {{ aftersale_status.1 }}</a>
+        {% endfor %}
+      </div>
+    </div></th>
+    <th>首次联网</th>
+    <th>首次登录</th>
+    <th>使用奖励码</th>
+    <th>首次充值</th>
+    <th>首次消费有价币</th>
+    <th>账户数量</th>
+    <th>累计充值(起点)</th>
+    <th>累计消费(起点)</th>
+    <th>累计充值(Q阅)</th>
+    <th>累计消费(Q阅)</th>
+    <th><div class="ui pointing dropdown">
+      <div class="text">设备静置</div>
+      <i class="ui dropdown icon"></i>
+      <div class="menu">
+        <a class="item" href="{% url 'manage_devicestats' %}?device_idle=0">5天以下</a>
+        <a class="item" href="{% url 'manage_devicestats' %}?device_idle=1">5-10天</a>
+        <a class="item" href="{% url 'manage_devicestats' %}?device_idle=2">11-15天</a>
+        <a class="item" href="{% url 'manage_devicestats' %}?device_idle=3">16-20天</a>
+        <a class="item" href="{% url 'manage_devicestats' %}?device_idle=4">21-25天</a>
+        <a class="item" href="{% url 'manage_devicestats' %}?device_idle=5">26-30天</a>
+        <a class="item" href="{% url 'manage_devicestats' %}?device_idle=6">31天以上</a>
+      </div>
+    </div></th>
+    </tr></thead>
+    <tbody>
+      {% for result in results %}
+          <tr> 
+          {% for item in result %}
+            {% if forloop.counter0 == 2 %}
+              <td>
+                <a id="serialid" name="serialid">{{item}}</a></div>
+              </td>
+            {% elif forloop.counter0 == 0 %}
+                <td>{{ item| date:"Y-m-d" }}
+                </td>
+            {% else %}
+                <td> {{ item }}</td>
+            {% endif %}
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% include "snippets/simplepager.html" %}
+</div>
+<script type="text/javascript">
+    $('#date').calendar({
+        type:'date',
+        formatter: { // 自定义日期的格式
+        date: function(date, settings) {
+            if (!date) return '';
+            var year  = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            month = month < 10 ? '0'+month : month;
+            day = day < 10 ? '0'+day : day;
+            return year + '-' + month + '-' + day;
+        }}});
+</script>
+<script type="text/javascript">
+    $('small .ui.dropdown')
+      .dropdown({
+        action: 'hide'
+      } )
+    ;
+</script>
+<script type="text/javascript">
+  $('.ui.modal')
+  .modal()
+  ;
+  $('.small.modal')
+    .modal()
+    ;
+</script>
+<script>
+$(function() {
+  $("#search_device_status").bind('submit', function() {
+    var starttime = $("input[name='starttime']").val();
+    var channelid = $("select[name='channel']").val();
+    $.ajax({
+      method: "POST",
+      url: "{% url 'manage_ajaxdevicestats' %}",
+      data: JSON.stringify({ starttime: starttime, channelid: channelid}),
+      dataType: "json",
+      success: function(data) {
+        console.log(data);
+        $("#search_header").html( data.startdate + "至" + data.enddate + data.channelname + "的统计结果");
+        $("#total").html(data.total + "台");
+        $("#percentaftersale").html(data.percentaftersale + "(共" +
+        data.totalaftersale + "台。"+ data.returnnum + "退货)" );
+        $("#percentdeviceonline").html( data.percentdeviceonline + "(" +
+        data.deviceonlinenum + "台)");
+        $("#avgfirstlogin").html( data.avgfirstlogin + "天");
+        $("#percentactiveused").html( data.percentactiveused + "(" +
+        data.activeusednum + "台)");
+        $("#percentdeviceidle").html(data.percentdeviceidle + "(" +
+        data.idle10daysnum + "台)");
+        $("#percentdeviceaccount").html(data.accountperdevice + "账户/台");
+        $("#search_device_results").modal('setting',{
+            closable  : true,
+            dimmerSettings: { opacity: 0 },
+          }).modal('show');
+          },
+    });
+    return false;
+  });
+});
+</script>
+<script>
+$(function() {
+  $("#search_serial_stats").bind('submit', function() {
+    var serial = $("input[name='serial']").val();
+    $.ajax({
+      method: "POST",
+      url: "{% url 'manage_ajaxserialstats' %}",
+      data: JSON.stringify({ serial: serial}),
+      dataType: "json",
+      success: function(data) {
+        console.log(data);
+        $("#serial").html("序列号：" + data.serial + "," + "出库时间：" + data.delivery_time);
+        $("#aftersalestatus").html("售后情况：" + data.aftersalestatus);
+        $("#firstonlinetime").html( "首次联网时间：" + data.firstonlinetime + "(" +
+        data.daysfirstonline + "天)");
+        $("#firstlogintime").html( "首次登录时间：" + data.firstlogintime + "(" +
+        data.daysfirstlogin + "天)" );
+        $("#firstactivetime").html( "使用奖励码时间：" + data.firstactivetime + "(" +
+        data.daysfirstactive + "天)" + "(" + data.activecode + ")");
+        $("#firstdeposittime").html("首次充值时间：" + data.firstdeposittime + "(" +
+        data.daysfirstdeposit + "天)" );
+        $("#firstconsumetime").html( "首次消费有价币时间：" + data.firstconsumetime + "(" +
+        data.daysfirstconsume + "天)" );
+        $("#deviceaccountnum").html("账户数量：" + data.deviceaccountnum + "(起点" + data.deviceqdnum + ")" + 
+          "(Q阅" + data.deviceqqnum + ")" + "(在用Q阅" + data.deviceqq + ")");
+        $("#totaldepositnum").html("累计充值：" + data.totaldepositnum + "(起点" +
+        data.totalqddeposit + "元，" + "共" + data.qddepositcount + "次)" +
+          "（Q阅" + data.totalqqdeposit + "元，" + "共" + data.qqdepositcount + "次）");
+
+        $("#totalconsumenum").html("累计消费：" + data.totalconsumenum + "(起点" +
+        data.totalqdconsume + "元，" + "共" + data.qdconsumecount + "次)" +
+          "（Q阅" + data.totalqqconsume + "元，" + "共" + data.qqconsumecount + "次）");
+        $("#idledays").html("设备状态：" + "静置" + data.idledays + "天");
+        $("#search_serial_results").modal('setting',{
+            closable  : true,
+            dimmerSettings: { opacity: 0 },
+          }).modal('show');
+          },
+       statusCode: {
+        500: function() {
+            $("#search_none_results").html("<i class='close icon'></i><div class='ui content'>该设备未出库!</div>");
+            $("#search_none_results").modal('setting',{
+            closable  : true,
+            dimmerSettings: { opacity: 0 },
+          }).modal('show');
+        }
+       }
+    });
+    return false;
+  });
+});
+</script>
+<script>
+$(function() {
+  $("#serialid").bind('click', function() {
+    var serial = $("a[name='serialid']").val();
+    console.log(serial);
+    $.ajax({
+      method: "POST",
+      url: "{% url 'manage_ajaxserialstats' %}",
+      data: JSON.stringify({ serial: serial}),
+      dataType: "json",
+      success: function(data) {
+        console.log(data);
+        $("#serial").html(data.serial);
+        $("#delivery_time").html(data.delivery_time);
+        $("#aftersalestatus").html(data.aftersalestatus);
+        $("#firstonlinetime").html( data.firstonlinetime + "(" +
+        data.daysfirstonline + "天)");
+        $("#firstlogintime").html( data.firstlogintime + "(" +
+        data.daysfirstlogin + "天)" );
+        $("#firstactivetime").html( data.firstactivetime + "(" +
+        data.daysfirstactive + "天)" +data.activecode );
+        $("#firstdeposittime").html( data.firstlogintime + "(" +
+        data.daysfirstdeposit + "天)" )
+        $("#firstconsumetime").html( data.firstconsumetime + "(" +
+        data.daysfirstconsume + "天)" )
+        $("#deviceaccountnum").html(data.deviceaccountnum + "(起点" + data.deviceqdnum + ")" + 
+          "(Q阅" + data.deviceqqnum + ")" + "(在用Q阅" + data.deviceqqnum + ")");
+        $("#totaldepositnum").html(data.totaldepositnum + "(起点" + data.totalqddeposit + "元，" + "共" + data.qddepositcount + "次" +
+          "（Q阅" + data.totalqqdeposit + "元，" + "共" + data.qqdepositcount + "次）");
+
+        $("#totalconsumenum").html(data.totalconsumenum + "(起点" + data.totalqdconsume + "元，" + "共" + data.qdconsumecount + "次" +
+          "（Q阅" + data.totalqqconsume + "元，" + "共" + data.qqconsumecount + "次）");
+        $("#idledays").html("静置" + data.idledays + "天");
+        $("#search_serial_results").modal('setting',{
+            closable  : true,
+            dimmerSettings: { opacity: 0 },
+          }).modal('show');
+          },
+    });
+    return false;
+  });
+});
+</script>
+{% endblock %}

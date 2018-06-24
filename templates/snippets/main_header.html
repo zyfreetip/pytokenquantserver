@@ -1,0 +1,25 @@
+<!-- Page Contents -->
+<!-- Menu -->
+<div class="ui grid">
+    <div class="computer tablet only row">
+        <div class="ui inverted stackable fixed borderless menu">
+            <div class="ui container">
+                <div class="item">
+                	<a href="{% url 'manage_home' %}">
+                	<i class="large icon cloud"></i>
+                	</a>
+				</div>
+                <div class="right item">
+                {% if request.user %}
+                	<a class="ui inverted button">Log in</a>
+                {% else %}
+                    <a class="ui inverted button">Logout</a>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ui grid">
+    <div class="computer tablet only row" style="margin-top: 1em"></div>
+</div>

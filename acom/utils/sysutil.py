@@ -1,6 +1,5 @@
 import sys
 import platform
-import l5sys
 from time import time
 from datetime import timedelta
 from urllib.request import urlopen
@@ -31,17 +30,6 @@ def dateRange(start, end, filterFunc=None, reverse=False):
             if filterFunc and not filterFunc(dtobj):
                 continue
             yield dtobj
-
-def L5GetRoute(modId, cmdId, timeout=0.2):
-    ret,qos = l5sys.ApiGetRoute({'modId':modId,'cmdId':cmdId}, timeout)
-    if ret < 0:
-        return ret
-    tmstart = time()
-    iret = 0
-    use_time = int((time() - tmstart) * 1000000)
-    l5sys.ApiRouteResultUpdate(qos,iret,use_time)
-    addr = 'http://' + qos['hostIp'].decode() + ':' + str(qos['hostPort'])
-    return addr
 
 def CheckUrlAvailable(url=None, timeout=5):
     try:

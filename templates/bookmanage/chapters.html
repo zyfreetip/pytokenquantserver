@@ -1,0 +1,51 @@
+{% extends "bookmanage/base.html" %}
+{% block content %}
+<div class="ui segment">
+  <div class="ui dividing header">Chapters for book {{ book }}</div>
+
+  <table class="ui striped table">
+    <thead>
+      <tr>
+        <th>chapterid</th>
+        <th>order</th>
+        <th>title</th>
+        <th>cwords</th>
+        <th>twords</th>
+        <th>price</th>
+        <th>status</th>
+        <th>publish_time</th>
+        <th>update_time</th>
+        <th>free url</th>
+        <th>vip url</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for chapter in chapters %}
+    <tr>
+      <td>{{ chapter.chapterid }}</td>
+      <td>{{ chapter.index }}</td>
+      <td>{{ chapter.title }}</td>
+      <td>{{ chapter.charge_words }}</td>
+      <td>{{ chapter.total_words }}</td>
+      <td>{{ chapter.price }}</td>
+      <td>{{ chapter.getStatusDesc }}</td>
+      <td>{{ chapter.publish_time }}</td>
+      <td>{{ chapter.update_time }}</td>
+      {% if chapter.getFreeSrcUrl %}
+      <td><a href="{{ chapter.getFreeSrcUrl }}">{{ chapter.free_md5digest }}</a></td>
+      {% else %}
+      <td><a href="#">None</a></td>
+      {% endif %}
+      {% if chapter.getVipSrcUrl %}
+      <td><a href="{{ chapter.getVipSrcUrl }}">{{ chapter.md5digest }}</a></td>
+      {% else %}
+      <td><a href="#">None</a></td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% include "snippets/pager.html" %}
+
+</div>
+{% endblock %}

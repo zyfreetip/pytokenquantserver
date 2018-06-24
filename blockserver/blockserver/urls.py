@@ -18,10 +18,16 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+
 urlpatterns = staticfiles_urlpatterns()
 urlpatterns += [
     url(r'^eBlockTst_admin123/', include(admin.site.urls)),
-]
+    url('^account/', include('django.contrib.auth.urls')),
+    url(r'^captcha/', include('captcha.urls')),
+    ]
 
 urlpatterns += [
 ]
+if settings.DEBUG:
+        import debug_toolbar
+        urlpatterns += [ url(r'^__debug__/', include(debug_toolbar.urls)),]

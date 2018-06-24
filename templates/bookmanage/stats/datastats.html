@@ -1,0 +1,32 @@
+{% extends "bookmanage/base.html" %}
+{% block content %}
+
+<table class="ui celled table">
+    <div class="ui header">统计结果</div>
+    <thead>
+        <tr>
+            <th>统计条件(点击可查看设备列表)</th>
+            <th>出货总量</th>
+            <th>售后率</th>
+            <th>设备联网率</th>
+            <th>首次登录间隔均值</th>
+            <th>奖励码使用率</th>
+            <th>设备使用率</th>
+            <th>账户设备比</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for result in results %}
+        <tr>
+            <td><a href="/stats/devicestats?" target="_blank">设备型号"{{ result.hardwarename }} "</a></td>
+            <td> {{ result.salecount }} </td>
+            <td> {{ result.aftersalepercent }} (共{{result.aftersalecount}}台。{{result.aftersalereturncount}}退货，{{result.aftersalechangecount}}换货，{{result.aftersalebrokencount}}碎屏)</td>
+            <td> {{ result.onlinepercent }}({{ result.onlinecount}}台)</td>
+            <td> {{ result.firstloginavg }}天 </td>
+            <td> {{ result.activecodeavg }}({{ result.activecodeusedcount }}台) </td>
+            <td> {{ result.devicepercent }}({{ result.deviceusedcount }}台) </td>
+            <td> {{ result.accountperdevice }} 账户/台 </td>
+        </tr>
+        {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "bookmanage/base.html" %}
+{% block manage %}
+<div class="ui segment">
+  <div class="ui dividing header">Search</div>
+
+  <form action="{% url 'manage_booksearch' %}" method="get" accept-charset="utf-8">
+  <div class="ui search">
+    <div class="ui icon input">
+      <input type="text" name="keyword" placeholder="Search..." />
+      <input type="submit" />
+      <i class="search icon"></i>
+    </div>
+    <div class="results"></div>
+  </div>
+  </form>
+  {% if books %}
+  <div class="ui items">
+    {% for book in books %}
+    <div class="item">
+      <div class="ui small image">
+        <a href="{% url 'manage_book' book.bookid %}"><img src="{{ book.getCoverSrcUrl }}"></a>
+      </div>
+      <div class="content">
+        <div class="header"><a href="{% url 'manage_book' book.bookid %}">{{ book.title }}</a></div>
+        <div class="meta">
+          <span>{{ book.author_name }}</span>
+        </div>
+        <div class="description">
+          <p>{{ book.intro|truncatechars:200 }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% include "snippets/simplepager.html" %}
+
+</div>
+{% endblock %}

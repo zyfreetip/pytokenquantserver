@@ -102,4 +102,3 @@ class AbstractLog(models.Model):
     class Meta:
         abstract = True
 
-from .memmodel import MemModel

@@ -28,23 +28,15 @@
         "file": {
             "level": "INFO",
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": "/home/ubuntu/data/logs/blockserver/blockserver.log",
+            "filename": "/home/foonsun/data/logs/pyexchanges/pyserver.log",
             "formatter": "verbose",
 	    "maxBytes": 104857600,
 	    "backupCount": 30
         },
-        "logfile_markettrade_fcoin": {
-            "level": "INFO",
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": "/home/ubuntu/data/logs/fcoin/market_trade.log",
-            "maxBytes": 104857600,
-            "backupCount": 30,
-            "formatter": "simple"
-        },
         "logfile_fcoin_auto_trade_log":{
             "level": "INFO",
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": "/home/ubuntu/data/logs/fcoin/auto_trade.log",
+            "filename": "/home/foonsun/data/logs/fcoin/auto_trade.log",
             "maxBytes": 104857600,
             "backupCount": 30,
             "formatter": "verbose"
@@ -58,11 +50,6 @@
         "django.request": {
             "handlers": ["file","console"],
             "level": "INFO",
-            "propagate": true
-        },
-        "fcoin_market_trade_log": {
-            "level": "INFO",
-            "handlers": ["console", "logfile_markettrade_fcoin"],
             "propagate": true
         },
         "fcoin_auto_trade_log": {
