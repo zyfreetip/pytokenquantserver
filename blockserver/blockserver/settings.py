@@ -57,9 +57,8 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'semanticuiform',
     'pure_pagination',
+    'blockuser',
     'debug_toolbar',
-    'corsheaders',
-    'blockuser'
 ]
 
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
@@ -256,7 +255,10 @@ PAGINATION_SETTINGS = {
 }
 
 AUTH_USER_MODEL = 'blockuser.BlockUser'
-
+AUTHENTICATION_BACKENDS = (
+                'django.contrib.auth.backends.RemoteUserBackend',
+                'django.contrib.auth.backends.ModelBackend',
+                        )
 # site custom settings
 INSTALLED_APPS.extend((
     'djcom',
@@ -329,6 +331,9 @@ SITE_DOMAIN = ''
 SITE_URL = ''
 SITE_NAME = ''
 SITE_ID  = 1
+SITE_DOMAIN = '172.104.72.157:8086/'
+SITE_URL = 'http://172.104.72.157:8086/'
+SITE_NAME = 'blockmangae'
 DATABASE_ROUTERS = ['blockdjcom.router.DbRouter', ]
 
 CORS_ORIGIN_ALLOW_ALL = True
