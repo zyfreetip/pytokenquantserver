@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//3rdapps/captcha/helpers.py=utf-8
 encoding//acom/deploy/basedeploy.py=utf8
 encoding//blockapps/blockdjcom/basebusiness.py=utf8
 encoding//blockapps/blockdjcom/basecommand.py=utf8

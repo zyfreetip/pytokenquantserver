@@ -15,6 +15,8 @@ def isWindowsSystem():
 def isLinuxSystem():
     return 'Linux' in platform.system()
 
+def isMacSystem():
+    return 'Darwin' in platform.system()
 
 def dateRange(start, end, filterFunc=None, reverse=False):
     delta = end - start

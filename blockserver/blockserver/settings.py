@@ -12,20 +12,26 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os, socket, sys
 from django.utils.translation import ugettext_lazy
-from acom.utils.sysutil import isWindowsSystem, isLinuxSystem
+from acom.utils.sysutil import isWindowsSystem, isLinuxSystem, isMacSystem
 __builtins__['_'] = ugettext_lazy
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from os.path import join as pathjoin, exists as pathexists
 from json import loads as jloads
 from json import dump as jdump
+#from oscar.defaults import *
+#from oscar import OSCAR_MAIN_TEMPLATE_DIR
+#from oscar import get_core_apps
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Path helper
+#location = lambda x: os.path.join(
+#    os.path.dirname(os.path.realpath(__file__)), x)
 
 if isWindowsSystem():
     DATA_DIR = r'C:\data'
     DATA1_DIR = r'C:\data1'
-elif isLinuxSystem():
+elif isLinuxSystem() or isMacSystem():
     DATA_DIR = '~/data'
     DATA1_DIR = '~/data1'
 
@@ -54,13 +60,28 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.sites',
     'django.contrib.staticfiles',
+    'django.contrib.flatpages',
     'django.contrib.sitemaps',
     'semanticuiform',
     'pure_pagination',
     'blockuser',
     'debug_toolbar',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # ... include the providers you want to enable:
+    #'allauth.socialaccount.providers.telegram',
+    #'allauth.socialaccount.providers.coinbase',
+    #'allauth.socialaccount.providers.douban',
+    'allauth.socialaccount.providers.github',
+    #'allauth.socialaccount.providers.gitlab',
+    'allauth.socialaccount.providers.google',
+    #'allauth.socialaccount.providers.linkedin',
+    #'allauth.socialaccount.providers.linkedin_oauth2',
+    'allauth.socialaccount.providers.twitter',
+    'allauth.socialaccount.providers.weibo',
+    'allauth.socialaccount.providers.weixin',
 ]
-
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 INTERNAL_IPS = ['127.0.0.1', ]
 def check_test(request):
@@ -176,7 +197,6 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 STATIC_URL = '/static/'
-
 MEDIA_ROOT = os.path.join(DATA_DIR, 'ebook/upload/bookmanage_media')
 CACHE_LONG_TIMEOUT = 3600*24
 CACHE_SHORT_TIMEOUT = 3600 / 2
@@ -254,11 +274,27 @@ PAGINATION_SETTINGS = {
     'MARGIN_PAGES_DISPLAYED': 2,
 }
 
-AUTH_USER_MODEL = 'blockuser.BlockUser'
+#AUTH_USER_MODEL = 'blockuser.BlockUser'
 AUTHENTICATION_BACKENDS = (
                 'django.contrib.auth.backends.RemoteUserBackend',
                 'django.contrib.auth.backends.ModelBackend',
+                'allauth.account.auth_backends.AuthenticationBackend',
                         )
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+    },
+}
+
+ACCOUNT_FORMS = {
+    'login': 'allauth.account.forms.LoginForm',
+    'signup': 'allauth.account.forms.SignupForm',
+    'add_email': 'allauth.account.forms.AddEmailForm',
+    'change_password': 'allauth.account.forms.ChangePasswordForm',
+    'set_password': 'allauth.account.forms.SetPasswordForm',
+    'reset_password': 'allauth.account.forms.ResetPasswordForm',
+    'reset_password_from_key': 'allauth.account.forms.ResetPasswordKeyForm',
+}
 # site custom settings
 INSTALLED_APPS.extend((
     'djcom',
@@ -266,14 +302,36 @@ INSTALLED_APPS.extend((
     'blockserver',
     'fcoin'
     ))
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        'SCOPE': [
+            'user',
+            'repo',
+            'read:org',
+        ],
+    },
+   'google': {
+    'SCOPE': [
+        'profile',
+        'email',
+    ],
+    'AUTH_PARAMS': {
+        'access_type': 'online',
+    }},
+   'weixin': {
+        'AUTHORIZE_URL': 'https://open.weixin.qq.com/connect/oauth2/authorize',  # for media platform
+        'SCOPE': ['snsapi_base'],
+    }
+}
 
-
+ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_EMAIL_VERIFICATION="mandatory"
 # email configuration
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_USE_SSL = True
 EMAIL_PORT = 465
-EMAIL_HOST_USER = 'admin@test.com'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = '16260924@qq.com'
+EMAIL_HOST_PASSWORD = 'wxhsttvfcopgbjcc'
 EMAIL_SUBJECT_PREFIX = u'[blockserver]'
 #EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
@@ -327,14 +385,13 @@ else:
 
 #SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
-SITE_DOMAIN = ''
-SITE_URL = ''
-SITE_NAME = ''
 SITE_ID  = 1
-SITE_DOMAIN = '172.104.72.157:8086/'
-SITE_URL = 'http://172.104.72.157:8086/'
+SITE_DOMAIN = '127.0.0.1:8000'
+SITE_URL = 'http://127.0.0.1:8000/'
 SITE_NAME = 'blockmangae'
 DATABASE_ROUTERS = ['blockdjcom.router.DbRouter', ]
+
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = ()
