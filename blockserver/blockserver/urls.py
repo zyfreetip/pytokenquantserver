@@ -22,7 +22,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = staticfiles_urlpatterns()
 urlpatterns += [
     #url(r'^i18n/', include('django.conf.urls.i18n')),
-    #url(r'', application.urls),
+    url(r'', include('blockuser.urls')),
     url(r'^eBlockTst_admin123/', include(admin.site.urls)),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^captcha/', include('captcha.urls')),
