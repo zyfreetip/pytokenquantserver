@@ -34,7 +34,7 @@
  {% for quant in quant_policy_list%}
     <tr>
       <td class="collapsing">
-        <i class="folder icon"></i> {{ quant.title }}
+        <i class="folder icon"></i> <a href="{% url 'product_getquantdetail' pk=quant.id %}">{{ quant.title }}</a>
       </td>
       <td>{{ quant.exchanges }}</td>
       <td>{{ quant.update_time }}</td>

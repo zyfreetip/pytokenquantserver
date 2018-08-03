@@ -73,14 +73,14 @@ INSTALLED_APPS = [
     #'allauth.socialaccount.providers.telegram',
     #'allauth.socialaccount.providers.coinbase',
     #'allauth.socialaccount.providers.douban',
-    'allauth.socialaccount.providers.github',
+    #'allauth.socialaccount.providers.github',
     #'allauth.socialaccount.providers.gitlab',
-    'allauth.socialaccount.providers.google',
+    #'allauth.socialaccount.providers.google',
     #'allauth.socialaccount.providers.linkedin',
     #'allauth.socialaccount.providers.linkedin_oauth2',
-    'allauth.socialaccount.providers.twitter',
-    'allauth.socialaccount.providers.weibo',
-    'allauth.socialaccount.providers.weixin',
+    #'allauth.socialaccount.providers.twitter',
+    #'allauth.socialaccount.providers.weibo',
+    #'allauth.socialaccount.providers.weixin',
 ]
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 INTERNAL_IPS = ['127.0.0.1', ]
