@@ -3,6 +3,17 @@ from django.db import models
 from django.utils import timezone
 from djcom.admin_perms import PermissionsMixin
 from djcom.utils import dt1970
+from django.contrib.auth.models import User
+
+EXCHANGES = (
+        ('huobi', '火币'),
+        ('okex', 'OKEX'),
+        ('fcoin', 'Fcoin'),
+    )
+SYMBOLS = (
+        ('btcusdt', 'BTC/USDT'),
+        ('ethusdt', 'ETH/USDT'),
+    )
 
 class QuantPolicy(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
@@ -24,4 +35,39 @@ class QuantPolicy(PermissionsMixin):
     def __str__(self):
         return 'title(%s) price(%s) exchange(%s) ' % \
                            (self.title, self.price, self.exchanges)
+
+class AbstractQuantPolicy(PermissionsMixin):
+    class Meta(PermissionsMixin.Meta):
+        abstract = True
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    exchange = models.CharField(verbose_name='交易所', max_length=20, choices=EXCHANGES, help_text='请选择一个交易所')
+    accesskey = models.CharField(verbose_name='Accesskey', max_length=100, help_text='请填写您在交易所的api access key')
+    secretkey = models.CharField(verbose_name='SecretKey', max_length=100, help_text='请填写您在交易所的api secret key')
+    symbol = models.CharField(verbose_name='交易对', max_length=20, choices=SYMBOLS, help_text='请填写该交易所的交易对例如BTC/USDT')
+    max_buy_price = models.DecimalField(verbose_name='最高买入价格', max_digits=20, decimal_places=8, \
+                                        help_text='请填写该交易对的最高买入价格')
+    min_sell_price = models.DecimalField(verbose_name='最低卖出价格', max_digits=20, decimal_places=8, \
+                                         help_text='请填写该交易对的最低卖出价格')
+    percent_balance = models.DecimalField(verbose_name='资产使用比率', max_digits=20, decimal_places=8, \
+                                          help_text='请填写要使用的资产余额百分比,如0.9就是90%')
+    start_time = models.DateTimeField(verbose_name='开始运行时间', help_text='请填写您的交易策略运行开始时间')
+    end_time = models.DateTimeField(verbose_name='结束运行时间', help_text='请填写您的交易策略结束运行时间')
+    update_time = models.DateTimeField(verbose_name='记录更新时间', auto_now=True)
+    create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
                 
+    def __str__(self):
+        return 'user(%s) exchange(%s) symbol(%s) start_time(%s) end_time(%s)' % \
+            (self.user, self.exchange, self.symbol, self.start_time, self.end_time)
+
+class DuiQiaoPolicy(AbstractQuantPolicy):
+    class Meta(PermissionsMixin.Meta):
+        abstract = False
+        #app_label = 'quant'
+        db_table = 'duiqiao'
+        managed = True
+        verbose_name = u'对敲策略'
+    
+
+
+        
