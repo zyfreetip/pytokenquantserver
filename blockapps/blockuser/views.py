@@ -21,7 +21,7 @@ class ProfileView(TemplateView):
     template_name = 'account/profile.html'
 
 class addDuiqiaoView(CreateView):
-    template_name = 'manage/duiqiao_create_form.html'
+    template_name = 'manage/duiqiao/duiqiao_create_form.html'
     model = DuiQiaoPolicy
     fields = ['exchange', 'accesskey', 'secretkey', 'symbol', 'max_buy_price',\
                'min_sell_price', 'percent_balance', 'start_time', 'end_time']
@@ -35,4 +35,15 @@ class manageIndexView(TemplateView):
 
 class getDuiqiaoDetailView(DetailView):
     queryset = DuiQiaoPolicy.objects.all()
-    tempalte_name = 'manage/duiqiao_detail.html'
+    context_object_name = 'duiqiao_detail'
+    template_name = 'manage/duiqiao/duiqiao_detail.html'
+
+class getDuiqiaoListView(ListView):
+    queryset = DuiQiaoPolicy.objects.order_by('-update_time')
+    template_name = 'manage/duiqiao/duiqiao_list.html'
+    context_object_name = 'duiqiao_list'
+    paginate_by = ITEMS_PER_PAGE
+    
+    def get_context_data(self, **kwargs):
+        return ListView.get_context_data(self, **kwargs)
+    

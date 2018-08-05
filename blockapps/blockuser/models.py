@@ -15,7 +15,16 @@ SYMBOLS = (
         ('btcusdt', 'BTC/USDT'),
         ('ethusdt', 'ETH/USDT'),
     )
-
+RUN_STATUSS = (
+        ('run', '运行中'),
+        ('unstart', '未开始'),
+        ('end', '已结束'),
+        ('stop', '已停止'),
+    )
+OPS = (
+    (0, '停止运行'),
+    (1, '开启运行'),
+    )
 class QuantPolicy(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
         abstract = False
@@ -56,6 +65,10 @@ class AbstractQuantPolicy(PermissionsMixin):
     end_time = models.DateTimeField(verbose_name='结束运行时间', help_text='请填写您的交易策略结束运行时间')
     update_time = models.DateTimeField(verbose_name='记录更新时间', auto_now=True)
     create_time = models.DateTimeField(verbose_name='记录创建时间', auto_now_add=True)
+    status = models.CharField(verbose_name='运行状态', default='unstart', choices=RUN_STATUSS, blank=True, \
+                              max_length=10, help_text='策略运行状态')
+    operation = models.IntegerField(verbose_name='操作', default=0, choices=OPS,blank=True,\
+                                    help_text='操作')
                 
     def __str__(self):
         return 'user(%s) exchange(%s) symbol(%s) start_time(%s) end_time(%s)' % \

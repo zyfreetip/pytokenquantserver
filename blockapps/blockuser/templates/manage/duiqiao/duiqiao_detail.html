@@ -1,0 +1,20 @@
+{% extends "manage/duiqiao/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %} 您的所有对敲策略列表 {% endblock %}
+
+{% block base_content %}
+<div class="ui basic segment">
+  <div class="ui fluid raised very padded text container">
+    <h4 class="ui header">您的量化策略{{ duiqiao_detail.id }}</h4>
+       <!--  <div class="ui labeled button" tabindex="0">
+        <div class="ui blue button">充值</div>
+      </div> -->
+ <form>
+ <p>{{ duiqiao_detail }}</p>
+ </form>
+
+</div>
+
+{% endblock %}
