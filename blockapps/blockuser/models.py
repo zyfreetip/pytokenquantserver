@@ -4,6 +4,7 @@ from django.utils import timezone
 from djcom.admin_perms import PermissionsMixin
 from djcom.utils import dt1970
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 EXCHANGES = (
         ('huobi', '火币'),
@@ -67,6 +68,9 @@ class DuiQiaoPolicy(AbstractQuantPolicy):
         db_table = 'duiqiao'
         managed = True
         verbose_name = u'对敲策略'
+        
+    def get_absolute_url(self):
+        return reverse('manage_getduiqiao', kwargs={'pk': self.pk})
     
 
 

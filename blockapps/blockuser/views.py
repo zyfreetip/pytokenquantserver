@@ -23,5 +23,16 @@ class ProfileView(TemplateView):
 class addDuiqiaoView(CreateView):
     template_name = 'manage/duiqiao_create_form.html'
     model = DuiQiaoPolicy
-    fields = ['user','exchange', 'accesskey', 'secretkey', 'symbol', 'max_buy_price',\
+    fields = ['exchange', 'accesskey', 'secretkey', 'symbol', 'max_buy_price',\
                'min_sell_price', 'percent_balance', 'start_time', 'end_time']
+    
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+class manageIndexView(TemplateView):
+    pass
+
+class getDuiqiaoDetailView(DetailView):
+    queryset = DuiQiaoPolicy.objects.all()
+    tempalte_name = 'manage/duiqiao_detail.html'
