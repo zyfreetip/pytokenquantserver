@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView, TemplateView,\
-                            CreateView
+                            CreateView, UpdateView, DeleteView
 from blockuser.models import QuantPolicy, DuiQiaoPolicy
-
+from django.urls import reverse_lazy
 
 ITEMS_PER_PAGE = 2
 
@@ -30,6 +30,19 @@ class addDuiqiaoView(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+class updateDuiqiaoView(UpdateView):
+    template_name = 'manage/duiqiao/duiqiao_update_form.html'
+    model = DuiQiaoPolicy
+    queryset = DuiQiaoPolicy.objects.all()
+    fields = ['exchange', 'accesskey', 'secretkey', 'symbol', 'max_buy_price',\
+               'min_sell_price', 'percent_balance', 'start_time', 'end_time']
+
+class deleteDuiqiaoView(DeleteView):
+    template_name = 'manage/duiqiao/duiqiao_delete_form.html'
+    model = DuiQiaoPolicy
+    context_object_name = 'duiqiao_detail'
+    success_url = reverse_lazy('manage_getduiqiaolist')
+    
 class manageIndexView(TemplateView):
     pass
 
