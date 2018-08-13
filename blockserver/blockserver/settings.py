@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'django_celery_beat',
     # ... include the providers you want to enable:
     #'allauth.socialaccount.providers.telegram',
     #'allauth.socialaccount.providers.coinbase',
@@ -396,3 +397,17 @@ ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = ()
 CORS_ORIGIN_REGEX_WHITELIST = ()
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'               # 指定 Broker
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'  # 指定 Backend
+#CELERY_TIMEZONE='Asia/Shanghai'                     # 指定时区，默认是 UTC
+# CELERY_TIMEZONE='UTC'                             
+CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
+CELERY_TASK_SERIALIZER = 'pickle'
+CELERY_RESULT_SERIALIZER = 'pickle'
+CELERYD_CONCURRENCY = 2
+
+CELERY_DEFAULT_QUEUE = 'default'
+CELERY_DEFAULT_EXCHANGE = 'tasks'
+CELERY_DEFUALT_EXCHANGE_TYPE = 'topic'
+CELERY_DEFAULT_ROUTING_KEY = 'task.default'

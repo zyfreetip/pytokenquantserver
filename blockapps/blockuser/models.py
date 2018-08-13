@@ -16,14 +16,13 @@ SYMBOLS = (
         ('ethusdt', 'ETH/USDT'),
     )
 RUN_STATUSS = (
-        ('run', '运行中'),
         ('unstart', '未开始'),
-        ('end', '已结束'),
+        ('run', '运行中'),
         ('stop', '已停止'),
     )
 OPS = (
-    (0, '停止运行'),
-    (1, '开启运行'),
+    (0, '开启运行'),
+    (1, '停止运行'),
     )
 class QuantPolicy(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
