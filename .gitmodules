@@ -3,4 +3,4 @@
 	url = https://github.com/aaugustin/websockets.git
 [submodule "3rdapps/ccxt"]
 	path = 3rdapps/ccxt
-	url = https://github.com/ccxt/ccxt.git
+	url = git@github.com:ccxt/ccxt.git

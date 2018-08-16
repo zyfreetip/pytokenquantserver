@@ -6,6 +6,7 @@ from blockserver import celery_app
 from .models import DuiQiaoPolicy, OPS, RUN_STATUSS
 from django.utils import timezone
 from time import sleep
+from quantpolicy.duiqiao import duiqiao_policy
 
 @shared_task
 def add(x, y):
@@ -20,7 +21,6 @@ def run_duiqiao_policy(policy_id):
         symbol = policy.symbol
         accesskey = policy.accesskey
         secretkey = policy.secretkey
-        symbol = policy.symbol
         max_buy_price = policy.max_buy_price
         min_sell_price = policy.min_sell_price
         percent_balance = policy.percent_balance
@@ -49,6 +49,8 @@ def run_duiqiao_policy(policy_id):
                 policy.status = RUN_STATUSS[1][0]
                 policy.save()
                 # 执行单次对敲策略开始
+                result = duiqiao_policy()
+
                 
                 
              

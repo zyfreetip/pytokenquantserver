@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'verbose_name': '对敲策略',
-                'db_table': 'duiqiao',
+                'db_table': 'quantpolicy',
                 'abstract': False,
                 'managed': True,
                 'default_permissions': ('add', 'change', 'delete', 'view'),

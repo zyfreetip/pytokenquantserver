@@ -21,7 +21,7 @@ class ProfileView(TemplateView):
     template_name = 'account/profile.html'
 
 class addDuiqiaoView(CreateView):
-    template_name = 'manage/duiqiao/duiqiao_create_form.html'
+    template_name = 'manage/quantpolicy/duiqiao_create_form.html'
     model = DuiQiaoPolicy
     fields = ['exchange', 'accesskey', 'secretkey', 'symbol', 'max_buy_price',\
                'min_sell_price', 'percent_balance', 'start_time', 'end_time']
@@ -31,14 +31,14 @@ class addDuiqiaoView(CreateView):
         return super().form_valid(form)
 
 class updateDuiqiaoView(UpdateView):
-    template_name = 'manage/duiqiao/duiqiao_update_form.html'
+    template_name = 'manage/quantpolicy/duiqiao_update_form.html'
     model = DuiQiaoPolicy
     queryset = DuiQiaoPolicy.objects.all()
     fields = ['exchange', 'accesskey', 'secretkey', 'symbol', 'max_buy_price',\
                'min_sell_price', 'percent_balance', 'start_time', 'end_time']
 
 class deleteDuiqiaoView(DeleteView):
-    template_name = 'manage/duiqiao/duiqiao_delete_form.html'
+    template_name = 'manage/quantpolicy/duiqiao_delete_form.html'
     model = DuiQiaoPolicy
     context_object_name = 'duiqiao_detail'
     success_url = reverse_lazy('manage_getduiqiaolist')
@@ -49,11 +49,11 @@ class manageIndexView(TemplateView):
 class getDuiqiaoDetailView(DetailView):
     queryset = DuiQiaoPolicy.objects.all()
     context_object_name = 'duiqiao_detail'
-    template_name = 'manage/duiqiao/duiqiao_detail.html'
+    template_name = 'manage/quantpolicy/duiqiao_detail.html'
 
 class getDuiqiaoListView(ListView):
     queryset = DuiQiaoPolicy.objects.order_by('-update_time')
-    template_name = 'manage/duiqiao/duiqiao_list.html'
+    template_name = 'manage/quantpolicy/duiqiao_list.html'
     context_object_name = 'duiqiao_list'
     paginate_by = ITEMS_PER_PAGE
     

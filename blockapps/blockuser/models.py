@@ -77,7 +77,7 @@ class DuiQiaoPolicy(AbstractQuantPolicy):
     class Meta(PermissionsMixin.Meta):
         abstract = False
         #app_label = 'quant'
-        db_table = 'duiqiao'
+        db_table = 'quantpolicy'
         managed = True
         verbose_name = u'对敲策略'
         
