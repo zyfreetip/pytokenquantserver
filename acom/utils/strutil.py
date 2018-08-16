@@ -221,3 +221,6 @@ def removePostfix(text, postfix):
 class Object(object):
     def __init__(self, **entries):
         self.__dict__.update(entries)
+        
+def dump(*args):
+    print(' '.join([str(arg) for arg in args]))

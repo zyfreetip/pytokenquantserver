@@ -1,6 +1,3 @@
 [submodule "3rdapps/websockets"]
 	path = 3rdapps/websockets
 	url = https://github.com/aaugustin/websockets.git
-[submodule "3rdapps/ccxt"]
-	path = 3rdapps/ccxt
-	url = git@github.com:ccxt/ccxt.git
