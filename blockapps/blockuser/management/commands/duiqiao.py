@@ -12,15 +12,14 @@ class Command(BaseCommand):
                 help='private key')
         parser.add_argument('--symbol', dest='symbol', required=True, \
                 help='trade symbol')
-        parser.add_argument('--max', dest='max_buy_price', required=True, \
+        parser.add_argument('--max', type=float, dest='max_buy_price', required=True, \
                 help='max buy price')
-        parser.add_argument('--min', dest='min_sell_price', required=True, \
+        parser.add_argument('--min', type=float, dest='min_sell_price', required=True, \
                 help='min sell price')
         parser.add_argument('--v', type=float, dest='base_volume', required=True, \
                 help='basevolume to use')
 
     def handle(self, *args, **options):
-        import ipdb;ipdb.set_trace()
         exchange = options['exchange']
         symbol = options['symbol']
         publickey = options['publickey']

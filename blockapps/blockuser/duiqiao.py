@@ -5,7 +5,7 @@ Created on 2018年8月16日
 '''
 from .basequant import quantpolicy
 import ccxt
-from acom.utils.strutil import ColorPrint, dump
+from acom.utils.strutil import green, blue, red, dump
 import asyncio
 import uvloop
 from blockdjcom.decorators import monit_time
@@ -26,23 +26,23 @@ class duiqiao(quantpolicy):
             # check if the exchange is supported by ccxt
             exchange_found = id in ccxt.exchanges
             if exchange_found:
-                dump('Instantiating', ColorPrint.green(id))
+                dump('Instantiating', green(id))
                 exchange = getattr(ccxt, id)({
                     # 'proxy':'https://cors-anywhere.herokuapp.com/',
                     'apiKey': self.accesskey,
                     'secret': self.secretkey,
-                    'enableRateLimit': True,
+                    #'enableRateLimit': True,
                     })
                 self.instance = exchange
                 # load all markets from exchange
                 markets = exchange.load_markets()
                 # output all symbols
-                dump(ColorPrint.green(id), 'has', len(exchange.symbols), 'symbols:', ColorPrint.green(', '.join(exchange.symbols))) 
+                dump(green(id), 'has', len(exchange.symbols), 'symbols:', green(', '.join(exchange.symbols))) 
                 delay = int(exchange.rateLimit / 1000)  # delay in between requests
                 # fetch ticker
                 ticker = exchange.fetch_ticker(self.symbol)
-                dump(ColorPrint.green(id),
-                     ColorPrint.green(self.symbol),
+                dump(green(id),
+                     green(self.symbol),
                      'ticker',
                      ticker['datetime'],
                      'high: ' + str(ticker['high']),
@@ -57,6 +57,7 @@ class duiqiao(quantpolicy):
                 ask_price = ticker['ask']
                 bid_price = ticker['bid']
                 price = ask_price - (ask_price - bid_price)*0.5
+                import ipdb;ipdb.set_trace()
                 if price > self.max_buy_price or price < self.min_sell_price:
                     return
                 else:
@@ -64,7 +65,7 @@ class duiqiao(quantpolicy):
                     results = self.duiqiao_async(price)
                     import ipdb;ipdb.set_trace()
             else:
-                dump('Exchange ' + ColorPrint.fail(id) + ' not found')
+                dump('Exchange ' + (id) + ' not found')
         except ccxt.DDoSProtection as e:
             print(type(e).__name__, e.args, 'DDoS Protection (ignoring)')
         except ccxt.RequestTimeout as e:
@@ -73,7 +74,7 @@ class duiqiao(quantpolicy):
             print(type(e).__name__, e.args, 'Exchange Not Available due to downtime or maintenance (ignoring)')
         except ccxt.AuthenticationError as e:
             print(type(e).__name__, e.args, 'Authentication Error (missing API keys, ignoring)')
-    
+ 
     async def create_order(self, price, side):
         try:
             if side == 'sell':
@@ -82,6 +83,7 @@ class duiqiao(quantpolicy):
                 response = await self.instance.create_limit_buy_order(self.symbol, self.base_volume, price)
         except Exception as e:
             print('Failed to create order with', self.instance.id, type(e).__name__, str(e))
+            response = None
         return response
  
     @monit_time
