@@ -57,13 +57,11 @@ class duiqiao(quantpolicy):
                 ask_price = ticker['ask']
                 bid_price = ticker['bid']
                 price = ask_price - (ask_price - bid_price)*0.5
-                import ipdb;ipdb.set_trace()
                 if price > self.max_buy_price or price < self.min_sell_price:
                     return
                 else:
                     # begin duiqiao
                     results = self.duiqiao_async(price)
-                    import ipdb;ipdb.set_trace()
             else:
                 dump('Exchange ' + (id) + ' not found')
         except ccxt.DDoSProtection as e:
@@ -78,9 +76,9 @@ class duiqiao(quantpolicy):
     async def create_order(self, price, side):
         try:
             if side == 'sell':
-                response = await self.instance.create_limit_sell_order(self.symbol, self.base_volume, price)
+                response = self.instance.create_limit_sell_order(self.symbol, self.base_volume, price)
             elif side == 'buy':
-                response = await self.instance.create_limit_buy_order(self.symbol, self.base_volume, price)
+                response = self.instance.create_limit_buy_order(self.symbol, self.base_volume, price)
         except Exception as e:
             print('Failed to create order with', self.instance.id, type(e).__name__, str(e))
             response = None
