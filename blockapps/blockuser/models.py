@@ -58,8 +58,6 @@ class AbstractQuantPolicy(PermissionsMixin):
                                         help_text='请填写该交易对的最高买入价格')
     min_sell_price = models.DecimalField(verbose_name='最低卖出价格', max_digits=20, decimal_places=8, \
                                          help_text='请填写该交易对的最低卖出价格')
-    percent_balance = models.DecimalField(verbose_name='资产使用比率', max_digits=20, decimal_places=8, \
-                                          help_text='请填写要使用的资产余额百分比,如0.9就是90%')
     start_time = models.DateTimeField(verbose_name='开始运行时间', help_text='请填写您的交易策略运行开始时间')
     end_time = models.DateTimeField(verbose_name='结束运行时间', help_text='请填写您的交易策略结束运行时间')
     update_time = models.DateTimeField(verbose_name='记录更新时间', auto_now=True)
@@ -80,7 +78,8 @@ class DuiQiaoPolicy(AbstractQuantPolicy):
         db_table = 'quantpolicy'
         managed = True
         verbose_name = u'对敲策略'
-        
+    base_volume = models.DecimalField(verbose_name='base货币数量', max_digits=100, decimal_places=8, \
+                                      help_text='请填写交易对的币数量,比如BTC/USDT，就是BTC的数量')  
     def get_absolute_url(self):
         return reverse('manage_getduiqiao', kwargs={'pk': self.pk})
     

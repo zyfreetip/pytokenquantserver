@@ -28,26 +28,3 @@ class TestMemModel(MemModel):
         for field in self._meta.local_fields:
             result.append('%s(%s)' % (field.name, getattr(self, field.name)))
         return ', '.join(result)
-
-class TcMemModel(unittest.TestCase):
-    def test_createMemModel(self):
-        obj = TestMemModel.objects.create(pkey=1, bintval=100, content='test content')
-        print(obj)
-        validationErr = None
-        try:
-            obj.full_clean()
-        except ValidationError as e:
-            validationErr = e
-        self.assertTrue(validationErr is not None)
-        objok = TestMemModel.objects.create(pkey=1, title='test title', floatval=1.0,
-                                            urlval='http://ebook.yuewen.com',
-                                            bintval=-2000000, emailval='zhangyang@yuewen.com',
-                                            psintval=200, sintval=10)
-        print(objok)
-        validationErr = None
-        try:
-            objok.full_clean()
-        except ValidationError as e:
-            validationErr = e
-            
-        self.assertTrue(validationErr is None)

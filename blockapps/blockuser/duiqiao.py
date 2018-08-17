@@ -3,11 +3,12 @@ Created on 2018年8月16日
 
 @author: qiaoxiaofeng
 '''
-from quantpolicy.business import quantpolicy
+from .basequant import quantpolicy
 import ccxt
 from acom.utils.strutil import ColorPrint, dump
 import asyncio
 import uvloop
+from blockdjcom.decorators import monit_time
 
 class duiqiao(quantpolicy):
     
@@ -60,7 +61,8 @@ class duiqiao(quantpolicy):
                     return
                 else:
                     # begin duiqiao
-                    self.duiqiao_async(price)
+                    results = self.duiqiao_async(price)
+                    import ipdb;ipdb.set_trace()
             else:
                 dump('Exchange ' + ColorPrint.fail(id) + ' not found')
         except ccxt.DDoSProtection as e:
@@ -72,21 +74,22 @@ class duiqiao(quantpolicy):
         except ccxt.AuthenticationError as e:
             print(type(e).__name__, e.args, 'Authentication Error (missing API keys, ignoring)')
     
-    async def create_order(self, price):
+    async def create_order(self, price, side):
         try:
-           response = await self.instance.create_limit_buy_order(self.symbol, self.base_volume, price)
+            if side == 'sell':
+                response = await self.instance.create_limit_sell_order(self.symbol, self.base_volume, price)
+            elif side == 'buy':
+                response = await self.instance.create_limit_buy_order(self.symbol, self.base_volume, price)
         except Exception as e:
             print('Failed to create order with', self.instance.id, type(e).__name__, str(e))
-                    
+        return response
+ 
+    @monit_time
     def duiqiao_async(self, price):
         loop = uvloop.new_event_loop()
         asyncio.set_event_loop(loop)
         results = loop.run_until_complete(asyncio.gather(
-            self.create_order(price),
-            self.create_order(price)
-            ))        
+            self.create_order(price, 'sell'),
+            self.create_order(price, 'buy')
+            ))     
         return results
-                    
-          
-        
-         
