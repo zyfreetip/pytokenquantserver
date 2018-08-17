@@ -10,7 +10,7 @@ class Command(BaseCommand):
                 help='publick key')
         parser.add_argument('--pri', dest='privatekey', required=True, \
                 help='private key')
-        parser.add_argument('--s', dest='symbol', required=True, \
+        parser.add_argument('--symbol', dest='symbol', required=True, \
                 help='trade symbol')
         parser.add_argument('--max', dest='max_buy_price', required=True, \
                 help='max buy price')
