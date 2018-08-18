@@ -65,8 +65,8 @@
     </div>
 
     <div class="required field">
-      <label  for="{{ form.percent_balance.id_for_label }}">{{ form.percent_balance.label }}</label>
-      <input type="text" name="percent_balance" placeholder="请确认您的交易对的两个代币有对等价值的账户余额" value="{% if form.percent_balance.data %}{{ form.percent_balance.data }}{% endif %}">
+      <label  for="{{ form.base_volume.id_for_label }}">{{ form.base_volume.label }}</label>
+      <input type="text" name="base_volume" placeholder="如要刷BTC/USDT，那么就是每次要买卖的BTC的数量" value="{% if form.base_volume.data %}{{ form.base_volume.data }}{% endif %}">
     </div>
 
     <div class="required field">

@@ -79,7 +79,7 @@ class DuiQiaoPolicy(AbstractQuantPolicy):
         managed = True
         verbose_name = u'对敲策略'
     base_volume = models.DecimalField(verbose_name='base货币数量', max_digits=20, decimal_places=8, \
-                                      help_text='请填写交易对的币数量,比如BTC/USDT，就是BTC的数量', default=0)  
+                                      help_text='请填写交易对的币数量比如BTC/USDT就是BTC的数量', default=0)  
     def get_absolute_url(self):
         return reverse('manage_getduiqiao', kwargs={'pk': self.pk})
     
