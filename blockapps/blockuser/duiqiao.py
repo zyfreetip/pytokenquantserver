@@ -10,7 +10,7 @@ import asyncio
 import uvloop
 from blockdjcom.decorators import monit_time
 
-class duiqiao(quantpolicy):
+class DuiQiao(quantpolicy):
     
     def __init__(self, exchange, symbol, accesskey, secretkey,\
                  max_buy_price, min_sell_price, base_volume):

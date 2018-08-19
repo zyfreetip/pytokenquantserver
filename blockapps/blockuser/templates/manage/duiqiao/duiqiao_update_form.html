@@ -90,7 +90,7 @@
 
   <div class="required field">
       <label  for="{{ form.base_volume.id_for_label }}">{{ form.base_volume.label }}</label>
-      <input type="text" name="base_volume" placeholder="如要刷BTC/USDT，那么就是每次要买卖的BTC的数量" value="{% if form.base_volume.data %}{{ form.base_volume.data }}{% endif %}">
+      <input type="text" name="base_volume" placeholder="如要刷BTC/USDT，那么就是每次要买卖的BTC的数量" value="{% if form.base_volume.value %}{{ form.base_volume.value }}{% endif %}">
     </div>
 
     <div class="required field">

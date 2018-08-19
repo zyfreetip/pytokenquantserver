@@ -30,8 +30,6 @@ class addDuiqiaoView(CreateView):
     
     def form_valid(self, form):
         form.instance.user = self.request.user
-        #run_duiqiao_policy.delay()
-        import ipdb;ipdb.set_trace()
         self.object = form.save()
         run_duiqiao_policy.delay(self.object.id)
         return super(ModelFormMixin, self).form_valid(form)
