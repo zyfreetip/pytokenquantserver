@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from .tasks import run_duiqiao_policy
 from django.views.generic.edit import ModelFormMixin
 
-ITEMS_PER_PAGE = 2
+ITEMS_PER_PAGE = 5
 
 class getQuantListView(ListView):
     queryset = QuantPolicy.objects.order_by('-update_time')

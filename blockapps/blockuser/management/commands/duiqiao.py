@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from blockuser.duiqiao import duiqiao
+from blockuser.duiqiao import DuiQiao
 import logging
 
 class Command(BaseCommand):
@@ -27,5 +27,5 @@ class Command(BaseCommand):
         base_volume = options['base_volume']
         max_buy_price = options['max_buy_price']
         min_sell_price = options['min_sell_price']
-        policy = duiqiao(exchange, symbol, publickey, privatekey, max_buy_price, min_sell_price, base_volume)
+        policy = DuiQiao(exchange, symbol, publickey, privatekey, max_buy_price, min_sell_price, base_volume)
         policy.run()

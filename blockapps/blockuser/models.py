@@ -74,7 +74,7 @@ class QuantPolicy(PermissionsMixin):
         verbose_name = u'quant_policy'
  
     title = models.CharField(max_length=255, verbose_name='商品名称', default='')
-    price = models.DecimalField(max_digits=40, decimal_places=5, verbose_name='购买价格', default=0)
+    price = models.FloatField(verbose_name='购买价格', default=0)
     content = models.TextField(verbose_name='内容', default='')
     exchanges = models.TextField(verbose_name='支持交易所列表', default='')
     #symbols = models.IntegerField(verbose_name='支持交易对', default=0)
@@ -95,9 +95,9 @@ class AbstractQuantPolicy(PermissionsMixin):
     accesskey = models.CharField(verbose_name='Accesskey', max_length=100, help_text='请填写您在交易所的api access key')
     secretkey = models.CharField(verbose_name='SecretKey', max_length=100, help_text='请填写您在交易所的api secret key')
     symbol = models.CharField(verbose_name='交易对', max_length=20, choices=SYMBOLS, help_text='请填写该交易所的交易对例如BTC/USDT')
-    max_buy_price = models.DecimalField(verbose_name='最高买入价格', max_digits=20, decimal_places=8, \
+    max_buy_price = models.FloatField(verbose_name='最高买入价格', default=0, \
                                         help_text='请填写该交易对的最高买入价格')
-    min_sell_price = models.DecimalField(verbose_name='最低卖出价格', max_digits=20, decimal_places=8, \
+    min_sell_price = models.FloatField(verbose_name='最低卖出价格', default=0, \
                                          help_text='请填写该交易对的最低卖出价格')
     start_time = models.DateTimeField(verbose_name='开始运行时间', help_text='请填写您的交易策略运行开始时间')
     end_time = models.DateTimeField(verbose_name='结束运行时间', help_text='请填写您的交易策略结束运行时间')
@@ -119,7 +119,7 @@ class DuiQiaoPolicy(AbstractQuantPolicy):
         db_table = 'duiqiao'
         managed = True
         verbose_name = u'对敲策略'
-    base_volume = models.DecimalField(verbose_name='base货币数量', max_digits=20, decimal_places=8, \
+    base_volume = models.FloatField(verbose_name='base货币数量', \
                                       help_text='请填写交易对的币数量比如BTC/USDT就是BTC的数量', default=0)  
     def get_absolute_url(self):
         return reverse('manage_getduiqiao', kwargs={'pk': self.pk})
