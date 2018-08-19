@@ -2,6 +2,8 @@ from django.views.generic import ListView, DetailView, TemplateView,\
                             CreateView, UpdateView, DeleteView
 from blockuser.models import QuantPolicy, DuiQiaoPolicy
 from django.urls import reverse_lazy
+from .tasks import run_duiqiao_policy
+from django.views.generic.edit import ModelFormMixin
 
 ITEMS_PER_PAGE = 2
 
@@ -28,7 +30,11 @@ class addDuiqiaoView(CreateView):
     
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super().form_valid(form)
+        #run_duiqiao_policy.delay()
+        import ipdb;ipdb.set_trace()
+        self.object = form.save()
+        run_duiqiao_policy.delay(self.object.id)
+        return super(ModelFormMixin, self).form_valid(form)
 
 class updateDuiqiaoView(UpdateView):
     template_name = 'manage/duiqiao/duiqiao_update_form.html'
