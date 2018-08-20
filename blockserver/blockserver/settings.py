@@ -398,7 +398,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = ()
 CORS_ORIGIN_REGEX_WHITELIST = ()
 
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'               # 指定 Broker
+CELERY_BROKER_URL = 'amqp://test:12345@localhost:5672/myvhost'               # 指定 Broker
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'  # 指定 Backend
 #CELERY_TIMEZONE='Asia/Shanghai'                     # 指定时区，默认是 UTC
 # CELERY_TIMEZONE='UTC'                             
