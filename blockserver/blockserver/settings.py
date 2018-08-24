@@ -212,6 +212,7 @@ CACHE_SHARE_EXPIRE_TIME = 60
 SITE_CONFIG = {}
 CACHES = {}
 LOGGING = {}
+MONGO = {}
 # custom settings
 def load_config(config_path, config={}):
     if not pathexists(config_path):
@@ -237,6 +238,7 @@ if re.compile(r'^online').match(hostname):
     print('run on online idc, hostname(%s)' % hostname)
     config_name = 'siteconfig-online.json'
     caches_name = 'caches-online.json'
+    mongo_name = 'mongo-online.json'
     ENV_MODE_BLOCKSERVER = 'online'
 elif re.compile(r'^pre').match(hostname):
     print('run on pre idc, hostname(%s)' % hostname)
@@ -244,25 +246,30 @@ elif re.compile(r'^pre').match(hostname):
         # 测试运行环境！不使用正式数据库
         config_name = 'siteconfig-uat.json'
         caches_name = 'caches-uat.json'
+        mongo_name = 'mongo-uat.json'
     else:
         # 正常运行环境，使用正式数据库
         config_name = 'siteconfig-pre.json'
         caches_name = 'caches-pre.json'
+        mongo_name = 'mongo-pre.json'
     ENV_MODE_BLOCKSERVER = 'pre'
 elif re.compile(r'^uat').match(hostname):
     print('run on uat idc, hostname(%s)' % hostname)
     config_name = 'siteconfig-uat.json'
     caches_name = 'caches-uat.json'
+    mongo_name = 'mongo-uat.json'
     ENV_MODE_BLOCKSERVER = 'uat'
 else:
     print('run on localhost idc??, hostname(%s)' % hostname)
     config_name = 'siteconfig-localhost.json'
     caches_name = 'caches-localhost.json'
+    mongo_name = 'mongo-localhost.json'
     ENV_MODE_BLOCKSERVER = 'localhost'
 
-print('loading %s %s' % (config_name, caches_name))
+print('loading %s %s %s' % (config_name, caches_name, mongo_name))
 load_config(pathjoin(BASE_DIR, '..', 'conf', config_name), SITE_CONFIG)
 load_config(pathjoin(BASE_DIR, '..', 'conf', caches_name), CACHES)
+load_config(pathjoin(BASE_DIR, '..', 'conf', mongo_name), MONGO)
 logsfile_name = 'loggings.json'
 load_config(pathjoin(BASE_DIR, '..', 'conf', logsfile_name), LOGGING)
 
@@ -301,7 +308,8 @@ INSTALLED_APPS.extend((
     'djcom',
     'blockdjcom',
     'blockserver',
-    'fcoin'
+    'fcoin',
+    'exwss'
     ))
 SOCIALACCOUNT_PROVIDERS = {
     'github': {
