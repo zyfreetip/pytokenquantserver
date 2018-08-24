@@ -19,7 +19,7 @@ class MongoTestCase(TestCase):
         item = conn['test'].delete_one({'test': 'test'})
         self.assertTrue(item.deleted_count == 1, 'delete fail')
         item = conn['test'].drop()
-        self.assertTrue(item.deleted_count == 1, 'delete fail')
+        self.assertTrue(item is None, 'delete fail')
 
 class OkexTestCase(TestCase):
     def test_okex_wss_future_kline_data(self):
@@ -27,5 +27,5 @@ class OkexTestCase(TestCase):
         data.connectSync()
  
     def test_okex_wss_future_trade_data(self):
-        data = OkexFutureKlineData(['btc_usdt','eth_usdt','eos_usdt'], 20, None, OKEX_WS_SERVER)
+        data = OkexFutureTradeData(['btc_usdt','eth_usdt','eos_usdt'], 20, None, OKEX_WS_SERVER)
         data.connectSync() 
