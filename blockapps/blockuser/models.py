@@ -5,6 +5,7 @@ from djcom.admin_perms import PermissionsMixin
 from djcom.utils import dt1970
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from encrypted_fields import EncryptedTextField
 
 EXCHANGES = (
         ('binance', '币安Binance'),
@@ -93,7 +94,7 @@ class AbstractQuantPolicy(PermissionsMixin):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     exchange = models.CharField(verbose_name='交易所', max_length=20, choices=EXCHANGES, help_text='请选择一个交易所')
     accesskey = models.CharField(verbose_name='Accesskey', max_length=100, help_text='请填写您在交易所的api access key')
-    secretkey = models.CharField(verbose_name='SecretKey', max_length=100, help_text='请填写您在交易所的api secret key')
+    secretkey = EncryptedTextField(verbose_name='SecretKey', help_text='请填写您在交易所的api secret key')
     symbol = models.CharField(verbose_name='交易对', max_length=20, choices=SYMBOLS, help_text='请填写该交易所的交易对例如BTC/USDT')
     max_buy_price = models.FloatField(verbose_name='最高买入价格', default=0, \
                                         help_text='请填写该交易对的最高买入价格')
