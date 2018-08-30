@@ -108,7 +108,7 @@ class OkexFutureTradeData(OkexData):
         
     def _on_message(self, ws, message):
         self._ping_interval(ws)
-        print(message) 
+        #print(message) 
         msg = json.loads(message)
         try:
             if msg == {'event': 'pong'}:

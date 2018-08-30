@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'django_celery_beat',
+    'django_extensions',
     # ... include the providers you want to enable:
     #'allauth.socialaccount.providers.telegram',
     #'allauth.socialaccount.providers.coinbase',
