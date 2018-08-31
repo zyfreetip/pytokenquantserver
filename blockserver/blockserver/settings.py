@@ -18,12 +18,17 @@ __builtins__['_'] = ugettext_lazy
 from os.path import join as pathjoin, exists as pathexists
 from json import loads as jloads
 from json import dump as jdump
+from oscar.defaults import * 
+from oscar import OSCAR_MAIN_TEMPLATE_DIR
+from oscar import get_core_apps
+from oscar_accounts import TEMPLATE_DIR as ACCOUNTS_TEMPLATE_DIR
 #from oscar.defaults import *
 #from oscar import OSCAR_MAIN_TEMPLATE_DIR
 #from oscar import get_core_apps
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+location = lambda x: os.path.join(os.path.dirname(os.path.realpath(__file__)), x)
 # Path helper
 #location = lambda x: os.path.join(
 #    os.path.dirname(os.path.realpath(__file__)), x)
@@ -71,6 +76,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'django_celery_beat',
     'django_extensions',
+    'widget_tweaks',
     # ... include the providers you want to enable:
     #'allauth.socialaccount.providers.telegram',
     #'allauth.socialaccount.providers.coinbase',
@@ -83,7 +89,7 @@ INSTALLED_APPS = [
     #'allauth.socialaccount.providers.twitter',
     #'allauth.socialaccount.providers.weibo',
     #'allauth.socialaccount.providers.weixin',
-]
+] + get_core_apps()
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 INTERNAL_IPS = ['127.0.0.1', ]
 def check_test(request):
@@ -112,6 +118,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'oscar.apps.basket.middleware.BasketMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 ]
 
 ROOT_URLCONF = 'blockserver.urls'
@@ -119,7 +127,9 @@ ROOT_URLCONF = 'blockserver.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),
+                 OSCAR_MAIN_TEMPLATE_DIR,
+                 ACCOUNTS_TEMPLATE_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -131,6 +141,12 @@ TEMPLATES = [
                 'blockserver.context_processors.templatevars',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
+                'oscar.apps.search.context_processors.search_form',
+                'oscar.apps.promotions.context_processors.promotions',
+                'oscar.apps.checkout.context_processors.checkout',
+                'oscar.apps.customer.notifications.context_processors.notifications',
+                'oscar.core.context_processors.metadata',
             ],
 # enable to cache template files
 #             'loaders': [
@@ -199,7 +215,8 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(DATA_DIR, 'ebook/upload/bookmanage_media')
+MEDIA_ROOT = location("media")
+MEDIA_URL = '/media/'
 CACHE_LONG_TIMEOUT = 3600*24
 CACHE_SHORT_TIMEOUT = 3600 / 2
 CACHE_ONE_MINUTE_TIMEOUT = 60
@@ -288,6 +305,8 @@ AUTHENTICATION_BACKENDS = (
                 'django.contrib.auth.backends.RemoteUserBackend',
                 'django.contrib.auth.backends.ModelBackend',
                 'allauth.account.auth_backends.AuthenticationBackend',
+                'oscar.apps.customer.auth_backends.EmailBackend',
+                'django.contrib.auth.backends.ModelBackend',
                         )
 HAYSTACK_CONNECTIONS = {
     'default': {
@@ -310,7 +329,12 @@ INSTALLED_APPS.extend((
     'blockdjcom',
     'blockserver',
     'fcoin',
-    'exwss'
+    'exwss',
+    'oscar_accounts',
+    'oscarapi',
+    'rest_framework',
+    'paypal',
+    'blockoscar'
     ))
 SOCIALACCOUNT_PROVIDERS = {
     'github': {
@@ -421,3 +445,69 @@ CELERY_DEFAULT_EXCHANGE = 'tasks'
 CELERY_DEFUALT_EXCHANGE_TYPE = 'topic'
 CELERY_DEFAULT_ROUTING_KEY = 'task.default'
 ENCRYPTED_FIELDS_KEYDIR = pathjoin(BASE_DIR, '..', 'fieldkeys') 
+
+OSCAR_INITIAL_ORDER_STATUS = 'Pending'
+OSCAR_INITIAL_LINE_STATUS = 'Pending'
+OSCAR_ORDER_STATUS_PIPELINE = {
+    'Pending': ('Being processed', 'Cancelled',),
+    'Being processed': ('Processed', 'Cancelled',),
+    'Cancelled': (),
+}
+
+OSCAR_DASHBOARD_NAVIGATION.append(
+    {
+        'label': 'Accounts',
+        'icon': 'icon-globe',
+        'children': [
+            {
+                'label': 'Accounts',
+                'url_name': 'accounts-list',
+            },
+            {
+                'label': 'Transfers',
+                'url_name': 'transfers-list',
+            },
+            {
+                'label': 'Deferred income report',
+                'url_name': 'report-deferred-income',
+            },
+            {
+                'label': 'Profit/loss report',
+                'url_name': 'report-profit-loss',
+            },
+        ]
+    })
+
+PAYPAL_API_USERNAME = 'test_xxxx.gmail.com'
+PAYPAL_API_PASSWORD = '123456789'
+PAYPAL_API_SIGNATURE = '...'
+OSCAR_DASHBOARD_NAVIGATION.append(
+    {
+        'label': 'PayPal',
+        'icon': 'icon-globe',
+        'children': [
+            {
+                'label': _('Express transactions'),
+                'url_name': 'paypal-express-list',
+            },
+        ]
+    })
+OSCAR_ALLOW_ANON_CHECKOUT = True
+
+OSCAR_SHOP_TAGLINE = 'test'
+
+# Taken from PayPal's documentation - these should always work in the sandbo
+PAYPAL_CALLBACK_HTTPS = False
+PAYPAL_API_VERSION = '119'
+
+# These are the standard PayPal sandbox details from the docs - but I don't
+# think you can get access to the merchant dashboard.
+PAYPAL_API_USERNAME = 'sdk-three_api1.sdk.com'
+PAYPAL_API_PASSWORD = 'QFZCWN5HZM8VBG7Q'
+PAYPAL_API_SIGNATURE = 'A-IzJhZZjhg29XQ2qnhapuwxIDzyAZQ92FRP5dqBzVesOkzbdUONzmOU'
+
+# Standard currency is GBP
+PAYPAL_CURRENCY = PAYPAL_PAYFLOW_CURRENCY = 'GBP'
+PAYPAL_PAYFLOW_DASHBOARD_FORMS = True
+
+LOGIN_REDIRECT_URL = '/accounts/'
