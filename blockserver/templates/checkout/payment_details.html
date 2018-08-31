@@ -4,17 +4,17 @@
 
 
 {% block payment_details %}
-    <div class="well">
+    <!--   <div class="well">
         <div class="sub-header">
             <h3>{% trans "PayPal Express" %}</h3>
         </div>
         <p>{% trans "Click on the below icon to use Express Checkout but where the shipping address and method is already chosen on the merchant site." %}</p>
         <div style="overflow:auto"><a href="{% url 'paypal-redirect' %}" title="{% trans "Pay with PayPal" %}"><img src="https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif" align="left" style="margin-right:7px;"></a>&nbsp;</div>
     </div>
-
+-->
 <div class="well">
 <div class="sub-header">
-	<h2>{% trans "Enter payment details" %}</h2>
+	<h2>{% trans "Use your account to buy:" %}</h2>
 </div>
 
 {% if not allocation_form %}
