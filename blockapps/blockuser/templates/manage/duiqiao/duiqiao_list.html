@@ -1,10 +1,14 @@
-{% extends "manage/duiqiao/base.html" %}
-
+{% extends "layout_semantic.html" %}
 {% load i18n %}
 
-{% block head_title %} 量化策略列表 {% endblock %}
+{% block header %}{% endblock %}
+{% block title %}量化策略列表 {% endblock %}
 
-{% block base_content %}
+{% block column_left %}
+{% endblock %}
+
+
+{% block content %}
 <div class="ui basic segment">
   <div class="ui container">
     <h4 class="ui header">1、您的所有对敲策略列表：</h4>
@@ -43,12 +47,12 @@
  {% for duiqiao in duiqiao_list%}
     <tr>
       <td class="collapsing">
-        <i class="folder icon"></i> {{ duiqiao.create_time }}
+        <i class="folder icon"></i> {{ duiqiao.create_time |date:'Y-m-d H:i' }}
       </td>
       <td>{{ duiqiao.exchange }}</td>
       <td>{{ duiqiao.symbol }}</td>
-      <td>{{ duiqiao.start_time }} </td>
-      <td> {{ duiqiao.end_time }} </td>
+      <td>{{ duiqiao.start_time |date:'Y-m-d H:i' }} </td>
+      <td> {{ duiqiao.end_time |date:'Y-m-d H:i' }} </td>
       <td> {{ duiqiao.status }}</td>
       <!--  <td> <div class="ui yellow button">查看日志</div> </td> -->
       <td>
@@ -83,4 +87,4 @@
 </table>
 </div>
 
-{% endblock %}
+{% endblock content%}

@@ -492,9 +492,10 @@ OSCAR_DASHBOARD_NAVIGATION.append(
             },
         ]
     })
-OSCAR_ALLOW_ANON_CHECKOUT = True
+OSCAR_ALLOW_ANON_CHECKOUT = False
 
-OSCAR_SHOP_TAGLINE = 'test'
+OSCAR_SHOP_NAME = 'QuantDog'
+OSCAR_SHOP_TAGLINE = ' Quant for Digital Currency'
 
 # Taken from PayPal's documentation - these should always work in the sandbo
 PAYPAL_CALLBACK_HTTPS = False

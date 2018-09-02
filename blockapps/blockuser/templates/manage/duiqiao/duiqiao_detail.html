@@ -1,10 +1,14 @@
-{% extends "manage/duiqiao/base.html" %}
-
+{% extends "layout_semantic.html" %}
 {% load i18n %}
 
-{% block head_title %} 该策略详情 {% endblock %}
+{% block header %}{% endblock %}
+{% block title %}该策略详情 {% endblock %}
 
-{% block base_content %}
+{% block column_left %}
+{% endblock %}
+
+
+{% block content %}
 <div class="ui basic segment">
   <div class="ui container">
     <h4 class="ui header">1、您的本次策略详情：</h4>
@@ -42,15 +46,15 @@
    {% if duiqiao_detail %}
     <tr>
       <td class="collapsing">
-        <i class="folder icon"></i> {{ duiqiao_detail.create_time }}
+        <i class="folder icon"></i> {{ duiqiao_detail.create_time |date:'Y-m-d H:i' }}
       </td>
       <td>{{ duiqiao_detail.exchange }}</td>
       <td>{{ duiqiao_detail.symbol }}</td>
-      <td>{{ duiqiao_detail.start_time }} </td>
-      <td> {{ duiqiao_detail.end_time }} </td>
+      <td>{{ duiqiao_detail.start_time |date:'Y-m-d H:i' }} </td>
+      <td> {{ duiqiao_detail.end_time |date:'Y-m-d H:i'}} </td>
       <td> {{ duiqiao_detail.status }}</td>
       <td> {{ duiqiao_detail.percent_balance }} </td>
-      <td> {{ duiqiao_detail.update_time }} </td>
+      <td> {{ duiqiao_detail.update_time |date:'Y-m-d H:i'}} </td>
     </tr>
   </tbody>
  <tfoot>
@@ -90,5 +94,6 @@
 {% endif %}
 </tfoot>
 </table>
+</div>
 </div>
 {% endblock %}

@@ -26,10 +26,10 @@
       <div class="right menu">
       {% if user.is_authenticated %}
       <div class="item">
-          <a href="{% url 'account_profile' %}" class="item"><i class="user icon"></i>用户中心</a>
+          <a href="{% url 'customer:summary' %}" class="item"><i class="user icon"></i>用户中心</a>
       </div>
       <div class="item">
-        <a href="{% url 'account_logout' %}" class="item"><i class="sign out alternate icon"></i>退出</a>
+        <a href="{% url 'customer:logout' %}" class="item"><i class="sign out alternate icon"></i>退出</a>
       </div>
       {% else %}
       <div class="item">
