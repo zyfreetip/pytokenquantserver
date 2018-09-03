@@ -5,13 +5,16 @@ from blockuser.models import QuantPolicyOrder
 import logging
 from django.utils import timezone
 
+log_sync_orders = logging.getLogger('sync_orders_log') 
 class Command(BaseCommand):
     def add_arguments(self, parser):
         pass
 
     def handle(self, *args, **options):
-        orders = Order.objects.filter()
+        now = timezone.now()
+        orders = Order.objects.filter(date_placed__gte=now-timezone.timedelta(7))
         for order in orders:
+            log_sync_orders.info('order:%s' % (order.date_placed))
             date_placed = order.date_placed
             user = order.user
             basket = order.basket
@@ -28,10 +31,11 @@ class Command(BaseCommand):
                         quantorder.policy_start_time = date_placed
                         quantorder.policy_end_time = date_placed + timezone.timedelta(days=30*quantity)
                     quantorder.save()
+                    log_sync_orders.info('quantorder id:%s' %(quantorder.id))
                 if not quantorders:
                     policy_end_time = date_placed + timezone.timedelta(days=30*quantity)
                     QuantPolicyOrder.objects.create(user=user, policy_id=policy_id, \
                                                      policy_start_time=date_placed,
                                                      policy_end_time=policy_end_time)   
-            import ipdb;ipdb.set_trace()
            
+                    log_sync_orders.info('quantorder id:%s' %(quantorder.id))

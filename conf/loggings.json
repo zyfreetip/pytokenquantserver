@@ -40,6 +40,14 @@
             "maxBytes": 104857600,
             "backupCount": 30,
             "formatter": "verbose"
+        },
+        "logfile_sync_orders":{
+            "level": "INFO",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": "/Users/qiaoxiaofeng/logs/pyexchanges/sync_orders.log",
+            "maxBytes": 104857600,
+            "backupCount": 30,
+            "formatter": "verbose"
         }
     },
     "loggers": {
@@ -56,6 +64,11 @@
             "level": "INFO",
             "handlers": ["console", "logfile_fcoin_auto_trade_log"],
             "propagate": true
+        },
+        "sync_orders_log": {
+        	"levle": "INFO",
+        	"handlers": ["console", "logfile_sync_orders"],
+        	"propagate": true
         }
-    }
+   }
 }
