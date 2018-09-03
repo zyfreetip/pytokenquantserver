@@ -5,7 +5,8 @@ from blockuser.models import QuantPolicyOrder
 import logging
 from django.utils import timezone
 
-log_sync_orders = logging.getLogger('sync_orders_log') 
+log_sync_orders = logging.getLogger('sync_orders_log')
+policy_url_map = {2: ['manage_addduiqiao','manage_getduiqiaolist']}
 class Command(BaseCommand):
     def add_arguments(self, parser):
         pass
@@ -30,12 +31,18 @@ class Command(BaseCommand):
                     else:
                         quantorder.policy_start_time = date_placed
                         quantorder.policy_end_time = date_placed + timezone.timedelta(days=30*quantity)
+                    quantorder.policy_name = line.title
+                    quantorder.policy_url_add = policy_url_map[policy_id][0]
+                    quantorder.policy_url_list = policy_url_map[policy_id][1]
                     quantorder.save()
                     log_sync_orders.info('quantorder id:%s' %(quantorder.id))
                 if not quantorders:
                     policy_end_time = date_placed + timezone.timedelta(days=30*quantity)
                     QuantPolicyOrder.objects.create(user=user, policy_id=policy_id, \
                                                      policy_start_time=date_placed,
-                                                     policy_end_time=policy_end_time)   
+                                                     policy_end_time=policy_end_time,
+                                                     policy_name=line.title,
+                                                     policy_url_add=policy_url_map[policy_id][0],
+                                                     policy_url_list=policy_url_map[policy_id][1])   
            
                     log_sync_orders.info('quantorder id:%s' %(quantorder.id))

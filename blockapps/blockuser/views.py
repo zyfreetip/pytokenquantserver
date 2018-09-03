@@ -1,6 +1,6 @@
 from django.views.generic import ListView, DetailView, TemplateView,\
                             CreateView, UpdateView, DeleteView
-from blockuser.models import QuantPolicy, DuiQiaoPolicy
+from blockuser.models import QuantPolicy, DuiQiaoPolicy, QuantPolicyOrder
 from django.urls import reverse_lazy
 from .tasks import run_duiqiao_policy
 from django.views.generic.edit import ModelFormMixin
@@ -17,10 +17,6 @@ class getQuantDetailView(DetailView):
     queryset = QuantPolicy.objects.all()
     context_object_name = 'quant_policy_detail'
     template_name = 'product/quant_policy_detail.html'
-
-#@login_required
-class ProfileView(TemplateView):
-    template_name = 'account/profile.html'
 
 class addDuiqiaoView(CreateView):
     template_name = 'manage/duiqiao/duiqiao_create_form.html'
@@ -46,9 +42,6 @@ class deleteDuiqiaoView(DeleteView):
     model = DuiQiaoPolicy
     context_object_name = 'duiqiao_detail'
     success_url = reverse_lazy('manage_getduiqiaolist')
-    
-class manageIndexView(TemplateView):
-    pass
 
 class getDuiqiaoDetailView(DetailView):
     queryset = DuiQiaoPolicy.objects.all()
@@ -64,3 +57,12 @@ class getDuiqiaoListView(ListView):
     def get_context_data(self, **kwargs):
         return ListView.get_context_data(self, **kwargs)
     
+class manageIndexView(TemplateView):
+    template_name = 'manage/index.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super(manageIndexView, self).get_context_data(**kwargs)
+        context['quantpolicyorder'] = QuantPolicyOrder.objects.filter(user=self.request.user)
+        return context
+    
+       

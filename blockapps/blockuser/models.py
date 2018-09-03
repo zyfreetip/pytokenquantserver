@@ -103,6 +103,9 @@ class QuantPolicyOrder(PermissionsMixin):
     policy_end_time = models.DateTimeField()
     date_created = models.DateTimeField(_("Date Created"), auto_now_add=True)
     date_updated = models.DateTimeField(_("Date Updated"), auto_now=True)
+    policy_name = models.CharField(max_length=200, default='')
+    policy_url_add = models.CharField(max_length=50, default='')
+    policy_url_list = models.CharField(max_length=50, default='')
  
     def __str__(self):
         return 'user %s' % (self.user)
