@@ -7,5 +7,3 @@ class CeleryTestCase(TestCase):
         while True:
             time.sleep(1)
             run_duiqiao_policy.delay(47)
-              
-        

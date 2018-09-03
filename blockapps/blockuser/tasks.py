@@ -11,7 +11,7 @@ from blockuser.duiqiao import DuiQiao
 @shared_task
 def add(x, y):
     print(x,y)
-    return x + y
+    return x + y 
 
 @celery_app.task
 def run_duiqiao_policy(policy_id):

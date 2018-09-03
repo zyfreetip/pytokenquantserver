@@ -87,6 +87,26 @@ class QuantPolicy(PermissionsMixin):
         return 'title(%s) price(%s) exchange(%s) ' % \
                            (self.title, self.price, self.exchanges)
 
+class QuantPolicyOrder(PermissionsMixin):
+    class Meta(PermissionsMixin.Meta):
+        abstract = False
+        #app_label = 'quant'
+        db_table = 'quant_policy_order'
+        managed = True
+        verbose_name = u'quant_policy_order'
+    
+    user = models.ForeignKey(
+        User, null=True, blank=True,
+        verbose_name=_("User"), on_delete=models.CASCADE)
+    policy_id = models.CharField(max_length=20)
+    policy_start_time = models.DateTimeField()
+    policy_end_time = models.DateTimeField()
+    date_created = models.DateTimeField(_("Date Created"), auto_now_add=True)
+    date_updated = models.DateTimeField(_("Date Updated"), auto_now=True)
+ 
+    def __str__(self):
+        return 'user %s' % (self.user)
+
 class AbstractQuantPolicy(PermissionsMixin):
     class Meta(PermissionsMixin.Meta):
         abstract = True
@@ -124,7 +144,3 @@ class DuiQiaoPolicy(AbstractQuantPolicy):
                                       help_text='请填写交易对的币数量比如BTC/USDT就是BTC的数量', default=0)  
     def get_absolute_url(self):
         return reverse('manage_getduiqiao', kwargs={'pk': self.pk})
-    
-
-
-        
