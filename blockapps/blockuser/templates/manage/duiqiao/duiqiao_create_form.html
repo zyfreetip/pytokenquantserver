@@ -78,7 +78,7 @@
       <div class="ui calendar inline">
         <div class="ui small input icon left" id="start_time">
               <i class="calendar icon"></i>
-              <input type="text" name="start_time" placeholder="请输入您的策略开始运行时间">
+              <input type="text" name="start_time" placeholder="策略开始运行时间,需要大于{{ policy_start_time }}">
         </div>
       </div>
     </div>
@@ -88,7 +88,7 @@
       <div class="ui calendar inline">
         <div class="ui small input icon left" id="end_time">
               <i class="calendar icon"></i>
-              <input type="text" name="end_time" placeholder="请输入您的策略结束运行时间">
+              <input type="text" name="end_time" placeholder="策略结束运行时间,需要小于{{ policy_end_time }}">
         </div>
       </div>
     </div>
@@ -189,7 +189,7 @@ $('.ui.form')
     	  rules: [
     		  {
     		  type : 'empty',
-    		  prompt : '请配置您的策略开始运行时间'	  
+    		  prompt: '请配置您的策略开始运行时间'
       		}
       	]
       },
