@@ -77,6 +77,7 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'django_extensions',
     'widget_tweaks',
+    'channels',
     # ... include the providers you want to enable:
     #'allauth.socialaccount.providers.telegram',
     #'allauth.socialaccount.providers.coinbase',
@@ -334,7 +335,8 @@ INSTALLED_APPS.extend((
     'oscarapi',
     'rest_framework',
     'paypal',
-    'blockoscar'
+    'blockoscar',
+    'chat'
     ))
 SOCIALACCOUNT_PROVIDERS = {
     'github': {
@@ -392,14 +394,26 @@ if TEST_MODE:
         DATABASES = {
             'default': {
                 'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': os.path.join(BASE_DIR, 'db-bookserver.sqlite3'),
+                'NAME': os.path.join(BASE_DIR, 'db-exchangeserver.sqlite3'),
                 'OPTIONS': {
                     'timeout': 5,
                 }
             }
         }
     else:
-        DATABASES = SITE_CONFIG.get('DATABASES')
+#         DATABASES = SITE_CONFIG.get('DATABASES')
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': os.path.join(BASE_DIR, 'db-exchangeserver.sqlite3'),
+                'OPTIONS': {
+                    'timeout': 5,
+                },
+                'TEST': {
+                    'NAME': os.path.join(BASE_DIR, 'db_test.sqlite3')
+                }
+            }
+        }
 else:
     print('use remote db')
     if 'DATABASES' not in SITE_CONFIG:
@@ -514,3 +528,13 @@ PAYPAL_PAYFLOW_DASHBOARD_FORMS = True
 LOGIN_REDIRECT_URL = '/accounts/'
 
 OSCAR_FROM_EMAIL= '16260924@qq.com'
+
+ASGI_APPLICATION = "blockserver.routing.application"
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}

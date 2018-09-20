@@ -28,6 +28,7 @@ urlpatterns += [
     url(r'^eBlockTst_admin123/', include(admin.site.urls)),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^captcha/', include('captcha.urls')),
+    url(r'^chat/', include('chat.urls')),
     ]
 
 urlpatterns += [
