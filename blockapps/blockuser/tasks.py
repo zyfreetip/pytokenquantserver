@@ -7,6 +7,8 @@ from .models import DuiQiaoPolicy, OPS, RUN_STATUSS
 from django.utils import timezone
 from time import sleep
 from blockuser.duiqiao import DuiQiao
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 @shared_task
 def add(x, y):
@@ -16,9 +18,11 @@ def add(x, y):
 @celery_app.task
 def run_duiqiao_policy(policy_id):
     print(policy_id)
+    channel_layer = get_channel_layer()
     while True:
         policy = DuiQiaoPolicy.objects.get(id=policy_id)
         print(policy)
+        username = policy.user.username
         exchange = policy.exchange
         symbol = policy.symbol
         accesskey = policy.accesskey
@@ -32,6 +36,14 @@ def run_duiqiao_policy(policy_id):
         create_time = policy.create_time
         status = policy.status
         operation = policy.operation
+        message = {'username':username, "exchange": exchange, 'symbol': symbol, 'start_time': start_time.isoformat(), 'end_time': end_time.isoformat()}
+        async_to_sync(channel_layer.group_send)(
+            username,
+            {
+                'type': 'log_message',
+                'message': message
+            }
+            )
         if operation == OPS[1][0]:
             policy.status = RUN_STATUSS[2][0]
             policy.save()

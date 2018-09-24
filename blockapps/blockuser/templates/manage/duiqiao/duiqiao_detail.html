@@ -82,7 +82,7 @@
     <tr>
       <td>
       	<div class="ui red button">停止运行</div>
-        <div class="ui yellow button">监控日志</div>
+        <!--  <div class="ui yellow button">监控日志</div> -->
         <a href="{% url 'manage_updateduiqiao' pk=duiqiao_detail.id %}" class="ui green button">更改策略</a>
         <a href="{% url 'manage_deleteduiqiao' pk=duiqiao_detail.id %}" class='ui green button'>删除策略</a>
       </td>
@@ -96,4 +96,53 @@
 </table>
 </div>
 </div>
+
+<div class="ui basic segment">
+<div class="ui container">
+<h4 class="ui header">3、实时监控日志：</h4>
+<div class="table-responsive">
+<table class="table card-table table-striped table-vcenter">
+<thead>
+<th>时间</th>
+<th>日志</th>
+</thead>
+<tbody id='output_append'>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+{% endblock %}
+ 
+ 
+{% block formscripts %}
+<script>
+$(document).ready(function () {
+    CreateWebSocket();
+});
+
+function CreateWebSocket() {
+    var logSocket = new WebSocket(
+        'ws://' + window.location.host +
+        '/ws/log/');
+
+    logSocket.onmessage = function(e) {
+    	console.log(e);
+        var data = JSON.parse(e.data);
+        var message = data['message'];
+        console.log(message);
+        var output_html = message;
+        var start_time = message['start_time'];
+        var username = message['username'];
+        var output_html = '<tr><td>' + start_time + '</td><td>' + username + '</td></tr>';
+        $("#output_append").prepend(output_html);
+    };
+
+    logSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+}
+</script>
+
 {% endblock %}
