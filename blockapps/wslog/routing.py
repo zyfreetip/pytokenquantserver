@@ -4,5 +4,5 @@ from django.conf.urls import url
 from . import consumers
 
 websocket_urlpatterns = [
-        url(r'^ws/log/$', consumers.LogConsumer),
+        url(r'^ws/log/duiqiao/$', consumers.DuiqiaoLogConsumer),
     ]

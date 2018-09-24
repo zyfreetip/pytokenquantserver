@@ -125,18 +125,21 @@ $(document).ready(function () {
 function CreateWebSocket() {
     var logSocket = new WebSocket(
         'ws://' + window.location.host +
-        '/ws/log/');
+        '/ws/log/duiqiao/');
 
     logSocket.onmessage = function(e) {
     	console.log(e);
         var data = JSON.parse(e.data);
         var message = data['message'];
         console.log(message);
-        var output_html = message;
-        var start_time = message['start_time'];
-        var username = message['username'];
-        var output_html = '<tr><td>' + start_time + '</td><td>' + username + '</td></tr>';
-        $("#output_append").prepend(output_html);
+        var policy_id = {{ duiqiao_detail.id }};
+        console.log(policy_id);
+        if(message['policy_id'] == policy_id){
+			var start_time = message['data']['start_time'];
+			var username = message['data']['username'];
+			var output_html = '<tr><td>' + start_time + '</td><td>' + policy_id + '</td></tr>';
+			$("#output_append").prepend(output_html);
+        }
     };
 
     logSocket.onclose = function(e) {

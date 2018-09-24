@@ -78,3 +78,21 @@ class LogConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
                 'message': message
             }))
+class DuiqiaoLogConsumer(LogConsumer):
+    async def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        message = text_data_json['message']
+        
+        await self.channel_layer.group_send(
+            self.log_group_name,
+            {
+                'type': 'duiqiao_message',
+                'message': message
+            }
+            )
+        
+    async def duiqiao_message(self, event):
+        message = event['message']
+        await self.send(text_data=json.dumps({
+                'message': message
+            }))

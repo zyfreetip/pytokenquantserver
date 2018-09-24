@@ -36,11 +36,11 @@ def run_duiqiao_policy(policy_id):
         create_time = policy.create_time
         status = policy.status
         operation = policy.operation
-        message = {'username':username, "exchange": exchange, 'symbol': symbol, 'start_time': start_time.isoformat(), 'end_time': end_time.isoformat()}
+        message = {'policy_id': policy_id, 'data': {'username':username, "exchange": exchange, 'symbol': symbol, 'start_time': start_time.isoformat(), 'end_time': end_time.isoformat()}}
         async_to_sync(channel_layer.group_send)(
             username,
             {
-                'type': 'log_message',
+                'type': 'duiqiao_message',
                 'message': message
             }
             )
