@@ -62,6 +62,26 @@ class MergeLineDTO(object):
         return "(" + self.begin_time.strftime('%Y-%m-%d %H:%M:%S') + ", " \
                + self.end_time.strftime('%Y-%m-%d %H:%M:%S') + ")"
 
+class ZhongshuDTO(object):
+    begin_time = datetime.now()
+    end_time = datetime.now()
+    high = 0.0
+    low = 0.0
+    highrange = 0.0
+    lowrange = 0.0
+    member_list = []
+
+    def __init__(self, begin_time, end_time, high, low, highrange, lowrange):
+        self.begin_time = begin_time
+        self.end_time = end_time
+        self.high = high
+        self.low = low 
+        self.highrange = highrange
+        self.lowrange = lowrange
+
+    def __str__(self):
+        return "(" + self.begin_time.strftime('%Y-%m-%d %H:%M:%S') + ", " \
+               + self.end_time.strftime('%Y-%m-%d %H:%M:%S') + ")"
 
 # --------------------------------
 
@@ -494,7 +514,108 @@ def validate_peak_and_bottom(merge_line_list, start_index, end_index):
     #  6.或许还需要判断顶底的区间是否不能重叠
     return True
 
-         
+def zhongshu(xianduan_list):
+    zhongshu = []
+    xianduan = copy.deepcopy(xianduan_list) 
+    for mline in xianduan:
+        if not zhongshu:
+            if len(xianduan) > 3:
+                    if (xianduan[0].low < xianduan[1].high and xianduan[2].high < xianduan[3].high) \
+                    or (xianduan[0].high > xianduan[1].low and xianduan[2].high > xianduan[3].high):
+                        begin_time = xianduan[0].begin_time
+                        end_time = xianduan[3].end_time
+                        temp_xianduan_high = [xianduan[0].high, xianduan[1].high, xianduan[2].high, xianduan[3].high]
+                        highrange = max(temp_xianduan_high)
+                        temp_xianduan_high.remove(max(temp_xianduan_high))
+                        high = max(temp_xianduan_high)
+                        temp_xianduan_low = [xianduan[0].low, xianduan[1].low, xianduan[2].low, xianduan[3].low]
+                        lowrange = min(temp_xianduan_low)
+                        temp_xianduan_low.remove(min(temp_xianduan_low))
+                        low = min(temp_xianduan_low)
+                        if xianduan[2].high > xianduan[1].high and xianduan[1].low == low and xianduan[2].high == high:
+                            continue
+                        if xianduan[2].high < xianduan[1].high and xianduan[1].high == high and xianduan[2].low == low:
+                            continue
+                        zhongshudto = ZhongshuDTO(begin_time, end_time, high, low, highrange, lowrange)
+                        zhongshudto.member_list.append(xianduan[0])
+                        zhongshudto.member_list.append(xianduan[1])
+                        zhongshudto.member_list.append(xianduan[2])
+                        zhongshudto.member_list.append(xianduan[3])
+                        zhongshu.append(zhongshudto)
+                        xianduan.pop(0)
+                        xianduan.pop(0)
+                        xianduan.pop(0)
+                        xianduan.pop(0)  
+                        continue
+                    else:
+                        xianduan.pop(0)
+                        continue
+            else:
+                print('不能构成中枢')
+                return zhongshu
+        if mline.high < zhongshu[-1].high and mline.low > zhongshu[-1].low:
+            zhongshu[-1].end_time = mline.end_time
+            xianduan.pop(0)
+            continue
+        else:
+            # 向后看最多3条线段  
+            index = xianduan.index(mline)
+            if len(xianduan) > index+1:
+                after_1 = xianduan[index+1]
+                if after_1.high <= zhongshu[-1].high and after_1.low >= zhongshu[-1].low:
+                    zhongshu[-1].end_time = after_1.end_time
+                    #zhongshu[-1].high = mline.high
+                    xianduan.pop(0)
+                    xianduan.pop(0)
+                    continue
+                else:
+                    pass
+            if len(xianduan) > index+2:
+                after_2 = xianduan[index+2]
+                if after_2.high <= zhongshu[-1].high and after_2.low >= zhongshu[-1].low:
+                    zhongshu[-1].end_time = after_2.end_time
+                    #zhongshu[-1].high = mline.high
+                    xianduan.pop(0)
+                    xianduan.pop(0)
+                    continue
+                else:
+                    pass
+            if len(xianduan) > index+3:
+                after_3 = xianduan[index+3]
+                if after_3.high <= zhongshu[-1].high and after_3.low >= zhongshu[-1].low:
+                    zhongshu[-1].end_time = after_3.end_time
+                    #zhongshu[-1].high = mline.high
+                    xianduan.pop(0)
+                    xianduan.pop(0)
+                    continue
+                else:
+                    if (mline.low < after_1.high and after_1.high < after_3.high) \
+                    or (mline.high > after_1.low and after_1.high > after_3.high):
+                        begin_time = mline.begin_time
+                        end_time = after_3.end_time
+                        temp_xianduan_high = [mline.high, after_1.high, after_2.high, after_3.high]
+                        highrange = max(temp_xianduan_high)
+                        temp_xianduan_high.remove(max(temp_xianduan_high))
+                        high = max(temp_xianduan_high)
+                        temp_xianduan_low = [mline.low, after_1.low, after_2.low, after_3.low]
+                        lowrange = min(temp_xianduan_low)
+                        temp_xianduan_low.remove(min(temp_xianduan_low))
+                        low = min(temp_xianduan_low)
+                        if after_2.high > after_1.high and after_1.low == low and after_2.high == high:
+                            continue
+                        if after_2.high < after_1.high and after_1.high == high and after_2.low == low:
+                            continue
+                        zhongshudto = ZhongshuDTO(begin_time, end_time, high, low, highrange, lowrange)
+                        zhongshudto.member_list.append(mline)
+                        zhongshudto.member_list.append(after_1)
+                        zhongshudto.member_list.append(after_2)
+                        zhongshudto.member_list.append(after_3)
+                        zhongshu.append(zhongshudto)
+                        xianduan.pop(0)
+                        xianduan.pop(0)
+                        xianduan.pop(0)
+                        xianduan.pop(0)
+    return zhongshu
 
 def run_test():
     #  测试
@@ -528,7 +649,6 @@ def run_test():
         for fenbi in fenbi_list:
             csv_writer.writerow([fenbi.begin_time, fenbi.high, fenbi.low, fenbi.is_peak, fenbi.is_bottom])
     xianduan_list = xianduan(fenbi_list)
-    import ipdb;ipdb.set_trace()
     print(xianduan_list)
     xianduan_csv = 'xianduan.csv'
     with open(xianduan_csv, 'w') as xianduan_csv:
@@ -536,4 +656,11 @@ def run_test():
         csv_writer.writerow(['candle_begin_time', 'high', 'low','is_peak', 'is_low'])
         for xd in xianduan_list:
             csv_writer.writerow([xd.begin_time, xd.high, xd.low, xd.is_peak, xd.is_bottom])
+    zhongshu_list = zhongshu(xianduan_list)
+    zhongshu_csv = 'zhongshu.csv'
+    with open(zhongshu_csv, 'w') as zhongshu_csv:
+        csv_writer = csv.writer(zhongshu_csv)
+        csv_writer.writerow(['begin_time', 'end_time', 'high', 'low'])
+        for zs in zhongshu_list:
+            csv_writer.writerow([zs.begin_time, zs.end_time, zs.high, zs.low])
 run_test()

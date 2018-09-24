@@ -19,6 +19,7 @@ from matplotlib import dates as mdates
 from pandas import DataFrame,Series
 from matplotlib.dates import DateFormatter, WeekdayLocator, DayLocator, MinuteLocator,MONDAY,YEARLY
 from matplotlib.dates import MonthLocator,MONTHLY
+import matplotlib.patches as patches
 import datetime as dt
 import csv
 #import numpy as np
@@ -54,7 +55,6 @@ def readstkData(rootpath):
     #returndata.drop(['quote_volume','trade_num'],axis=1,inplace=True)
 #    print(returndata)
 #    returndata.columns = ['Open', 'High', 'Close', 'Low', 'Volume']
-    import ipdb;ipdb.set_trace()
     returndata.columns=['Time','Open', 'High', 'Low', 'Close', 'Volume']
     returndata['Time'][1:]=date_to_num(returndata['Time'][1:])
     return returndata
@@ -126,9 +126,22 @@ def drawing_candle():
     		y2_axis.append(float(y_value))
 
     plt.plot(x2_axis, y2_axis,'--')
-
+    
+    with open('zhongshu.csv', 'r') as f:
+        csv_reader = csv.reader(f)
+        for item in csv_reader:
+            if item[0] == 'begin_time':
+                continue 
+            ax1.add_patch(
+                    patches.Rectangle(
+                        (mdates.date2num(pd.to_datetime(item[0])), float(item[3])),
+                        mdates.date2num(pd.to_datetime(item[1])) - mdates.date2num(pd.to_datetime(item[0])),
+                        float(item[2])-float(item[3]),
+                        edgecolor='r',
+                        facecolor='none'
+                        )
+                )
     plt.show()
-
 
 drawing_candle()
 
