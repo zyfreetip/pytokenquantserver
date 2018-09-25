@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import copy
 import csv
+import os
 
 # from merge_line_dto import MergeLineDTO
 # from k_line_dto import KLineDTO
@@ -517,7 +518,8 @@ def validate_peak_and_bottom(merge_line_list, start_index, end_index):
 def zhongshu(xianduan_list):
     zhongshu = []
     xianduan = copy.deepcopy(xianduan_list) 
-    for mline in xianduan:
+    while xianduan:
+        mline = xianduan[0]
         if not zhongshu:
             if len(xianduan) > 3:
                     if (xianduan[0].low < xianduan[1].high and xianduan[2].high < xianduan[3].high) \
@@ -533,8 +535,10 @@ def zhongshu(xianduan_list):
                         temp_xianduan_low.remove(min(temp_xianduan_low))
                         low = min(temp_xianduan_low)
                         if xianduan[2].high > xianduan[1].high and xianduan[1].low == low and xianduan[2].high == high:
+                            xianduan.pop(0)
                             continue
                         if xianduan[2].high < xianduan[1].high and xianduan[1].high == high and xianduan[2].low == low:
+                            xianduan.pop(0)
                             continue
                         zhongshudto = ZhongshuDTO(begin_time, end_time, high, low, highrange, lowrange)
                         zhongshudto.member_list.append(xianduan[0])
@@ -555,6 +559,8 @@ def zhongshu(xianduan_list):
                 return zhongshu
         if mline.high < zhongshu[-1].high and mline.low > zhongshu[-1].low:
             zhongshu[-1].end_time = mline.end_time
+            zhongshu[-1].highrange = zhongshu[-1].highrange if mline.high < zhongshu[-1].highrange else mline.high
+            zhongshu[-1].lowrange = zhongshu[-1].lowrange if mline.low > zhongshu[-1].lowrange else mline.low
             xianduan.pop(0)
             continue
         else:
@@ -564,6 +570,8 @@ def zhongshu(xianduan_list):
                 after_1 = xianduan[index+1]
                 if after_1.high <= zhongshu[-1].high and after_1.low >= zhongshu[-1].low:
                     zhongshu[-1].end_time = after_1.end_time
+                    zhongshu[-1].highrange = zhongshu[-1].highrange if after_1.high < zhongshu[-1].highrange else after_1.high
+                    zhongshu[-1].lowrange = zhongshu[-1].lowrange if after_1.low > zhongshu[-1].lowrange else after_1.low
                     #zhongshu[-1].high = mline.high
                     xianduan.pop(0)
                     xianduan.pop(0)
@@ -574,7 +582,10 @@ def zhongshu(xianduan_list):
                 after_2 = xianduan[index+2]
                 if after_2.high <= zhongshu[-1].high and after_2.low >= zhongshu[-1].low:
                     zhongshu[-1].end_time = after_2.end_time
+                    zhongshu[-1].highrange = zhongshu[-1].highrange if after_2.high < zhongshu[-1].highrange else after_2.high
+                    zhongshu[-1].lowrange = zhongshu[-1].lowrange if after_2.low > zhongshu[-1].lowrange else after_2.low
                     #zhongshu[-1].high = mline.high
+                    xianduan.pop(0)
                     xianduan.pop(0)
                     xianduan.pop(0)
                     continue
@@ -584,7 +595,11 @@ def zhongshu(xianduan_list):
                 after_3 = xianduan[index+3]
                 if after_3.high <= zhongshu[-1].high and after_3.low >= zhongshu[-1].low:
                     zhongshu[-1].end_time = after_3.end_time
+                    zhongshu[-1].highrange = zhongshu[-1].highrange if after_3.high < zhongshu[-1].highrange else after_3.high
+                    zhongshu[-1].lowrange = zhongshu[-1].lowrange if after_3.low > zhongshu[-1].lowrange else after_3.low
                     #zhongshu[-1].high = mline.high
+                    xianduan.pop(0)
+                    xianduan.pop(0)
                     xianduan.pop(0)
                     xianduan.pop(0)
                     continue
@@ -602,8 +617,10 @@ def zhongshu(xianduan_list):
                         temp_xianduan_low.remove(min(temp_xianduan_low))
                         low = min(temp_xianduan_low)
                         if after_2.high > after_1.high and after_1.low == low and after_2.high == high:
+                            xianduan.pop(0)
                             continue
                         if after_2.high < after_1.high and after_1.high == high and after_2.low == low:
+                            xianduan.pop(0)
                             continue
                         zhongshudto = ZhongshuDTO(begin_time, end_time, high, low, highrange, lowrange)
                         zhongshudto.member_list.append(mline)
@@ -615,14 +632,32 @@ def zhongshu(xianduan_list):
                         xianduan.pop(0)
                         xianduan.pop(0)
                         xianduan.pop(0)
+                        continue
+                    else:
+                        xianduan.pop(0)
+                        continue
+            xianduan.pop(0)
+                        
     return zhongshu
 
 def run_test():
     #  测试
     #  取原始数据
     # k_line_list = get_stock_30min_data_by_time("601318", "2015-12-21 10:00:00", "2016-04-02 13:30:00")
-    #k_line_list = get_stock_week_data_by_time("999999", "2009-07-17", "2015-05-15")
-    df = pd.read_csv('BITFINEX_BTCUSD_20180801_5T.csv')
+    # k_line_list = get_stock_week_data_by_time("999999", "2009-07-17", "2015-05-15")
+    dir = '/Users/qiaoxiaofeng/Downloads/BTCUSDT/2018-8/'
+    file_list = os.listdir(dir)
+    dfs = []
+    for file in file_list:
+        if file.endswith('_5T.csv'):
+            file_path = os.path.join(dir, file)
+            df = pd.read_csv(file_path, skiprows=1) 
+            dfs.append(df)
+    df = [] 
+    import ipdb;ipdb.set_trace()
+    df = pd.concat(dfs)
+    df['candle_begin_time'] = pd.to_datetime(df['candle_begin_time'])
+    df.sort_values('candle_begin_time', inplace=True)
     day = '2018-01-31 00:00:00'
     end_time = '2018-01-31 23:59:59'
     k_line_list = []
