@@ -3,9 +3,10 @@
 {% load i18n %}
 
 {% block payment_details %}
-<div class="sub-header">
-	<h2>{% trans "Enter payment details" %}</h2>
-</div>
+
+{% if to_allocate == 0 %}
+	<a href="{% url 'checkout:preview' %}" class="btn btn-primary btn-large">{% trans "Continue" %}</a>
+{% else %}
 
 {% if not allocation_form %}
     {# 1. Initial load of page - show form to look up account if they are not blocked #}
@@ -36,7 +37,7 @@
 				</table>
 				<button type="submit" class="btn btn-primary" name="action" value="select_account">{% trans 'Select account' %}</button>
 			</form>
-		{% endif %}
+		{% else %}
 
 		<h3>{% trans "Look up an account" %}</h3>
 		<form action="." method="post">
@@ -45,6 +46,7 @@
 			{% include 'partials/form_fields.html' with form=account_form %}
 			<button type="submit" class="btn btn-primary">{% trans "Check balance" %}</button>
 		</form>
+		{% endif %}
 	{% endif %}
 {% else %}
 	{# 2. An account has been found - choose allocation #}
@@ -55,12 +57,12 @@
 			<th>{% trans "Name" %}</th>
 			<td>{{ account.name }}</td>
 		</tr>
-		{% if account.description %}
+		<!--  {% if account.description %}
 		<tr>
 			<th>{% trans "Description" %}</th>
 			<td>{{ account.description }}</td>
 		</tr>
-		{% endif %}
+		{% endif %} -->
 		{% if account.end_date %}
 		<tr>
 			<th>{% trans "Expiry date" %}</th>
@@ -117,11 +119,7 @@
 	</form>
 {% endif %}
 
-
-{% if to_allocate == 0 %}
-	<a href="{% url 'checkout:preview' %}" class="btn btn-primary btn-large">{% trans "Continue" %}</a>
-{% else %}
-<p>{% trans "Order total" %}: {% if order_total.is_tax_known %}{{ order_total.incl_tax|currency }}{% else %}{{ order_total.excl_tax|currency }}{% endif %}. {% trans "You need to allocate another" %}
+<p>{% trans "Order total" %}: {% if order_total.is_tax_known %}{{ order_total.incl_tax|currency }}{% else %}{{ order_total.excl_tax|currency }}{% endif %}. {% trans "You need to allocate:" %}
 	{{ to_allocate|currency }}</p>
 {% endif %}
 

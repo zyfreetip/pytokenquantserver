@@ -17,6 +17,11 @@
     <link rel="stylesheet" type="text/css" href="{% static "oscar/css/datetimepicker.css" %}" />
 {% endblock %}
 
+{% block extrastyles %}
+<link rel="stylesheet" type="text/css" class="ui" href="{{ STATIC_URL }}semanticui/semantic.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}semantic-ui-calendar/calendar.css">
+{% endblock %}
+
 {% block layout %}
     {# Top-horizontal bar with account, notifictions, dashboard links #}
     {% include "partials/nav_accounts.html" %}
@@ -87,9 +92,18 @@
     <script src="{% static "oscar/js/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.all.js" %}"></script>
 {% endblock %}
 
+
 {% block extrascripts %}
+	  <!--  semantic  -->
+  <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+  <script src="{{ STATIC_URL }}semanticui/semantic.js"></script>
+  <script src="{{ STATIC_URL }}semanticui/app/docs.js"></script>
+  <script src="{{ STATIC_URL }}semanticui/app/handlers.js"></script>
+  <script src="{{ STATIC_URL }}semantic-ui-calendar/calendar.js"></script>
+  <script src="{{ STATIC_URL }}js/jquery.serialize-object.min.js"></script>
     {% include "partials/extrascripts.html" %}
     {{ block.super }}
+    {% block formscripts %} {% endblock %}
 {% endblock %}
 
 {% block onbodyload %}
