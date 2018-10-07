@@ -110,18 +110,18 @@ class Sanjiao(quantpolicy):
                         #TODO: fix  小数点进位的问题
                         base_volume = round(self.base_volume, markets[self.symbol]['precision']['amount'])
                     else:
-                        base_volume = round(min_basevolume, markets[self.symbol]['precision']['amount']
+                        base_volume = round(min_basevolume, markets[self.symbol]['precision']['amount'])
                     # put order one by one
                     try:
-                        volume1 = round(base_volume*(1 - markets[self.symbol]['taker']) / ask1_price, markets[self.symbol]['precision']['amount'])
-                        if volume1 > markets[self.symbol]['limits']['amount']['max'] and volume1 < markets[self.symbol]['limits']['amount']['min']:
+                        volume1 = round(base_volume / ask1_price, markets[self.symbol]['precision']['amount'])
+                        if volume1 > markets[self.symbol]['limits']['amount']['max'] or volume1 < markets[self.symbol]['limits']['amount']['min']:
                             return
                         response1 = self.instance.create_limit_buy_order(self.symbol, volume1, ask1_price)
                         order_id = response1['id']
                         order_status = self.instance.fetchOrder(order_id)
                         if order_status['status'] == 'open':
                             #TODO: fix me
-                            volume1 = round(order_status['filled'], markets[self.symbol]['precision']['amount'])
+                            volume1 = round(order_status['filled'] * (1-markets[self.symbol]['taker']), markets[self.symbol]['precision']['amount'])
                             try:
                                 self.instance.cancelOrder(order_id)
                             except ccxt.OrderNotFound as e:
@@ -132,10 +132,11 @@ class Sanjiao(quantpolicy):
                         elif order_status['status'] == 'canceled':
                             return
                         elif order_status['status'] == 'closed': 
-                            volume1 = order_status['filled'] * (1-markets[self.symbol]['taker']
+                            volume1 = round(order_status['filled'] * (1-markets[self.symbol]['taker']), markets[self.symbol]['precision']['amount'])
                         volume2 = round(volume1 / ask2_price, markets[self.symbol1]['precision']['amount'])
-                        if volume2 > markets[self.symbol1]['limits']['amount']['max'] and volume2 < markets[self.symbol1]['limits']['amount']['min']:
+                        if volume2 > markets[self.symbol1]['limits']['amount']['max'] or volume2 < markets[self.symbol1]['limits']['amount']['min']:
                             # 取消第一步的订单，卖出
+                            # 此时会有卖出折价亏损
                             revert_response1 = self.instance.create_limit_sell_order(self.symbol, volume1, bid1_price)
                             return
                         response2 = self.instance.create_limit_buy_order(self.symbol1, volume2, ask2_price)
@@ -143,12 +144,17 @@ class Sanjiao(quantpolicy):
                         order_status = self.instance.fetchOrder(order_id)
                         if order_status['status'] == 'open':
                             # 取消全部订单，包括上一步订单,也就是全部卖出
-                            revert_response1 = self.instance.create_limit_sell_order(self.symbol1, order_status['filled']*(1-markets[self.symbol1]['taker']), bid2_price)
+                            try:
+                                self.instance.cancelOrder(order_id)
+                            except ccxt.OrderNotFound as e:
+                                print('Failed to cancel order with', self.instance.id, type(e).__name__, str(e))
+                            filled_volume = round(order_status['filled']*(1-markets[self.symbol1]['taker']), markets[self.symbol1]['precision']['amount']) 
+                            revert_response1 = self.instance.create_limit_sell_order(self.symbol1, filled_volume, bid2_price)
                             revert_response2 = self.instance.create_limit_sell_order(self.symbol, volume1, bid1_price)
                         elif order_status['status'] == 'closed':
                             volume2 = order_status['filled'] * (1-markets[self.symbol1]['taker'])
                         volume3 = round(volume2, markets[self.symbol]['precision']['amount'])
-                        if volume3 > markets[self.symbol2]['limits']['amount']['max'] and volume3 < markets[self.symbol2]['limits']['amount']['min']:
+                        if volume3 > markets[self.symbol2]['limits']['amount']['max'] or volume3 < markets[self.symbol2]['limits']['amount']['min']:
                             # 取消第一步第二步订单，也就是全部卖出
                             revert_response1 = self.instance.create_limit_sell_order(self.symbol1, volume2, bid2_price)
                             revert_response2 = self.instance.create_limit_sell_order(self.symbol, volume1, bid1_price)
@@ -158,7 +164,12 @@ class Sanjiao(quantpolicy):
                         order_status = self.instance.fetchOrder(order_id)
                         if order_status['status'] == 'open':
                             # 取消全部订单，包括上一步订单,也就是全部卖出
-                            revert_response3 = self.instance.create_limit_buy_order(self.symbol2, order_status['filled']*(1-markets[self.symbol2]['taker']), ask3_price)
+                            try:
+                                self.instance.cancelOrder(order_id)
+                            except ccxt.OrderNotFound as e:
+                                print('Failed to cancel order with', self.instance.id, type(e).__name__, str(e))
+                            filled_volume = round(order_status['filled']*(1-markets[self.symbol2]['taker']), markets[self.symbol2]['precision']['amount']) 
+                            revert_response3 = self.instance.create_limit_buy_order(self.symbol2, filled_volume, ask3_price)
                             revert_response2 = self.instance.create_limit_sell_order(self.symbol1, volume2, bid2_price)
                             revert_response1 = self.instance.create_limit_sell_order(self.symbol, volume1, bid1_price)
                         elif order_status['status'] == 'closed':
@@ -166,16 +177,6 @@ class Sanjiao(quantpolicy):
                     except Exception as e:
                         print('Failed to create order with', self.instance.id, type(e).__name__, str(e))
                         response = None
-            else:
-                dump('Exchange ' + (id) + ' not found')
-        except ccxt.DDoSProtection as e:
-            print(type(e).__name__, e.args, 'DDoS Protection (ignoring)')
-        except ccxt.RequestTimeout as e:
-            print(type(e).__name__, e.args, 'Request Timeout (ignoring)')
-        except ccxt.ExchangeNotAvailable as e:
-            print(type(e).__name__, e.args, 'Exchange Not Available due to downtime or maintenance (ignoring)')
-        except ccxt.AuthenticationError as e:
-            print(type(e).__name__, e.args, 'Authentication Error (missing API keys, ignoring)')
                 # reverse the sanjiao such as eth/usdt -> eth/btc --> btc/usdt
                 percent_ni = bid2_price * bid1_price / ask3_price * (1 - markets[self.symbol]['taker'])*(1 - markets[self.symbol1]['taker'])*(1 - markets[self.symbol2]['taker'])
                 if percent_ni >= 1 + self.min_percent:
@@ -190,15 +191,15 @@ class Sanjiao(quantpolicy):
                         base_volume = round(min_basevolume, markets[self.symbol2]['precision']['amount'])
                 # put order one by one
                     try:
-                        volume1 = round(base_volume*(1 - markets[self.symbol2]['taker'])  / ask3_price, markets[self.symbol2]['precision']['amount'])
-                        if volume1 > markets[self.symbol2]['limits']['amount']['max'] and volume1 < markets[self.symbol2]['limits']['amount']['min']:
+                        volume1 = round(base_volume  / ask3_price, markets[self.symbol2]['precision']['amount'])
+                        if volume1 > markets[self.symbol2]['limits']['amount']['max'] or volume1 < markets[self.symbol2]['limits']['amount']['min']:
                             return
                         response1 = self.instance.create_limit_buy_order(self.symbol2, volume1, ask3_price)
                         order_id = response1['id']
                         order_status = self.instance.fetchOrder(order_id)
                         if order_status['status'] == 'open':
                             #TODO: fix me
-                            volume1 = round(order_status['filled'], markets[self.symbol2]['precision']['amount'])
+                            volume1 = round(order_status['filled']*(1 - markets[self.symbol2]['taker']) , markets[self.symbol2]['precision']['amount'])
                             try:
                                 self.instance.cancelOrder(order_id)
                             except ccxt.OrderNotFound as e:
@@ -209,9 +210,9 @@ class Sanjiao(quantpolicy):
                         elif order_status['status'] == 'canceled':
                             return
                         elif order_status['status'] == 'closed': 
-                            volume1 = order_status['filled'] *(1 - markets[self.symbol2]['taker']) 
+                            volume1 = round(order_status['filled'] *(1 - markets[self.symbol2]['taker']), markets[self.symbol2]['precision']['amount']) 
                         volume2 = round(volume1, markets[self.symbol1]['precision']['amount'])
-                        if volume2 > markets[self.symbol1]['limits']['amount']['max'] and volume2 < markets[self.symbol1]['limits']['amount']['min']:
+                        if volume2 > markets[self.symbol1]['limits']['amount']['max'] or volume2 < markets[self.symbol1]['limits']['amount']['min']:
                             # 取消第一步的订单，卖出
                             revert_response1 = self.instance.create_limit_sell_order(self.symbol2, volume1, bid3_price)
                             return
@@ -220,12 +221,17 @@ class Sanjiao(quantpolicy):
                         order_status = self.instance.fetchOrder(order_id)
                         if order_status['status'] == 'open':
                             # 取消全部订单，包括上一步订单,也就是全部卖出
-                            revert_response1 = self.instance.create_limit_buy_order(self.symbol1, order_status['filled']*(1-markets[self.symbol1]['taker']), ask2_price)
+                            try:
+                                self.instance.cancelOrder(order_id)
+                            except ccxt.OrderNotFound as e:
+                                print('Failed to cancel order with', self.instance.id, type(e).__name__, str(e))
+                            filled_volume = round(order_status['filled']*(1-markets[self.symbol1]['taker']), markets[self.symbol1]['precision']['amount']) 
+                            revert_response1 = self.instance.create_limit_buy_order(self.symbol1, filled_volume, ask2_price)
                             revert_response2 = self.instance.create_limit_sell_order(self.symbol2, volume1, bid3_price)
                         elif order_status['status'] == 'closed':
-                            volume2 = order_status['filled']
+                            volume2 = round(order_status['filled'] * (1-markets[self.symbol2]['taker']),markets[self.symbol]['precision']['amount'])
                         volume3 = round(volume2, markets[self.symbol]['precision']['amount'])
-                        if volume3 > markets[self.symbol2]['limits']['amount']['max'] and volume3 < markets[self.symbol2]['limits']['amount']['min']:
+                        if volume3 > markets[self.symbol2]['limits']['amount']['max'] or volume3 < markets[self.symbol2]['limits']['amount']['min']:
                             # 取消第一步第二步订单，也就是全部卖出
                             revert_response1 = self.instance.create_limit_buy_order(self.symbol1, volume2, ask2_price)
                             revert_response2 = self.instance.create_limit_sell_order(self.symbol2, volume1, bid3_price)
@@ -235,11 +241,16 @@ class Sanjiao(quantpolicy):
                         order_status = self.instance.fetchOrder(order_id)
                         if order_status['status'] == 'open':
                             # 取消全部订单，包括上一步订单,也就是全部卖出
-                            revert_response3 = self.instance.create_limit_buy_order(self.symbol, order_status['filled']*(1-markets[self.symbol]['taker']), ask1_price)
+                            try:
+                                self.instance.cancelOrder(order_id)
+                            except ccxt.OrderNotFound as e:
+                                print('Failed to cancel order with', self.instance.id, type(e).__name__, str(e))
+                            filled_volume = round(order_status['filled']*(1-markets[self.symbol]['taker']), markets[self.symbol]['precision']['amount']) 
+                            revert_response3 = self.instance.create_limit_buy_order(self.symbol, filled_volume, ask1_price)
                             revert_response1 = self.instance.create_limit_buy_order(self.symbol1, volume2, ask2_price)
                             revert_response2 = self.instance.create_limit_sell_order(self.symbol2, volume1, bid3_price)
                         elif order_status['status'] == 'closed':
-                            volume3 = order_status['filled']
+                            volume3 = order_status['filled'] * (1-markets[self.symbol]['taker'])
                     except Exception as e:
                         print('Failed to create order with', self.instance.id, type(e).__name__, str(e))
                         response = None
