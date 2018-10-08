@@ -337,7 +337,8 @@ INSTALLED_APPS.extend((
     'paypal',
     'blockoscar',
     'chat',
-    'wslog'
+    'wslog',
+    'sanjiao'
     ))
 SOCIALACCOUNT_PROVIDERS = {
     'github': {

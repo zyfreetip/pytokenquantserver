@@ -3,7 +3,7 @@ Created on 2018年8月16日
 
 @author: qiaoxiaofeng
 '''
-from .basequant import quantpolicy
+from blockuser.basequant import quantpolicy
 import ccxt
 from acom.utils.strutil import green, blue, red, dump
 import asyncio
@@ -154,8 +154,10 @@ class Sanjiao(quantpolicy):
                             except ccxt.OrderNotFound as e:
                                 print('Failed to cancel order with', self.instance.id, type(e).__name__, str(e))
                             filled_volume = round(order_status['filled']*(1-self.markets[self.symbol1]['taker']), self.markets[self.symbol1]['precision']['amount']) 
-                            revert_response1 = self.instance.create_limit_sell_order(self.symbol1, filled_volume, bid2_price)
+                            if int(filled_volume) != 0 :
+                                revert_response1 = self.instance.create_limit_sell_order(self.symbol1, filled_volume, bid2_price)
                             revert_response2 = self.instance.create_limit_sell_order(self.symbol, volume1, bid1_price)
+                            return
                         elif order_status['status'] == 'closed':
                             volume2 = order_status['filled'] * (1-self.markets[self.symbol1]['taker'])
                         volume3 = round(volume2, self.markets[self.symbol]['precision']['amount'])
@@ -174,9 +176,11 @@ class Sanjiao(quantpolicy):
                             except ccxt.OrderNotFound as e:
                                 print('Failed to cancel order with', self.instance.id, type(e).__name__, str(e))
                             filled_volume = round(order_status['filled']*(1-self.markets[self.symbol2]['taker']), self.markets[self.symbol2]['precision']['amount']) 
-                            revert_response3 = self.instance.create_limit_buy_order(self.symbol2, filled_volume, ask3_price)
+                            if int(filled_volume) != 0 :
+                                revert_response3 = self.instance.create_limit_buy_order(self.symbol2, filled_volume, ask3_price)
                             revert_response2 = self.instance.create_limit_sell_order(self.symbol1, volume2, bid2_price)
                             revert_response1 = self.instance.create_limit_sell_order(self.symbol, volume1, bid1_price)
+                            return
                         elif order_status['status'] == 'closed':
                             volume3 = order_status['filled']
                     except Exception as e:
@@ -234,8 +238,10 @@ class Sanjiao(quantpolicy):
                             except ccxt.OrderNotFound as e:
                                 print('Failed to cancel order with', self.instance.id, type(e).__name__, str(e))
                             filled_volume = round(order_status['filled']*(1-self.markets[self.symbol1]['taker']), self.markets[self.symbol1]['precision']['amount']) 
-                            revert_response1 = self.instance.create_limit_buy_order(self.symbol1, filled_volume, ask2_price)
+                            if int(filled_volume) != 0:
+                                revert_response1 = self.instance.create_limit_buy_order(self.symbol1, filled_volume, ask2_price)
                             revert_response2 = self.instance.create_limit_sell_order(self.symbol2, volume1, bid3_price)
+                            return
                         elif order_status['status'] == 'closed':
                             volume2 = round(order_status['filled'] * (1-self.markets[self.symbol2]['taker']),self.markets[self.symbol]['precision']['amount'])
                         volume3 = round(volume2, self.markets[self.symbol]['precision']['amount'])
@@ -254,9 +260,11 @@ class Sanjiao(quantpolicy):
                             except ccxt.OrderNotFound as e:
                                 print('Failed to cancel order with', self.instance.id, type(e).__name__, str(e))
                             filled_volume = round(order_status['filled']*(1-self.markets[self.symbol]['taker']), self.markets[self.symbol]['precision']['amount']) 
-                            revert_response3 = self.instance.create_limit_buy_order(self.symbol, filled_volume, ask1_price)
+                            if int(filled_volume) != 0:
+                                revert_response3 = self.instance.create_limit_buy_order(self.symbol, filled_volume, ask1_price)
                             revert_response1 = self.instance.create_limit_buy_order(self.symbol1, volume2, ask2_price)
                             revert_response2 = self.instance.create_limit_sell_order(self.symbol2, volume1, bid3_price)
+                            return
                         elif order_status['status'] == 'closed':
                             volume3 = order_status['filled'] * (1-self.markets[self.symbol]['taker'])
                     except Exception as e:

@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from blockuser.sanjiao import Sanjiao
+from sanjiao.business import Sanjiao
 import logging
 
 class Command(BaseCommand):
