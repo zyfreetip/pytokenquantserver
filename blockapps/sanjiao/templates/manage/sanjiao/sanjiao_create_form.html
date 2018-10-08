@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block header %}{% endblock %}
-{% block title %} 添加对敲策略 {% endblock %}
+{% block title %} 添加三角套利策略 {% endblock %}
 
 {% block column_left %}
 {% endblock %}
@@ -13,8 +13,8 @@
 <div class="ui basic segment">
 <div class="ui stackable very relaxed grid container">
 <div class="six wide centered column">
-  <h4>请配置您的对敲策略参数：</h4>
-<form method="post" class="ui form" action="{% url 'manage_addduiqiao' %}">
+  <h4>请配置您的三角套利策略参数：</h4>
+<form method="post" class="ui form" action="{% url 'manage_addsanjiao' %}">
 	{% csrf_token %}
 	{{ form.non_field_errors }}
     <div class="required field">
@@ -41,36 +41,30 @@
       <label  for="{{ form.secretkey.id_for_label }}">{{ form.secretkey.label }}</label>
       <input type="text" name="{{ form.secretkey.name }}" placeholder="请输入对应交易所的secret key" value="{% if form.secretkey.data %}{{ form.secretkey.data }}{% endif %}">
     </div>
-
-    <div class="required field">
+	
+	<div class="required field">
       <label  for="{{ form.symbol.id_for_label }}">{{ form.symbol.label }}</label>
-      <div class="ui fluid search selection dropdown">
-      <input type="hidden" name="{{ form.symbol.name }}">
-      <i class="dropdown icon"></i>
-      <div class="default text">请选择一个交易对</div>
-      <div class="menu">
-      	{% for value,display in form.fields.symbol.choices %}
-      		<div class="item" data-value="{{ value }}" {% if form.symbol.value == value %} selected {% endif %}> {{ display }}</div>
-      	{% endfor %}
-        <!--  <div class="item" data-value="huobipro">火币pro</div> -->
-      </div>
+      <input type="text" name="symbol" placeholder="请输入交易对1,格式为:BTC/USDT" value="{% if form.symbol.data %}{{ form.symbol.data }}{% endif %}">
     </div>
+	
+	<div class="required field">
+      <label  for="{{ form.symbol1.id_for_label }}">{{ form.symbol1.label }}</label>
+      <input type="text" name="symbol1" placeholder="请输入交易对2,格式为:ETH/BTC" value="{% if form.symbol1.data %}{{ form.symbol1.data }}{% endif %}">
+    </div>
+
+	<div class="required field">
+      <label  for="{{ form.symbol2.id_for_label }}">{{ form.symbol2.label }}</label>
+      <input type="text" name="symbol2" placeholder="请输入交易对3,格式为:ETH/USDT" value="{% if form.symbol2.data %}{{ form.symbol2.data }}{% endif %}">
     </div>
 
     <div class="required field">
-      <label  for="{{ form.max_buy_price.id_for_label }}">{{ form.max_buy_price.label }}</label>
-      <input type="text" name="max_buy_price" placeholder="请输入该交易对的最高买入价格，高于此价格将不买入" value="{% if form.max_buy_price.data %}{{ form.max_buy_price.data }}{% endif %}">
-    </div>
-
-
-    <div class="required field">
-      <label  for="{{ form.min_sell_price.id_for_label }}">{{ form.min_sell_price.label }}</label>
-      <input type="text" name="min_sell_price" placeholder="请输入该交易对的最低卖出价格，低于此价格将不卖出" value="{% if form.min_sell_price.data %}{{ form.min_sell_price.data }}{% endif %}">
+      <label  for="{{ form.min_percent.id_for_label }}">{{ form.min_percent.label }}</label>
+      <input type="text" name="min_percent" placeholder="请输入您下单的最小收益比率，格式为小数如0.001" value="{% if form.min_percent.data %}{{ form.min_percent.data }}{% endif %}">
     </div>
 
     <div class="required field">
       <label  for="{{ form.base_volume.id_for_label }}">{{ form.base_volume.label }}</label>
-      <input type="text" name="base_volume" placeholder="如要刷BTC/USDT，那么就是每次要买卖的BTC的数量" value="{% if form.base_volume.data %}{{ form.base_volume.data }}{% endif %}">
+      <input type="text" name="base_volume" placeholder="如要刷USDT，那么就是每次要使用的USDT的数量, 格式为整数或者小数" value="{% if form.base_volume.data %}{{ form.base_volume.data }}{% endif %}">
     </div>
 
     <div class="required field">

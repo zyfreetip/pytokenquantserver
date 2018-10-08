@@ -25,6 +25,7 @@ urlpatterns += [
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'', include('blockuser.urls')),
     url(r'', include('blockoscar.urls')),
+    url(r'', include('sanjiao.urls')),
     url(r'^eBlockTst_admin123/', include(admin.site.urls)),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^captcha/', include('captcha.urls')),
