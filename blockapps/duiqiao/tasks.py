@@ -1,30 +1,35 @@
 # Create your tasks here
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
+from celery.schedules import crontab
 from blockserver import celery_app
-from .models import SanjiaoPolicy 
+from .models import DuiQiaoPolicy 
 from blockuser.models import OPS, RUN_STATUSS
 from django.utils import timezone
 from time import sleep
+from .business import DuiQiao
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-from .business import Sanjiao
+
+@shared_task
+def add(x, y):
+    print(x,y)
+    return x + y 
 
 @celery_app.task
-def run_sanjiao_policy(policy_id):
+def run_duiqiao_policy(policy_id):
     print(policy_id)
     channel_layer = get_channel_layer()
     while True:
-        policy = SanjiaoPolicy.objects.get(id=policy_id)
+        policy = DuiQiaoPolicy.objects.get(id=policy_id)
         print(policy)
         username = policy.user.username
         exchange = policy.exchange
         symbol = policy.symbol
-        symbol1 = policy.symbol1
-        symbol2 = policy.symbol2
         accesskey = policy.accesskey
         secretkey = policy.secretkey
-        min_percent = policy.min_percent
+        max_buy_price = policy.max_buy_price
+        min_sell_price = policy.min_sell_price
         base_volume = policy.base_volume
         start_time = policy.start_time
         end_time = policy.end_time
@@ -36,7 +41,7 @@ def run_sanjiao_policy(policy_id):
         async_to_sync(channel_layer.group_send)(
             username,
             {
-                'type': 'sanjiao_message',
+                'type': 'duiqiao_message',
                 'message': message
             }
             )
@@ -59,6 +64,6 @@ def run_sanjiao_policy(policy_id):
             policy.status = RUN_STATUSS[1][0]
             policy.save()
             # 执行单次对敲策略开始
-            quant = Sanjiao(exchange, symbol, accesskey, secretkey,\
-                              base_volume, symbol1, symbol2, min_percent)    
+            quant = DuiQiao(exchange, symbol, accesskey, secretkey,\
+                              max_buy_price, min_sell_price, base_volume)    
             quant.run() 

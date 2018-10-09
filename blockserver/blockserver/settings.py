@@ -338,7 +338,8 @@ INSTALLED_APPS.extend((
     'blockoscar',
     'chat',
     'wslog',
-    'sanjiao'
+    'sanjiao',
+    'duiqiao'
     ))
 SOCIALACCOUNT_PROVIDERS = {
     'github': {

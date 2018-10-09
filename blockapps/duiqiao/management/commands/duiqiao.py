@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from blockuser.duiqiao import DuiQiao
+from duiqiao.business import DuiQiao
 import logging
 
 class Command(BaseCommand):

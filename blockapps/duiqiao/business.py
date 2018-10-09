@@ -3,7 +3,7 @@ Created on 2018年8月16日
 
 @author: qiaoxiaofeng
 '''
-from .basequant import quantpolicy
+from blockuser.basequant import quantpolicy
 import ccxt
 from acom.utils.strutil import green, blue, red, dump
 import asyncio
