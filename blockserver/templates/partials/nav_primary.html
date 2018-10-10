@@ -21,11 +21,11 @@
         <div class="navbar-collapse primary-collapse collapse">
              {% block nav_dropdown %}
                 <ul id="browse" class="nav navbar-nav">
-                	<li><a href="/"> Home</a></li>
-                	<li><a href="/manage/index/"> Dashboard</a></li>
-                	<li><a href="/catalogue/category/quantstrategy_3/">QuantStrategy</a></li>
-                	<li><a href="#">BlockData</a></li>
-                	<li><a href="#">WhitePaper</a></li>
+                	<li><a href="/">{% trans "首页" %}</a></li>
+                	<li><a href="/manage/index/">{% trans "管理面板" %}</a></li>
+                	<li><a href="/catalogue/category/quantstrategy_3/">{% trans "量化策略" %}</a></li>
+                	<li><a href="#">{% trans "白皮书" %}</a></li>
+                	<li><a href="/about/intro">{% trans "关于我们" %}</a></li>
                 </ul>
                     </li>
                     {% block nav_extra %}
