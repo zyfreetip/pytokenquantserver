@@ -11,18 +11,18 @@
 {% if not allocation_form %}
     {# 1. Initial load of page - show form to look up account if they are not blocked #}
 	{% if is_blocked %}
-		<p>{% trans "You are blocked." %}</p>
+		<p>{% trans "由于您频繁操作，暂时被锁定" %}</p>
 	{% else %}
 		{% if user_accounts %}
-			<h3>{% trans "Choose a user account" %}</h3>
+			<h3>{% trans "选择您的账户" %}</h3>
 			<form action="." method="post">
 				{% csrf_token %}
 				<table class="table">
 					<thead>
 						<tr>
 							<th></th>
-							<th>{% trans "Account" %}</th>
-							<th>{% trans "Balance" %}</th>
+							<th>{% trans "账户" %}</th>
+							<th>{% trans "余额" %}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -35,26 +35,26 @@
 					{% endfor %}
 					</tbody>
 				</table>
-				<button type="submit" class="btn btn-primary" name="action" value="select_account">{% trans 'Select account' %}</button>
+				<button type="submit" class="btn btn-primary" name="action" value="select_account">{% trans '选择账户' %}</button>
 			</form>
 		{% else %}
 
-		<h3>{% trans "Look up an account" %}</h3>
+		<h3>{% trans "查找账户" %}</h3>
 		<form action="." method="post">
 			{% csrf_token %}
 			<input type="hidden" name="action" value="select_account" />
 			{% include 'partials/form_fields.html' with form=account_form %}
-			<button type="submit" class="btn btn-primary">{% trans "Check balance" %}</button>
+			<button type="submit" class="btn btn-primary">{% trans "检查余额" %}</button>
 		</form>
 		{% endif %}
 	{% endif %}
 {% else %}
 	{# 2. An account has been found - choose allocation #}
 	{% with account=allocation_form.account %}
-	<h3>{% trans "Account" %}</h3>
+	<h3>{% trans "账户" %}</h3>
 	<table class="table">
 		<tr>
-			<th>{% trans "Name" %}</th>
+			<th>{% trans "账户名" %}</th>
 			<td>{{ account.name }}</td>
 		</tr>
 		<!--  {% if account.description %}
@@ -65,19 +65,19 @@
 		{% endif %} -->
 		{% if account.end_date %}
 		<tr>
-			<th>{% trans "Expiry date" %}</th>
+			<th>{% trans "失效日期" %}</th>
 			<td>{{ account.end_date }}</td>
 		</tr>
 		{% endif %}
 		<tr>
-			<th>{% trans "Balance" %}</th>
+			<th>{% trans "余额" %}</th>
 			<td>{{ account.balance|currency }}</td>
 		</tr>
 	</table>
 	{% endwith %}
-	<h3>{% trans "Choose allocation" %}</h3>
-	<p>{% trans "The order total is" %} {% if order_total.is_tax_known %}{{ order_total.incl_tax|currency }}{% else %}{{ order_total.excl_tax|currency }}{% endif %}.</p>
-	<p>{% trans "The maximum allocation from this account is" %} {{ allocation_form.max_allocation|currency }}.</p>
+	<h3>{% trans "选择支配金额" %}</h3>
+	<p>{% trans "订单总计" %} {% if order_total.is_tax_known %}{{ order_total.incl_tax|currency }}{% else %}{{ order_total.excl_tax|currency }}{% endif %}.</p>
+	<p>{% trans "该账户最大可支配金额" %} {{ allocation_form.max_allocation|currency }}.</p>
 	<form action="." method="post">
 		{% csrf_token %}
 		{# Include account form hidden #}
@@ -86,21 +86,21 @@
 		</div>
 		<input type="hidden" name="action" value="allocate" />
 		{% include 'partials/form_fields.html' with form=allocation_form %}
-		<button type="submit" class="btn btn-primary btn-large">{% trans "Allocate" %}</button>{% trans "or" %}
-		<a href="{% url 'checkout:payment-details' %}">{% trans "cancel" %}</a>.
+		<button type="submit" class="btn btn-primary btn-large">{% trans "支配" %}</button>{% trans "or" %}
+		<a href="{% url 'checkout:payment-details' %}">{% trans "取消" %}</a>.
 	</form>
 {% endif %}
 
 {% if account_allocations %}
-	<h3>{% trans "Allocations" %}</h2>
+	<h3>{% trans "支配项" %}</h2>
 	<form action="." method="post">
 		{% csrf_token %}
 		<input type="hidden" name="action" value="remove_allocation" />
 		<table id="" class="table">
 			<thead>
 				<tr>
-					<th>{% trans "Account code" %}</th>
-					<th>{% trans "Allocation" %}</th>
+					<th>{% trans "账户CODE" %}</th>
+					<th>{% trans "支配金额" %}</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -110,7 +110,7 @@
 						<td>{{ code }}</td>
 						<td>{{ amount|currency }}</td>
 						<td>
-							<button type="submit" class="btn" name="remove_{{ code }}">{% trans "Remove" %}</button>
+							<button type="submit" class="btn" name="remove_{{ code }}">{% trans "取消" %}</button>
 						</td>
 					</tr>
 				{% endfor %}
@@ -119,7 +119,7 @@
 	</form>
 {% endif %}
 
-<p>{% trans "Order total" %}: {% if order_total.is_tax_known %}{{ order_total.incl_tax|currency }}{% else %}{{ order_total.excl_tax|currency }}{% endif %}. {% trans "You need to allocate:" %}
+<p>{% trans "订单总计" %}: {% if order_total.is_tax_known %}{{ order_total.incl_tax|currency }}{% else %}{{ order_total.excl_tax|currency }}{% endif %}. {% trans "您所需要支付的金额:" %}
 	{{ to_allocate|currency }}</p>
 {% endif %}
 

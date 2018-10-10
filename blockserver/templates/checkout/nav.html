@@ -8,25 +8,25 @@
                     <a href="{% url 'checkout:payment-details' %}">
                         <span class="visible-inline-sm icon-chevron-right"></span>
                         <span>
-                            {% trans "1. Payment" %}
+                            {% trans "1. 支付" %}
                         </span>
                     </a>
                 {% else %}
                     <span class="navbar-text">
-                        {%  trans "1. Payment" %}
+                        {%  trans "1. 支付" %}
                     </span>
                 {% endif %}
             </li>
 
             <li class="step4 {% if step == 4 %}active{% else %}disabled{% endif %} ">
                 <span class="navbar-text">
-                    {% trans "2. Preview" %}
+                    {% trans "2. 预览" %}
                 </span>
             </li>
 
             <li class="step5 {% if step == 5 %}active{% else %}disabled{% endif %} ">
                 <span class="navbar-text">
-                    {% trans "3. Confirmation" %}
+                    {% trans "3. 确认支付" %}
                 </span>
             </li>
         {% endspaceless %}
