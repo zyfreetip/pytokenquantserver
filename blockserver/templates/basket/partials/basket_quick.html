@@ -22,7 +22,7 @@
                     <div class="col-sm-5">
                         <p><strong><a href="{{ line.product.get_absolute_url }}">{{ line.description }}</a></strong></p>
                     </div>
-                    <div class="col-sm-1 align-center"><strong>{% trans "Qty" %}</strong> {{ line.quantity }}</div>
+                    <div class="col-sm-1 align-center"><strong>{% trans "月数" %}</strong> {{ line.quantity }}</div>
                     <div class="col-sm-3 price_color align-right">{{ line.unit_price_excl_tax|currency:request.basket.currency }}</div>
                 </div>
             </li>
@@ -30,15 +30,15 @@
         <li class="form-group form-actions">
             <p class="align-right">
                 {% if request.basket.is_tax_known %}
-                    <small>{% trans "Total:" %} {{ request.basket.total_incl_tax|currency:request.basket.currency }}</small> 
+                    <small>{% trans "总共:" %} {{ request.basket.total_incl_tax|currency:request.basket.currency }}</small> 
                 {% else %}
-                    <small>{% trans "Total:" %} {{ request.basket.total_excl_tax|currency:request.basket.currency }}</small> 
+                    <small>{% trans "总共:" %} {{ request.basket.total_excl_tax|currency:request.basket.currency }}</small> 
                 {% endif %}
             </p>
-            <a href="{% url 'basket:summary' %}" class="btn btn-info btn-sm">{% trans "View basket" %}</a>
-            <a href="{% url 'checkout:index' %}" class="btn btn-primary btn-sm pull-right"><i class="icon-shopping-cart"></i> {% trans "Checkout" %}</a>
+            <a href="{% url 'basket:summary' %}" class="btn btn-info btn-sm">{% trans "查看购物车" %}</a>
+            <a href="{% url 'checkout:index' %}" class="btn btn-primary btn-sm pull-right"><i class="icon-shopping-cart"></i> {% trans "结算" %}</a>
         </li>
     {% else %}
-        <li><p>{% trans "Your basket is empty." %}</p></li>
+        <li><p>{% trans "您的购物车空空如也" %}</p></li>
     {% endif %}
 </ul>
