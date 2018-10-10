@@ -43,16 +43,16 @@
                                 <span class="label label-warning">{{ num_unread_notifications }}</span>
                             </a>
                         {% else %}
-                            <a href="{% url 'customer:summary' %}"><i class="icon-user"></i> {% trans "Account" %}</a>
+                            <a href="{% url 'customer:summary' %}"><i class="icon-user"></i> {% trans "个人资料" %}</a>
                         {% endif %}
                     </li>
                     {% if user.is_staff or perms.partner.dashboard_access %}
-                        <li><a href="{% url 'dashboard:index' %}"><i class="icon-list-ul"></i> {% trans "Dashboard" %}</a></li>
+                        <li><a href="{% url 'dashboard:index' %}"><i class="icon-list-ul"></i> {% trans "后台dashboard" %}</a></li>
                     {% endif %}
-                    <li><a id="logout_link" href="{% url 'customer:logout' %}"><i class="icon-signout"></i> {% trans "Logout" %}</a></li>
+                    <li><a id="logout_link" href="{% url 'customer:logout' %}"><i class="icon-signout"></i> {% trans "退出" %}</a></li>
                 {% endblock %}
                 {% else %}
-                    <li><a id="login_link" href="{% url 'customer:login' %}"><i class="icon-signin"></i> {% trans "Login or register" %}</a></li>
+                    <li><a id="login_link" href="{% url 'customer:login' %}"><i class="icon-signin"></i> {% trans "登录或注册" %}</a></li>
                 {% endif %}
             </ul>
         </div>
