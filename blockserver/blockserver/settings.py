@@ -335,6 +335,7 @@ INSTALLED_APPS.extend((
     'oscarapi',
     'rest_framework',
     'paypal',
+    'blockoscar',
     'chat',
     'wslog',
     'sanjiao',
