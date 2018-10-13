@@ -512,7 +512,7 @@ OSCAR_DASHBOARD_NAVIGATION.append(
 OSCAR_ALLOW_ANON_CHECKOUT = False
 
 OSCAR_SHOP_NAME = 'BearQuant'
-OSCAR_SHOP_TAGLINE = '专注数字货币量化策略开发'
+OSCAR_SHOP_TAGLINE = '专注数字通证资产量化策略开发'
 
 # Taken from PayPal's documentation - these should always work in the sandbo
 PAYPAL_CALLBACK_HTTPS = False
