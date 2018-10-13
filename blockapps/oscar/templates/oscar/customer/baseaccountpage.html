@@ -3,25 +3,23 @@
 {% load i18n %}
 
 {% block title %}
-    {{ page_title }} | {% trans 'Account' %} | {{ block.super }}
+    {{ page_title }} | {% trans '账户' %} | {{ block.super }}
 {% endblock %}
 
-{% block body_class %}account-profile{% endblock %}
+{% block body_class %}账户资料{% endblock %}
 
 {% block breadcrumbs %}
     <ul class="breadcrumb">
         <li>
-            <a href="{{ homepage_url }}">{% trans 'Home' %}</a>
+            <a href="{{ homepage_url }}">{% trans '首页' %}</a>
         </li>
         <li>
-            <a href="{% url 'customer:summary' %}">{% trans 'Account' %}</a>
+            <a href="{% url 'customer:summary' %}">{% trans '账户' %}</a>
         </li>
         {% block extra_breadcrumbs %}{% endblock %}
         <li class="active">{{ page_title }}</li>
     </ul>
 {% endblock %}
-
-{% block headertext %}{{ page_title }}{% endblock %}
 
 {% block column_left %}
     <ul class="nav nav-pills nav-stacked">

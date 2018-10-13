@@ -5,9 +5,9 @@
 {% load widget_tweaks %}
 
 {% if basket_warnings %}
-    <h5>{% trans "Important messages about items in your basket" %}</h5>
+    <h5>{% trans "购物车重要信息提示" %}</h5>
     {% for warning in basket_warnings %}
-        <div class="alert alert-warning">{{ warning }}</div>
+        <div class="alert alert-warning">{{ 提醒 }}</div>
     {% endfor %}
 {% endif %}
 
@@ -26,16 +26,16 @@
     {% block basket_form_headers %}
         <div class="basket-title hidden-xs">
             <div class="row">
-                <h2 class="col-sm-6 h3">{% trans "Items to buy now" %}</h2>
-                <p class="col-sm-3 h3">{% trans "Quantity" %}</p>
-                <p class="col-sm-1 h3 align-right">{% trans "Price" %}</p>
-                <p class="col-sm-2 h3 align-right">{% trans "Total" %}</p>
+                <h2 class="col-sm-6 h3">{% trans "待购买的策略" %}</h2>
+                <p class="col-sm-3 h3">{% trans "月数" %}</p>
+                <p class="col-sm-1 h3 align-right">{% trans "价格" %}</p>
+                <p class="col-sm-2 h3 align-right">{% trans "总计" %}</p>
             </div>
         </div>
     {% endblock %}
 
     {% block basket_form_main %}
-        <form method="post" class="basket_summary" id="basket_formset">
+        <form action="." method="post" class="basket_summary" id="basket_formset">
             {% csrf_token %}
             {{ formset.management_form }}
 
@@ -63,14 +63,14 @@
                                     <div class="input-group  {% if form.errors %}error{% endif %}">
                                         {% render_field form.quantity class+="form-control" %}
                                     <span class="input-group-btn">
-                                        <button class="btn btn-default" type="submit" data-loading-text="{% trans 'Updating...' %}">{% trans "Update" %}</button>
+                                        <button class="btn btn-default" type="submit" data-loading-text="{% trans '更新...' %}">{% trans "更新" %}</button>
                                     </span>
                                     </div>
                                 </div>
                                     <div>
-                                        <a href="#" data-id="{{ forloop.counter0 }}" data-behaviours="remove" class="inline">{% trans "Remove" %}</a>
+                                        <a href="#" data-id="{{ forloop.counter0 }}" data-behaviours="remove" class="inline">{% trans "移除" %}</a>
                                         {% if user.is_authenticated %}
-                                            | <a href="#" data-id="{{ forloop.counter0 }}" data-behaviours="save" class="inline">{% trans "Save for later" %}</a>
+                                            | <a href="#" data-id="{{ forloop.counter0 }}" data-behaviours="save" class="inline">{% trans "保存" %}</a>
                                         {% endif %}
                                         <div style="display:none">
                                             {{ form.save_for_later }}
@@ -124,16 +124,16 @@
             {% if voucher_form %}
                 <div class="col-sm-6">
                     <div class="sub-header">
-                        <h2>{% trans "Voucher/promo code" %}</h2>
+                        <h2>{% trans "优惠码" %}</h2>
                     </div>
-                    <p id="voucher_form_link"><a href="#voucher" class="btn btn-default btn-full">{% trans "I have a voucher code..." %}</a></p>
+                    <p id="voucher_form_link"><a href="#voucher" class="btn btn-default btn-full">{% trans "我有优惠码..." %}</a></p>
 
                     <div id="voucher_form_container" style="display:none">
                         <form id="voucher_form" action="{% url 'basket:vouchers-add' %}" method="post">
                             {% csrf_token %}
                             {% include "partials/form_fields.html" with form=voucher_form %}
-                            <button type="submit" class="btn btn-info" data-loading-text="{% trans 'Adding...' %}">{% trans "Add voucher" %}</button>
-                            {% trans "or" %} <a href="#" id="voucher_form_cancel">{% trans "cancel" %}</a>
+                            <button type="submit" class="btn btn-info" data-loading-text="{% trans 'Adding...' %}">{% trans "添加优惠码" %}</button>
+                            {% trans "或者" %} <a href="#" id="voucher_form_cancel">{% trans "取消" %}</a>
                         </form>
                     </div>
                 </div>
@@ -143,7 +143,7 @@
         {% block baskettotals %}
             <div class="col-sm-6">
                 <div class="sub-header">
-                    <h2>{% trans "Totals" %}</h2>
+                    <h2>{% trans "总计" %}</h2>
                 </div>
                 {% include 'basket/partials/basket_totals.html' with editable=1 %}
             </div>
@@ -155,7 +155,7 @@
         <div class="form-group clearfix">
             <div class="row">
                 <div class="col-sm-4 col-sm-offset-8">
-                    <a href="{% url 'checkout:index' %}" class="btn btn-lg btn-primary btn-block">{% trans "Proceed to checkout" %}</a>
+                    <a href="{% url 'checkout:index' %}" class="btn btn-lg btn-primary btn-block">{% trans "继续结算" %}</a>
                 </div>
             </div>
         </div>
@@ -164,8 +164,8 @@
 {% else %}
     {% block emptybasket %}
         <p>
-            {% trans "Your basket is empty." %}
-            <a href="{{ homepage_url }}">{% trans "Continue shopping" %}</a>
+            {% trans "您的购物车为空." %}
+            <a href="{{ homepage_url }}">{% trans "继续购物" %}</a>
         </p>
     {% endblock %}
 {% endif %}
@@ -174,11 +174,11 @@
     {% if user.is_authenticated and saved_formset %}
         <div class="well">
             <div class="sub-header">
-                <h2>{% trans "Items to buy later" %}</h2>
+                <h2>{% trans "即将购买的策略" %}</h2>
             </div>
             <div class="row basket-title hidden-xs">
-                <p class="col-sm-8 h4">{% trans "Items" %}</p>
-                <p class="col-sm-2 h4 align-center">{% trans "Price" %}</p>
+                <p class="col-sm-8 h4">{% trans "策略" %}</p>
+                <p class="col-sm-2 h4 align-center">{% trans "价格" %}</p>
                 <div class="col-sm-2">&nbsp;</div>
             </div>
             <form action="{% url 'basket:saved' %}" method="post" class="form-stacked later_summary" id="saved_basket_formset">
@@ -201,7 +201,7 @@
                             <div class="col-sm-6">
                                 <h3><a href="{{ form.instance.product.get_absolute_url }}">{{ form.instance.description }}</a></h3>
                                 <p class="availability {{ session.availability.code }}">{{ session.availability.message }}</p>
-                                <a href="#" data-id="{{ forloop.counter0 }}" data-behaviours="remove">{% trans "Remove" %}</a>
+                                <a href="#" data-id="{{ forloop.counter0 }}" data-behaviours="remove">{% trans "移除" %}</a>
                                 <div style="display:none">
                                     {{ form.move_to_basket }}
                                     {{ form.DELETE }}
@@ -218,7 +218,7 @@
                                 </p>
                             </div>
                             <div class="col-sm-2">
-                                <a href="#" data-id="{{ forloop.counter0 }}" class="btn pull-right btn-block" data-behaviours="move">{% trans "Move to basket" %}</a>
+                                <a href="#" data-id="{{ forloop.counter0 }}" class="btn pull-right btn-block" data-behaviours="move">{% trans "放到购物车" %}</a>
                             </div>
                         </div>
                     </div>

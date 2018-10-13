@@ -3,15 +3,15 @@
 {% load i18n %}
 
 {% block title %}
-    {% trans "Basket" %} | {{ block.super }}
+    {% trans "购物车" %} | {{ block.super }}
 {% endblock %}
 
 {% block breadcrumbs %}
     <ul class="breadcrumb">
         <li>
-            <a href="{{ homepage_url }}">{% trans "Home" %}</a>
+            <a href="{{ homepage_url }}">{% trans "首页" %}</a>
         </li>
-        <li class="active">{% trans "Basket" %}</li>
+        <li class="active">{% trans "购物车" %}</li>
     </ul>
 {% endblock %}
 
@@ -19,7 +19,7 @@
 {% block mini_basket %}{% endblock %}
 
 {% block headertext %}
-    {% trans "Basket" %}
+    {% trans "购物车" %}
 {% endblock %}
 
 {% block content %}

@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}
-    {% trans "Order preview" %} | {{ block.super }}
+    {% trans "订单预览" %} | {{ block.super }}
 {% endblock %}
 
 {% block checkout_nav %}
@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block checkout_title %}
-    {% trans "Preview order" %}
+    {% trans "预览订单" %}
 {% endblock %}
 
 {% block place_order %}
@@ -31,7 +31,7 @@
         <div class="form-group clearfix">
             <div class="row">
                 <div class="col-sm-3 col-sm-offset-9">
-                     <button id='place-order' type="submit" class="btn btn-primary btn-lg btn-block" data-loading-text="{% trans 'Submitting...' %}">{% trans "Place order" %}</button>
+                     <button id='place-order' type="submit" class="btn btn-primary btn-lg btn-block" data-loading-text="{% trans 'Submitting...' %}">{% trans "确认下单" %}</button>
                 </div>
             </div>
         </div>

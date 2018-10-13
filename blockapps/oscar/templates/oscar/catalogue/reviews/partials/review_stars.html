@@ -11,9 +11,9 @@
 
         <small><a href="{% url 'catalogue:reviews-list' product_slug=product.slug product_pk=product.id %}">
                 {% blocktrans count product.num_approved_reviews as num_reviews %}
-                    {{ num_reviews }} customer review
+                    {{ num_reviews }} 用户评论
                 {% plural %}
-                    {{ num_reviews }} customer reviews
+                    {{ num_reviews }} 用户评论
                 {% endblocktrans %}
         </a></small>
         &nbsp;
@@ -23,7 +23,7 @@
 
 {% if product|is_review_permitted:user %}
     <a id="write_review" href="{% url 'catalogue:reviews-add' product_slug=product.slug product_pk=product.id %}#addreview" class="btn btn-success btn-sm">
-        {% trans "Write a review" %}
+        {% trans "写评论" %}
     </a>
 {% endif %}
 </p>

@@ -2,13 +2,13 @@
 {% load i18n %}
 
 {% block title %}
-    {{ review.title }} | {% trans "Reviews" %} | {{ product.title }} | {{ block.super }}
+    {{ review.title }} | {% trans "预览" %} | {{ product.title }} | {{ block.super }}
 {% endblock %}
 
 {% block breadcrumbs %}
     <ul class="breadcrumb">
         <li>
-            <a href="{{ homepage_url }}">{% trans "Home" %}</a>
+            <a href="{{ homepage_url }}">{% trans "首页" %}</a>
         </li>
         {% with category=product.categories.all.0 %}
             {% for c in category.get_ancestors_and_self %}
@@ -20,7 +20,7 @@
                 <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
             </li>
             <li>
-                <a href="{% url 'catalogue:reviews-list' product_slug=product.slug product_pk=product.pk %}">{% trans "Reviews" %}</a>
+                <a href="{% url 'catalogue:reviews-list' product_slug=product.slug product_pk=product.pk %}">{% trans "评价列表" %}</a>
             </li>
         {% endwith %}
         <li class="active">{{ review.title }}</li>
@@ -28,7 +28,7 @@
 {% endblock %}
 
 {% block headertext %}
-    {% trans "Customer reviews" %}
+    {% trans "用户评价" %}
 {% endblock  %}
 
 {% block content %}

@@ -3,9 +3,9 @@
 
 {% block product_review %}
     <div id="addreview" class="review_add">
-        <form id="add_review_form" method="post" action="#addreview">
+        <form id="add_review_form" method="post" action="./#addreview">
             <fieldset>
-                <legend>{% trans "Leave a product review" %}</legend>
+                <legend>{% trans "留下评论" %}</legend>
                 {% csrf_token %}
                 
                 {% include 'partials/form_field.html' with field=form.title %}
@@ -43,9 +43,9 @@
                 {% endif %}
 
 
-                <button type="submit" class="btn btn-primary btn-lg" data-loading-text="{% trans 'Saving...' %}">{% trans "Save review" %}</button>
-                {% trans "or" %}
-                <a href="{{ product.get_absolute_url }}">{% trans "cancel" %}</a>
+                <button type="submit" class="btn btn-primary btn-lg" data-loading-text="{% trans 'Saving...' %}">{% trans "提交" %}</button>
+                {% trans "或" %}
+                <a href="{{ product.get_absolute_url }}">{% trans "取消" %}</a>
             </fieldset>
         </form>
     </div>

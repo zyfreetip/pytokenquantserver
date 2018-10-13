@@ -10,20 +10,20 @@
     <form id="add_to_basket_form" action="{% url 'basket:add' pk=product.pk  %}" method="post" class="add-to-basket">
         {% csrf_token %}
         {% include "partials/form_fields.html" with form=basket_form %}
-        <button type="submit" class="btn btn-lg btn-primary btn-add-to-basket" value="{% trans "Add to basket" %}" data-loading-text="{% trans 'Adding...' %}">{% trans "Add to basket" %}</button>
+        <button type="submit" class="btn btn-lg btn-primary btn-add-to-basket" value="{% trans "加入购物车" %}" data-loading-text="{% trans '添加中...' %}">{% trans "加入购物车" %}</button>
     </form>
     {% iffeature "wishlists" %}
         {% include "catalogue/partials/add_to_wishlist.html" %}
     {% endiffeature %}
 {% else %}
     {% if has_active_alert %}
-        <p>{% trans "You have an active stock alert for this product." %}</p>
+        <p>{% trans "这个策略您收到一个上线提醒" %}</p>
     {% else %}
         <form id="alert_form" method="post" action="{% url 'customer:alert-create' pk=product.id %}" class="add-to-basket">
             {% csrf_token %}
-            <p>{% trans "You can get an email alert when this product is back in stock." %}</p>
+            <p>{% trans "订阅通知后您会收到该策略上线的通知" %}</p>
             {% include "partials/form_fields.html" with form=alert_form %}
-            <button type="submit" class="btn btn-lg btn-info btn-add-to-basket" data-loading-text="{% trans 'Submitting...' %}">{% trans "Notify me" %}</button>
+            <button type="submit" class="btn btn-lg btn-info btn-add-to-basket" data-loading-text="{% trans 'Submitting...' %}">{% trans "上线通知我" %}</button>
         </form>
     {% endif %}
     {% iffeature "wishlists" %}

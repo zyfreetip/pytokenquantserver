@@ -50,7 +50,7 @@ class Unavailable(Base):
     Policy for when a product is unavailable
     """
     code = 'unavailable'
-    message = _("Unavailable")
+    message = _("已下架")
 
 
 class Available(Base):
@@ -61,7 +61,7 @@ class Available(Base):
     be tracked and the product is always available to buy.
     """
     code = 'available'
-    message = _("Available")
+    message = _("已上架")
 
     def is_purchase_permitted(self, quantity):
         return True, ""
@@ -101,10 +101,10 @@ class StockRequired(Base):
     def short_message(self):
         if self.num_available > 0:
             return _("In stock")
-        return _("Unavailable")
+        return _("已下架")
 
     @property
     def message(self):
         if self.num_available > 0:
             return _("In stock (%d available)") % self.num_available
-        return _("Unavailable")
+        return _("已下架")

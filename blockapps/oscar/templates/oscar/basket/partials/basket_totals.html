@@ -6,14 +6,14 @@
     <table class="table table-condensed">
         <tbody>
             <tr>
-                <th colspan="2"><h3>{% trans "Basket" %}</h3></th>
+                <th colspan="2"><h3>{% trans "购物车" %}</h3></th>
             </tr>
             {% with offer_discounts=basket.offer_discounts voucher_discounts=basket.grouped_voucher_discounts %}
                 {% block discount_totals %}
                     {% if offer_discounts or voucher_discounts %}
                         {# Basket total will be discounted so we show a before and after version #}
                         <tr>
-                            <td>{% trans "Basket total (before discounts)" %}</td>
+                            <td>{% trans "购物车总计 (折扣前)" %}</td>
                             <td class="align-right">
                                 {% if basket.is_tax_known and not show_tax_separately %}
                                     {{ basket.total_incl_tax_excl_discounts|currency:basket.currency }}
@@ -25,7 +25,7 @@
 
                         {% for discount in offer_discounts %}
                             <tr>
-                                <td class="basket-discount"><span class="label label-success">{% trans "Discount" %}</span> {{ discount.name }}
+                                <td class="basket-discount"><span class="label label-success">{% trans "折扣" %}</span> {{ discount.name }}
                                     {% if discount.description %}
                                         <br/><small>{{ discount.description }}</small>
                                     {% endif %}
@@ -36,7 +36,7 @@
 
                         {% if voucher_discounts %}
                             <tr>
-                                <th colspan="2"><h3>{% trans "Vouchers" %}</h3></th>
+                                <th colspan="2"><h3>{% trans "优惠码" %}</h3></th>
                             </tr>
                             {% for discount in voucher_discounts %}
                                 <tr>
@@ -45,7 +45,7 @@
                                         {% if editable %}
                                             <form action="{% url 'basket:vouchers-remove' pk=discount.voucher.id %}" method="POST">
                                                 {% csrf_token %}
-                                                <input type="submit" value="{% trans 'Remove' %}" class="btn btn-sm btn-danger" />
+                                                <input type="submit" value="{% trans '移除' %}" class="btn btn-sm btn-danger" />
                                             </form>
                                         {% endif %}
                                     </td>
@@ -59,7 +59,7 @@
                 {% block basket_total %}
                     {% if offer_discounts or voucher_discounts %}
                         <tr>
-                            <th class="total">{% trans "Basket total (after discounts)" %}</th>
+                            <th class="total">{% trans "购物车总计(折扣后)" %}</th>
                             <th class="total align-right">
                                 {% if not show_tax_separately and basket.is_tax_known %}
                                     {{ basket.total_incl_tax|currency:basket.currency }}
@@ -71,7 +71,7 @@
                     {% else %}
                         {# No discounts to basket #}
                         <tr>
-                            <th class="total">{% trans "Basket total" %}</th>
+                            <th class="total">{% trans "购物车总计" %}</th>
                             <th class="total align-right">
                                 {% if not show_tax_separately and basket.is_tax_known %}
                                     {{ basket.total_incl_tax|currency:basket.currency }}
@@ -84,7 +84,7 @@
                 {% endblock %}
             {% endwith %}
 
-            {% block shipping_totals %}
+            <!--  {% block shipping_totals %}
                 <tr>
                     <th>&nbsp;</th>
                     <td></td>
@@ -147,7 +147,7 @@
                         </th>
                     </tr>
                 {% endif %}
-            {% endblock %}
+            {% endblock %} -->
 
             {% block tax_totals %}
                 {% if show_tax_separately %}
@@ -157,17 +157,17 @@
                     </tr>
                     <tr>
                         <th colspan="2">
-                            <h3>{% trans "Tax" %}</h3>
+                            <h3>{% trans "税费" %}</h3>
                         </th>
                     </tr>
                     <tr>
-                        <th class="total">{% trans "Basket" %}</th>
+                        <th class="total">{% trans "购物车" %}</th>
                         <th class="total align-right">
                             {{ basket.total_tax|currency:basket.currency }}
                         </th>
                     </tr>
                     <tr>
-                        <th class="total">{% trans "Shipping" %}</th>
+                        <th class="total">{% trans "运费" %}</th>
                         <th class="total align-right">
                             {{ shipping_charge.tax|currency:basket.currency }}
                         </th>
@@ -182,7 +182,7 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <th><h3>{% trans "Post order actions" %}</h3><small>{% trans "These will be applied once your order is placed." %}</small></th>
+                        <th><h3>{% trans "提交订单" %}</h3><small>{% trans "订单提交时将被使用" %}</small></th>
                         <td></td>
                     </tr>
                     {% for discount in basket.post_order_actions %}
@@ -202,7 +202,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <th class="total"><h3>{% trans "Order total" %}</h3></th>
+                    <th class="total"><h3>{% trans "订单总计" %}</h3></th>
                     <td class="total align-right">
                         <h3 class="price_color">
                             {% if order_total.is_tax_known %}
@@ -215,7 +215,7 @@
                 </tr>
                 {% if not order_total.is_tax_known %}
                     <tr>
-                        <td><small>{% trans "Taxes will be added during checkout." %}</small></td>
+                        <td><small>{% trans "结算时将会加税" %}</small></td>
                     </tr>
                 {% endif %}
             {% endblock %}

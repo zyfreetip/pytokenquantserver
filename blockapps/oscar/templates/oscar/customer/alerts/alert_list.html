@@ -3,9 +3,9 @@
 
 {% block tabcontent %}
     {% if not alerts %}
-        <p>{% trans "You do not have any active alerts for out-of-stock products." %}</p>
+        <p>{% trans "您没有相关上线服务的提醒。" %}</p>
     {% else %}
-        <form method="post" id="alerts_form">
+        <form action="." method="post" id="alerts_form">
             {% csrf_token %}
             <table class="table table-striped table-bordered">
                 <tr>

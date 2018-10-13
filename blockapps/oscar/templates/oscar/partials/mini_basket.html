@@ -2,7 +2,7 @@
 {% load i18n %}
 
 <div class="basket-mini pull-right hidden-xs">
-    <strong>{% trans "Basket total:" %}</strong>
+    <strong>{% trans "购物车总计:" %}</strong>
     {% if request.basket.is_tax_known %}
         {{ request.basket.total_incl_tax|currency:request.basket.currency }}
     {% else %}
@@ -10,7 +10,7 @@
     {% endif %}
 
     <span class="btn-group">
-        <a class="btn btn-default" href="{% url 'basket:summary' %}">{% trans "View basket" %}</a>
+        <a class="btn btn-default" href="{% url 'basket:summary' %}">{% trans "查看购物车" %}</a>
         <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
             <span class="caret"></span>
         </button>
