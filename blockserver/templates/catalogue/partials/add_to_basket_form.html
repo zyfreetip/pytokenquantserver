@@ -17,7 +17,7 @@
     {% endiffeature %}
 {% else %}
     {% if has_active_alert %}
-        <p>{% trans "You have an active stock alert for this product." %}</p>
+        <p>{% trans "这个策略您收到一个上线提醒" %}</p>
     {% else %}
         <form id="alert_form" method="post" action="{% url 'customer:alert-create' pk=product.id %}" class="add-to-basket">
             {% csrf_token %}
