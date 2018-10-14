@@ -4,18 +4,18 @@
 {% block breadcrumbs %}
     <ul class="breadcrumb">
         <li>
-            <a href="{{ homepage_url }}">{% trans 'Home' %}</a>
+            <a href="{{ homepage_url }}">{% trans '首页' %}</a>
         </li>
         <li>
-            <a href="{% url 'customer:summary' %}">{% trans 'Account' %}</a>
+            <a href="{% url 'customer:summary' %}">{% trans '账户' %}</a>
         </li>
         <li>
-            <a href="{% url 'customer:wishlists-list' %}">{% trans 'Wish Lists' %}</a>
+            <a href="{% url 'customer:wishlists-list' %}">{% trans '心愿清单' %}</a>
         </li>
         <li>
             <a href="{% url 'customer:wishlists-detail' key=wishlist.key %}">{{ wishlist.name }}</a>
         </li>
-        <li class="active">{% trans "Remove product" %}</li>
+        <li class="active">{% trans "移除产品" %}</li>
     </ul>
 {% endblock %}
 
@@ -24,12 +24,12 @@
         {% csrf_token %}
         <p>
             {% blocktrans with product_name=object.get_title wishlist_name=wishlist.name %}
-                Are you sure you want to delete {{ product_name }} from wish list {{ wishlist_name }}?
+                从心愿清单{{ wishlist_name }}删除{{ product_name }} ?
             {% endblocktrans %}
         </p>
 
         <div class="form-group">
-            <button type="submit" class="btn btn-lg btn-danger" data-loading-text="{% trans 'Removing...' %}">{% trans 'Remove' %}</button> {% trans 'or' %} <a href="{{ wishlist.get_absolute_url }}">{% trans 'cancel' %}</a>
+            <button type="submit" class="btn btn-lg btn-danger" data-loading-text="{% trans '移除...' %}">{% trans '移除' %}</button> {% trans '或' %} <a href="{{ wishlist.get_absolute_url }}">{% trans '取消' %}</a>
         </div>
     </form>
 {% endblock tabcontent %}

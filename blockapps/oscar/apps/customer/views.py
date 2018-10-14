@@ -223,7 +223,7 @@ class AccountAuthView(RegisterUserMixin, generic.TemplateView):
         return self.render_to_response(ctx)
 
     def get_registration_success_message(self, form):
-        return _("Thanks for registering!")
+        return _("感谢您成为本站会员")
 
     def get_registration_success_url(self, form):
         redirect_url = form.cleaned_data['redirect_url']
@@ -254,7 +254,7 @@ class LogoutView(generic.RedirectView):
 
 class ProfileView(PageTitleMixin, generic.TemplateView):
     template_name = 'customer/profile/profile.html'
-    page_title = _('Profile')
+    page_title = _('个人资料')
     active_tab = 'profile'
 
     def get_context_data(self, **kwargs):
@@ -306,7 +306,7 @@ class ProfileUpdateView(PageTitleMixin, generic.FormView):
     form_class = ProfileForm
     template_name = 'customer/profile/profile_form.html'
     communication_type_code = 'EMAIL_CHANGED'
-    page_title = _('Edit Profile')
+    page_title = _('编辑资料')
     active_tab = 'profile'
     success_url = reverse_lazy('customer:profile-view')
 
@@ -351,7 +351,7 @@ class ProfileUpdateView(PageTitleMixin, generic.FormView):
 class ProfileDeleteView(PageTitleMixin, generic.FormView):
     form_class = ConfirmPasswordForm
     template_name = 'customer/profile/profile_delete.html'
-    page_title = _('Delete profile')
+    page_title = _('删除资料')
     active_tab = 'profile'
     success_url = settings.OSCAR_HOMEPAGE
 
@@ -364,7 +364,7 @@ class ProfileDeleteView(PageTitleMixin, generic.FormView):
         self.request.user.delete()
         messages.success(
             self.request,
-            _("Your profile has now been deleted. Thanks for using the site."))
+            _("您的个人账号已经删除。多谢您使用本站服务。"))
         return redirect(self.get_success_url())
 
 
@@ -372,7 +372,7 @@ class ChangePasswordView(PageTitleMixin, generic.FormView):
     form_class = PasswordChangeForm
     template_name = 'customer/profile/change_password_form.html'
     communication_type_code = 'PASSWORD_CHANGED'
-    page_title = _('Change Password')
+    page_title = _('更改密码')
     active_tab = 'profile'
     success_url = reverse_lazy('customer:profile-view')
 
@@ -384,7 +384,7 @@ class ChangePasswordView(PageTitleMixin, generic.FormView):
     def form_valid(self, form):
         form.save()
         update_session_auth_hash(self.request, self.request.user)
-        messages.success(self.request, _("Password updated"))
+        messages.success(self.request, _("密码更改成功"))
 
         ctx = {
             'user': self.request.user,
@@ -441,7 +441,7 @@ class OrderHistoryView(PageTitleMixin, generic.ListView):
     paginate_by = settings.OSCAR_ORDERS_PER_PAGE
     model = Order
     form_class = OrderSearchForm
-    page_title = _('Order History')
+    page_title = _('已购买订单')
     active_tab = 'orders'
 
     def get(self, request, *args, **kwargs):
@@ -492,7 +492,7 @@ class OrderDetailView(PageTitleMixin, PostActionMixin, generic.DetailView):
         """
         Order number as page title
         """
-        return '%s #%s' % (_('Order'), self.object.number)
+        return '%s #%s' % (_('订单'), self.object.number)
 
     def get_object(self, queryset=None):
         return get_object_or_404(self.model, user=self.request.user,
@@ -619,7 +619,7 @@ class AddressListView(PageTitleMixin, generic.ListView):
     template_name = 'customer/address/address_list.html'
     paginate_by = settings.OSCAR_ADDRESSES_PER_PAGE
     active_tab = 'addresses'
-    page_title = _('Address Book')
+    page_title = _('收货地址')
 
     def get_queryset(self):
         """Return customer's addresses"""

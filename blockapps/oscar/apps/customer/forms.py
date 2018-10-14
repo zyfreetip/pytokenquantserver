@@ -80,7 +80,7 @@ class EmailAuthenticationForm(AuthenticationForm):
     usernames. 75 character usernames are needed to support the EmailOrUsername
     auth backend.
     """
-    username = forms.EmailField(label=_('Email address'))
+    username = forms.EmailField(label=_('邮箱地址'))
     redirect_url = forms.CharField(
         widget=forms.HiddenInput, required=False)
 
@@ -100,7 +100,7 @@ class ConfirmPasswordForm(forms.Form):
     usernames. 75 character usernames are needed to support the EmailOrUsername
     auth backend.
     """
-    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
+    password = forms.CharField(label=_("密码"), widget=forms.PasswordInput)
 
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -110,16 +110,16 @@ class ConfirmPasswordForm(forms.Form):
         password = self.cleaned_data['password']
         if not self.user.check_password(password):
             raise forms.ValidationError(
-                _("The entered password is not valid!"))
+                _("您输入的密码无效"))
         return password
 
 
 class EmailUserCreationForm(forms.ModelForm):
-    email = forms.EmailField(label=_('Email address'))
+    email = forms.EmailField(label=_('邮箱地址'))
     password1 = forms.CharField(
-        label=_('Password'), widget=forms.PasswordInput)
+        label=_('密码'), widget=forms.PasswordInput)
     password2 = forms.CharField(
-        label=_('Confirm password'), widget=forms.PasswordInput)
+        label=_('确认密码'), widget=forms.PasswordInput)
     redirect_url = forms.CharField(
         widget=forms.HiddenInput, required=False)
 
@@ -138,7 +138,7 @@ class EmailUserCreationForm(forms.ModelForm):
         email = normalise_email(self.cleaned_data['email'])
         if User._default_manager.filter(email__iexact=email).exists():
             raise forms.ValidationError(
-                _("A user with that email address already exists"))
+                _("该邮箱地址已经被注册"))
         return email
 
     def clean_password2(self):
@@ -146,7 +146,7 @@ class EmailUserCreationForm(forms.ModelForm):
         password2 = self.cleaned_data.get('password2', '')
         if password1 != password2:
             raise forms.ValidationError(
-                _("The two password fields didn't match."))
+                _("两次密码不一致"))
         validate_password(password2, self.instance)
         return password2
 
@@ -169,18 +169,18 @@ class EmailUserCreationForm(forms.ModelForm):
 
 class OrderSearchForm(forms.Form):
     date_from = forms.DateField(
-        required=False, label=pgettext_lazy("start date", "From"),
+        required=False, label=pgettext_lazy("start date", "开始日期"),
         widget=widgets.DatePickerInput())
     date_to = forms.DateField(
-        required=False, label=pgettext_lazy("end date", "To"),
+        required=False, label=pgettext_lazy("end date", "结束日期"),
         widget=widgets.DatePickerInput())
-    order_number = forms.CharField(required=False, label=_("Order number"))
+    order_number = forms.CharField(required=False, label=_("订单号"))
 
     def clean(self):
         if self.is_valid() and not any([self.cleaned_data['date_from'],
                                         self.cleaned_data['date_to'],
                                         self.cleaned_data['order_number']]):
-            raise forms.ValidationError(_("At least one field is required."))
+            raise forms.ValidationError(_("请填写至少一个查询条件"))
         return super().clean()
 
     def description(self):
@@ -189,7 +189,7 @@ class OrderSearchForm(forms.Form):
         are listed.
         """
         if not self.is_bound or not self.is_valid():
-            return _('All orders')
+            return _('所有订单')
         else:
             date_from = self.cleaned_data['date_from']
             date_to = self.cleaned_data['date_to']
@@ -199,26 +199,26 @@ class OrderSearchForm(forms.Form):
     def _orders_description(self, date_from, date_to, order_number):
         if date_from and date_to:
             if order_number:
-                desc = _('Orders placed between %(date_from)s and '
-                         '%(date_to)s and order number containing '
-                         '%(order_number)s')
+                desc = _('从%(date_from)s 到 '
+                         '%(date_to)s '
+                         '订单编号包括%(order_number)s的订单：')
             else:
-                desc = _('Orders placed between %(date_from)s and '
-                         '%(date_to)s')
+                desc = _('从%(date_from)s到 '
+                         '%(date_to)s的订单：')
         elif date_from:
             if order_number:
-                desc = _('Orders placed since %(date_from)s and '
-                         'order number containing %(order_number)s')
+                desc = _('从%(date_from)s开始'
+                         '订单号包括%(order_number)s的订单：')
             else:
-                desc = _('Orders placed since %(date_from)s')
+                desc = _('从%(date_from)s开始的订单：')
         elif date_to:
             if order_number:
-                desc = _('Orders placed until %(date_to)s and '
-                         'order number containing %(order_number)s')
+                desc = _('截止到%(date_to)s'
+                         '订单编号包括%(order_number)s的订单')
             else:
-                desc = _('Orders placed until %(date_to)s')
+                desc = _('截止到%(date_to)s的订单：')
         elif order_number:
-            desc = _('Orders with order number containing %(order_number)s')
+            desc = _('包含订单编号%(order_number)s的订单：')
         else:
             return None
         params = {
@@ -264,7 +264,7 @@ class UserForm(forms.ModelForm):
         if User._default_manager.filter(
                 email__iexact=email).exclude(id=self.user.id).exists():
             raise ValidationError(
-                _("A user with this email address already exists"))
+                _("该邮箱已经被注册"))
         # Save the email unaltered
         return email
 
@@ -328,7 +328,7 @@ if Profile:  # noqa (too complex (12))
                 email__iexact=email).exclude(id=self.instance.user.id)
             if users_with_email.exists():
                 raise ValidationError(
-                    _("A user with this email address already exists"))
+                    _("该邮箱已经被注册"))
             return email
 
         def save(self, *args, **kwargs):
@@ -347,9 +347,9 @@ else:
 
 
 class ProductAlertForm(forms.ModelForm):
-    email = forms.EmailField(required=True, label=_('Send notification to'),
+    email = forms.EmailField(required=True, label=_('发送通知到'),
                              widget=forms.TextInput(attrs={
-                                 'placeholder': _('Enter your email')
+                                 'placeholder': _('请输入您的邮箱')
                              }))
 
     def __init__(self, user, product, *args, **kwargs):
@@ -383,7 +383,7 @@ class ProductAlertForm(forms.ModelForm):
                 pass
             else:
                 raise forms.ValidationError(_(
-                    "There is already an active stock alert for %s") % email)
+                    "该邮件已经获取了该服务的提醒 %s") % email)
 
             # Check that the email address hasn't got other unconfirmed alerts.
             # If they do then we don't want to spam them with more until they
