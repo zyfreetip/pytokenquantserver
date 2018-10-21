@@ -12,7 +12,7 @@
 
     <p>
         {% blocktrans with title=alert.product.get_title|safe path=alert.product.get_absolute_url %}
-            We are happy to inform you that our product '{{ title }}' is back in stock:
+            我们很高兴的告诉你你这个产品{{title}}已经上线了:
             http://{{ site }}{{ path }}
         {% endblocktrans %}
     </p>
@@ -20,15 +20,14 @@
     {% if hurry %}
         <p>
             {% blocktrans %}
-                Beware that the amount of items in stock is limited. Be quick or someone might get there first.
+            	抢先使用该产品，会让您优先一步获取更多收益。
             {% endblocktrans %}
         </p>
     {% endif %}
 
     <p>
         {% blocktrans with site_name=site.name %}
-            With this email we have disabled your alert automatically and you will not
-            receive any further email regarding this product.
+            收到这封邮件的同时，我们已经关掉了您的自动提醒，并且不会再次发送本产品的未来相关邮件。
         {% endblocktrans %}
     </p>
 {% endblock %}
