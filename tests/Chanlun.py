@@ -271,16 +271,16 @@ def fen_bi(merge_line_list):
             m_line_dto = merge_line_list[point_index_list[i]]
             if m_line_dto.is_peak == 'Y':
                 fenbi_list.append(m_line_dto)
-                print(m_line_dto.begin_time + "\t" +
-                      m_line_dto.end_time + "\t" +
-                      "合并[" + str(m_line_dto.stick_num) + "]条K线" + "\t" +
-                      "顶[" + str(m_line_dto.low) + "][" + str(m_line_dto.high) + "]")
+#                 print(m_line_dto.begin_time + "\t" +
+#                       m_line_dto.end_time + "\t" +
+#                       "合并[" + str(m_line_dto.stick_num) + "]条K线" + "\t" +
+#                       "顶[" + str(m_line_dto.low) + "][" + str(m_line_dto.high) + "]")
             if m_line_dto.is_bottom == 'Y':
                 fenbi_list.append(m_line_dto)
-                print(m_line_dto.begin_time + "\t" +
-                      m_line_dto.end_time+ "\t" +
-                      "合并[" + str(m_line_dto.stick_num) + "]条K线" + "\t" +
-                      "底[" + str(m_line_dto.low) + "][" + str(m_line_dto.high) + "]")
+#                 print(m_line_dto.begin_time + "\t" +
+#                       m_line_dto.end_time+ "\t" +
+#                       "合并[" + str(m_line_dto.stick_num) + "]条K线" + "\t" +
+
     return fenbi_list
 
  
@@ -356,7 +356,7 @@ def check_final_fen_bi(merge_line_list, point_index_list,
     while i < end_index and not search_result:
         search_result = search_final_fen_bi(merge_line_list, point_index_list,
                                    point_index_matrix, result_array,
-                                   0, end_index)
+                                   i, end_index)
         i += 1
     return search_result
 
@@ -379,7 +379,7 @@ def search_final_fen_bi(merge_line_list, point_index_list,
                 else:
                     result_array[index] = False
                     result_array[i] = False
-            i += 1
+            i+=1
     return False
 
 
@@ -397,7 +397,6 @@ def find_valid_point_by_dp(merge_line_list, point_index_list, point_index_matrix
 def process_by_distance(merge_line_list, point_index_list, point_index_matrix, distance):
     #  处理间隔为dist的分型组合，是否能成一笔
     #  MergeLineDTO[], boolean[], boolean[][], integer
-
     index = 0
     while index < len(point_index_list) - distance:
         check_result = check_2point_is_multi_line(merge_line_list,
@@ -649,12 +648,11 @@ def run_test():
     file_list = os.listdir(dir)
     dfs = []
     for file in file_list:
-        if file.endswith('_5T.csv'):
+        if file.endswith('_1H.csv'):
             file_path = os.path.join(dir, file)
             df = pd.read_csv(file_path, skiprows=1) 
             dfs.append(df)
     df = [] 
-    import ipdb;ipdb.set_trace()
     df = pd.concat(dfs)
     df['candle_begin_time'] = pd.to_datetime(df['candle_begin_time'])
     df.sort_values('candle_begin_time', inplace=True)
@@ -676,6 +674,10 @@ def run_test():
     print("---------------------------")
     #  分型
     merge_line_list = find_peak_and_bottom(k_line_list, "down")
+    
+    m_line_dto = merge_line_list[0]
+    m_line_dto.is_peak = 'Y'
+    
     fenbi_list =  fen_bi(merge_line_list)
     fenbi_csv = 'fenbi.csv'
     with open(fenbi_csv, 'w') as fenbicsv:
