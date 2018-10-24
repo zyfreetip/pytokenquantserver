@@ -22,6 +22,7 @@ from matplotlib.dates import MonthLocator,MONTHLY
 import matplotlib.patches as patches
 import datetime as dt
 import csv
+import os
 #import numpy as np
 
 
@@ -33,19 +34,26 @@ def date_to_num(dates):
     num_time = []
     for date in dates:
         #print(date)
-        date_time = dt.datetime.strptime(date,'%Y/%m/%d %H:%M')
-        num_date = mdates.date2num(date_time)
+        #date_time = dt.datetime.strptime(date,'%Y/%m/%d %H:%M')
+        num_date = mdates.date2num(date)
         num_time.append(num_date)
     return num_time
 
 def readstkData(rootpath):
-    filename=rootpath+'/BITFINEX_BTCUSD_20180801_5T.csv'
-    try:
-        rawdata = pd.read_csv(filename)
-    except IOError:
-        raise Exception('IoError when reading dayline data file: ' + filename)
+    dir = '/Users/qiaoxiaofeng/Downloads/BTCUSDT/2018-8/'
+    file_list = os.listdir(dir)
+    dfs = []
+    for file in file_list:
+        if file.endswith('_1H.csv'):
+            file_path = os.path.join(dir, file)
+            df = pd.read_csv(file_path, skiprows=1) 
+            dfs.append(df)
+    df = [] 
+    df = pd.concat(dfs)
+    df['candle_begin_time'] = pd.to_datetime(df['candle_begin_time'])
+    df.sort_values('candle_begin_time', inplace=True)         
 
-    returndata = rawdata
+    returndata = df
     #print(returndata)
 
 
@@ -56,7 +64,8 @@ def readstkData(rootpath):
 #    print(returndata)
 #    returndata.columns = ['Open', 'High', 'Close', 'Low', 'Volume']
     returndata.columns=['Time','Open', 'High', 'Low', 'Close', 'Volume']
-    returndata['Time'][1:]=date_to_num(returndata['Time'][1:])
+    import ipdb;ipdb.set_trace()
+    returndata['Time']=date_to_num(returndata['Time'])
     return returndata
 
 def drawing_candle():
@@ -78,9 +87,9 @@ def drawing_candle():
     MA2=5
     SP = len(daysreshape.Time.values[MA2 - 1:])
     print(SP)
-    fig = plt.figure(facecolor='#07000d', figsize=(18, 12))
-
-    ax1 = plt.subplot2grid((6, 4), (1, 0), rowspan=4, colspan=4)
+    fig = plt.figure(facecolor='#07000d', figsize=(14, 18))
+    ax1 = fig.add_subplot(211)
+    #plt.subplot2grid((6, 4), (1, 0), rowspan=4, colspan=4)
     print(daysreshape.values[-SP:])
     candlestick_ohlc(ax1, daysreshape.values[-SP:], width=0.0014, colorup='#ff1717', colordown='#53c156')
     #Label1 = str(MA1) + ' SMA'
@@ -90,7 +99,7 @@ def drawing_candle():
     #ax1.plot(daysreshape.DateTime.values[-SP:], Av2[-SP:], '#4ee6fd', label=Label2, linewidth=1.5)
     ax1.grid(True, color='k',linestyle='--')
     ax1.xaxis.set_major_locator(mticker.MaxNLocator(18))
-    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%H-%M'))
+    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
     ax1.yaxis.label.set_color("w")
     ax1.spines['bottom'].set_color("#5998ff")
     ax1.spines['top'].set_color("#5998ff")
@@ -100,6 +109,8 @@ def drawing_candle():
     plt.gca().yaxis.set_major_locator(mticker.MaxNLocator(prune='upper'))
     ax1.tick_params(axis='x', colors='w')
     plt.ylabel('Stock price and Volume')
+    plt.xticks(rotation=70)
+    plt.xlabel('Date')
 
     x_axis = []
     y_axis = []
@@ -141,8 +152,23 @@ def drawing_candle():
                         facecolor='none'
                         )
                 )
+    
+    
+    '''
+    # Draw MACD computed with Talib
+    macd = pd.read_csv('macd.csv')
+    macd_signal = pd.read_csv('macd_signal.csv')
+    macd_hist = pd.read_csv('macd_hist.csv')
+    ax3 = fig.add_subplot(212)
+    ax3.set_ylabel('MACD: ' + str(12) + ', ' + str(26) + ', ' + str(9), size=12)
+    macd.plot(ax=ax3, color='b', label='Macd')
+    macd_signal.plot(ax=ax3, color='g', label='Signal')
+    macd_hist.plot(ax=ax3, color='r', label='Hist')
+    ax3.axhline(0, lw=2, color='0')
+    handles, labels = ax3.get_legend_handles_labels()
+    ax3.legend(handles, labels)
+    '''
+    
     plt.show()
 
 drawing_candle()
-
-
