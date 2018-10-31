@@ -344,7 +344,10 @@ def is_xianduan(last_direction, xianduan_list, fenbi):
                 xianduan_list.append(fenbi[3])
         last_direction.append(direction)
     else:
-        xianduan_list[-1] = fenbi[3]
+        if xianduan_list:
+            xianduan_list[-1] = fenbi[3]
+        else:
+            return
         print('线段延伸') 
  
 def check_final_fen_bi(merge_line_list, point_index_list,
@@ -648,7 +651,7 @@ def run_test():
     file_list = os.listdir(dir)
     dfs = []
     for file in file_list:
-        if file.endswith('_1H.csv'):
+        if file.endswith('_15T.csv'):
             file_path = os.path.join(dir, file)
             df = pd.read_csv(file_path, skiprows=1) 
             dfs.append(df)
@@ -656,6 +659,15 @@ def run_test():
     df = pd.concat(dfs)
     df['candle_begin_time'] = pd.to_datetime(df['candle_begin_time'])
     df.sort_values('candle_begin_time', inplace=True)
+    df.to_csv('bitfinex-201808.15t.csv',index=False)
+    
+    '''
+    df = pd.read_csv('bitfinex_hour.csv')
+    df['candle_begin_time'] = pd.to_datetime(df['candle_begin_time'])
+    df.sort_values('candle_begin_time', inplace=True)
+    mask = (df['candle_begin_time'] > '2018-06-01') & (df['candle_begin_time'] <= '2018-06-30')
+    df = df.loc[mask]
+    '''
     day = '2018-01-31 00:00:00'
     end_time = '2018-01-31 23:59:59'
     k_line_list = []
@@ -674,7 +686,6 @@ def run_test():
     print("---------------------------")
     #  分型
     merge_line_list = find_peak_and_bottom(k_line_list, "down")
-    
     m_line_dto = merge_line_list[0]
     m_line_dto.is_peak = 'Y'
     
