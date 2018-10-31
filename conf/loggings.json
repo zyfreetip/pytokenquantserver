@@ -28,7 +28,7 @@
         "file": {
             "level": "INFO",
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": "/Users/qiaoxiaofeng/logs/pyexchanges/pyserver.log",
+            "filename": "/data/logs/pyexchanges/pyserver.log",
             "formatter": "verbose",
 	    "maxBytes": 104857600,
 	    "backupCount": 30
@@ -36,7 +36,7 @@
         "logfile_fcoin_auto_trade_log":{
             "level": "INFO",
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": "/Users/qiaoxiaofeng/logs/fcoin/auto_trade.log",
+            "filename": "/data/logs/fcoin/auto_trade.log",
             "maxBytes": 104857600,
             "backupCount": 30,
             "formatter": "verbose"
@@ -44,7 +44,7 @@
         "logfile_sync_orders":{
             "level": "INFO",
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": "/Users/qiaoxiaofeng/logs/pyexchanges/sync_orders.log",
+            "filename": "/data/logs/pyexchanges/sync_orders.log",
             "maxBytes": 104857600,
             "backupCount": 30,
             "formatter": "verbose"
