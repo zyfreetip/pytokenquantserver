@@ -26,8 +26,6 @@ import os
 #import numpy as np
 
 
-
-
 #C:\Users\wengyiming\Downloads\SAMPLE-binance-candle-data-push-2018-01-31\2018-01-31\BTCUSDT'
 
 def date_to_num(dates):
@@ -44,18 +42,17 @@ def readstkData(rootpath):
     file_list = os.listdir(dir)
     dfs = []
     for file in file_list:
-        if file.endswith('_1H.csv'):
+        if file.endswith('_15T.csv'):
             file_path = os.path.join(dir, file)
             df = pd.read_csv(file_path, skiprows=1) 
             dfs.append(df)
     df = [] 
     df = pd.concat(dfs)
     df['candle_begin_time'] = pd.to_datetime(df['candle_begin_time'])
-    df.sort_values('candle_begin_time', inplace=True)         
-
+    df.sort_values('candle_begin_time', inplace=True)
+    df.to_csv('bitfinex-201808-15t.csv')
     returndata = df
     #print(returndata)
-
 
 
 # Wash data
@@ -64,7 +61,6 @@ def readstkData(rootpath):
 #    print(returndata)
 #    returndata.columns = ['Open', 'High', 'Close', 'Low', 'Volume']
     returndata.columns=['Time','Open', 'High', 'Low', 'Close', 'Volume']
-    import ipdb;ipdb.set_trace()
     returndata['Time']=date_to_num(returndata['Time'])
     return returndata
 
@@ -99,6 +95,12 @@ def drawing_candle():
     #ax1.plot(daysreshape.DateTime.values[-SP:], Av2[-SP:], '#4ee6fd', label=Label2, linewidth=1.5)
     ax1.grid(True, color='k',linestyle='--')
     ax1.xaxis.set_major_locator(mticker.MaxNLocator(18))
+    ticklabels = ['']*len(daysreshape)
+    skip = len(daysreshape)//12
+    daysreshape['Time'] = mdates.num2date(daysreshape['Time'])
+    ticklabels[::skip] = daysreshape['Time'].iloc[::skip].dt.strftime('%Y-%m-%d')
+    #ax1.xaxis.set_major_formatter(mticker.FixedFormatter(ticklabels))
+    #plt.gcf().autofmt_xdate()
     ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
     ax1.yaxis.label.set_color("w")
     ax1.spines['bottom'].set_color("#5998ff")
@@ -111,7 +113,7 @@ def drawing_candle():
     plt.ylabel('Stock price and Volume')
     plt.xticks(rotation=70)
     plt.xlabel('Date')
-
+    
     x_axis = []
     y_axis = []
     with open('fenbi.csv', 'r') as f:
@@ -153,12 +155,11 @@ def drawing_candle():
                         )
                 )
     
-    
     '''
     # Draw MACD computed with Talib
     macd = pd.read_csv('macd.csv')
-    macd_signal = pd.read_csv('macd_signal.csv')
-    macd_hist = pd.read_csv('macd_hist.csv')
+    macd_signal = pd.read_csv('macd_history.csv')
+    macd_hist = pd.read_csv('macd_signal.csv')
     ax3 = fig.add_subplot(212)
     ax3.set_ylabel('MACD: ' + str(12) + ', ' + str(26) + ', ' + str(9), size=12)
     macd.plot(ax=ax3, color='b', label='Macd')
@@ -167,8 +168,60 @@ def drawing_candle():
     ax3.axhline(0, lw=2, color='0')
     handles, labels = ax3.get_legend_handles_labels()
     ax3.legend(handles, labels)
+   # Draw MACD computed with Talib
+    ax3 = fig.add_subplot(212)
+    ax3.yaxis.label.set_color("w")
+    ax3.set_ylabel('MACD: ' + str(12) + ', ' + str(26) + ', ' + str(9), size=12)
+    # macd.plot(ax=ax3, color='b', label='Macd')
+    # macd_signal.plot(ax=ax3, color='g', label='Signal')
+    # macd_hist.plot(ax=ax3, color='r', label='Hist')
+    ax3.axhline(0, lw=2, color='0')
+    handles, labels = ax3.get_legend_handles_labels()
+    ax3.legend(handles, labels)
+
+    ax3.xaxis.set_major_locator(mticker.MaxNLocator(18))
+    ax3.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
+    plt.xticks(rotation=70)
     '''
+    '''
+    x4_axis = []
+    y4_axis = []
+    with open('macd.csv', 'r') as f:
+        csv_reader = csv.reader(f)
+        for item in csv_reader:
+            if item[0] == 'time':
+                continue
+            x4_axis.append(mdates.date2num(pd.to_datetime(item[0])))
+            y4_axis.append(float(item[1]))
+    plt.plot(x4_axis, y4_axis)
+
+    x5_axis = []
+    y5_axis = []
+    with open('macd_history.csv', 'r') as f:
+        csv_reader = csv.reader(f)
+        for item in csv_reader:
+            if item[0] == 'time':
+                continue
+            x5_axis.append(mdates.date2num(pd.to_datetime(item[0])))
+            y5_axis.append(float(item[1]))
+    plt.plot(x5_axis, y5_axis)
+
+    x6_axis = []
+    y6_axis = []
+    with open('macd_signal.csv', 'r') as f:
+        csv_reader = csv.reader(f)
+        for item in csv_reader:
+            if item[0] == 'time':
+                continue
+            x6_axis.append(mdates.date2num(pd.to_datetime(item[0])))
+            y6_axis.append(float(item[1]))
     
+    plt.plot(x6_axis, y6_axis)
+    '''
+    plt.ylabel('Stock price and Volume')
+    plt.xticks(rotation=70)
+    plt.xlabel('Date')
     plt.show()
+    #fig.savefig('1.png')
 
 drawing_candle()
