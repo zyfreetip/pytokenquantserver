@@ -1,4 +1,4 @@
-import os,os.path
+import os
 import zipfile
 import shutil
  
@@ -38,17 +38,16 @@ def unzip_file(zipfilename, unziptodir):
 if __name__ == '__main__':
     #zip_dir(r'E:/python/learning',r'E:/python/learning/zip.zip')
     #unzip_file(r'E:/python/learning/zip.zip',r'E:/python/learning2')
-    path = '/Users/qiaoxiaofeng/Downloads/2018-02/'
-    dst_path = '/Users/qiaoxiaofeng/Downloads/bitfinex/2018-02'
+    path = '/Users/qiaoxiaofeng/Downloads/2017-11/'
+    dst_path = '/Users/qiaoxiaofeng/Downloads/bitfinex/2017-11'
     files = os.listdir(path)
     for file in files:
         if not os.path.isdir(file):
             if file.endswith('.zip'):
                 filepath = path+'/'+file
                 unzip_file(filepath,dst_path)
-    
     # 将BTCUSDT的TICK数据拷贝到BTCUSDT目录
-    dst_btcusd_path = '/Users/qiaoxiaofeng/Downloads/bitfinex/BTCUSD/2018-02'
+    dst_btcusd_path = '/Users/qiaoxiaofeng/Downloads/bitfinex/BTCUSD/2017-11'
     for root, dirs, files in os.walk(dst_path):
         for dir in dirs:
             if dir == 'BTCUSD':
@@ -60,7 +59,7 @@ if __name__ == '__main__':
                         filepath = os.path.join(path,file)
                         dstfilepath = os.path.join(dst_btcusd_path,file)
                         shutil.copyfile(filepath, dstfilepath)
-            elif dir.startswith('bitfinex'):
+            elif dir.startswith('bitfinex') or dir.startswith('2017'):
                 d_path = os.path.join(path,dir)
                 for root1, dirs1, files1 in os.walk(d_path):
                     for dir in dirs1:
