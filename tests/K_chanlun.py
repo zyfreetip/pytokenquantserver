@@ -23,34 +23,45 @@ import matplotlib.patches as patches
 import datetime as dt
 import csv
 import os
-#import numpy as np
+from matplotlib.dates import date2num
+import talib as ta
+import numpy as np
 
 
 #C:\Users\wengyiming\Downloads\SAMPLE-binance-candle-data-push-2018-01-31\2018-01-31\BTCUSDT'
 
-def date_to_num(dates):
-    num_time = []
-    for date in dates:
-        #print(date)
-        #date_time = dt.datetime.strptime(date,'%Y/%m/%d %H:%M')
-        num_date = mdates.date2num(date)
-        num_time.append(num_date)
-    return num_time
+# def date_to_num(dates):
+#     num_time = []
+#     for date in dates:
+#         print(date)
+#         date_time = dt.datetime.strptime(date,'%Y/%m/%d %H:%M')
+#         num_date = mdates.date2num(date)
+#         num_time.append(num_date)
+#     return num_time
 
 def readstkData(rootpath):
-    dir = '/Users/qiaoxiaofeng/Downloads/BTCUSDT/2018-8/'
+    dir = '/Users/qiaoxiaofeng/Downloads/bitfinex/BTCUSD/2017-08'
     file_list = os.listdir(dir)
     dfs = []
     for file in file_list:
-        if file.endswith('_15T.csv'):
+        if file.endswith('15T.csv'):
             file_path = os.path.join(dir, file)
             df = pd.read_csv(file_path, skiprows=1) 
             dfs.append(df)
+    '''
+    dir = '/Users/qiaoxiaofeng/Downloads/bitfinex/BTCUSD/2018-02'
+    file_list = os.listdir(dir)
+    for file in file_list:
+        if file.endswith('30T.csv'):
+            file_path = os.path.join(dir, file)
+            df = pd.read_csv(file_path, skiprows=1) 
+            dfs.append(df)
+    '''
     df = [] 
     df = pd.concat(dfs)
     df['candle_begin_time'] = pd.to_datetime(df['candle_begin_time'])
     df.sort_values('candle_begin_time', inplace=True)
-    df.to_csv('bitfinex-201808-15t.csv')
+    df = df[0:2500]
     returndata = df
     #print(returndata)
 
@@ -61,7 +72,7 @@ def readstkData(rootpath):
 #    print(returndata)
 #    returndata.columns = ['Open', 'High', 'Close', 'Low', 'Volume']
     returndata.columns=['Time','Open', 'High', 'Low', 'Close', 'Volume']
-    returndata['Time']=date_to_num(returndata['Time'])
+    returndata['Time']=date2num(returndata['Time'])
     return returndata
 
 def drawing_candle():
@@ -81,39 +92,32 @@ def drawing_candle():
     #Av1 = movingaverage(daysreshape.Close.values, MA1)
     #Av2 = movingaverage(daysreshape.Close.values, MA2)
     MA2=5
+    MACD_FAST = 12
+    MACD_SLOW = 26
+    MACD_SIGNAL = 9
+    
+    analysis = pd.DataFrame(index = mdates.num2date(daysreshape.Time))
+    analysis['macd'], analysis['macdSignal'], analysis['macdHist'] = ta.MACD(daysreshape.Close.as_matrix(), fastperiod=MACD_FAST, slowperiod=MACD_SLOW, signalperiod=MACD_SIGNAL)
+    analysis['macd_test'] = np.where((analysis.macd > analysis.macdSignal), 1, 0)
+    
     SP = len(daysreshape.Time.values[MA2 - 1:])
     print(SP)
-    fig = plt.figure(facecolor='#07000d', figsize=(14, 18))
-    ax1 = fig.add_subplot(211)
-    #plt.subplot2grid((6, 4), (1, 0), rowspan=4, colspan=4)
-    print(daysreshape.values[-SP:])
-    candlestick_ohlc(ax1, daysreshape.values[-SP:], width=0.0014, colorup='#ff1717', colordown='#53c156')
-    #Label1 = str(MA1) + ' SMA'
-    #Label2 = str(MA2) + ' SMA'
-
-    #ax1.plot(daysreshape.DateTime.values[-SP:], Av1[-SP:], '#e1edf9', label=Label1, linewidth=1.5)
-    #ax1.plot(daysreshape.DateTime.values[-SP:], Av2[-SP:], '#4ee6fd', label=Label2, linewidth=1.5)
-    ax1.grid(True, color='k',linestyle='--')
-    ax1.xaxis.set_major_locator(mticker.MaxNLocator(18))
-    ticklabels = ['']*len(daysreshape)
-    skip = len(daysreshape)//12
-    daysreshape['Time'] = mdates.num2date(daysreshape['Time'])
-    ticklabels[::skip] = daysreshape['Time'].iloc[::skip].dt.strftime('%Y-%m-%d')
-    #ax1.xaxis.set_major_formatter(mticker.FixedFormatter(ticklabels))
-    #plt.gcf().autofmt_xdate()
-    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
-    ax1.yaxis.label.set_color("w")
-    ax1.spines['bottom'].set_color("#5998ff")
-    ax1.spines['top'].set_color("#5998ff")
-    ax1.spines['left'].set_color("#5998ff")
-    ax1.spines['right'].set_color("#5998ff")
-    ax1.tick_params(axis='y', colors='w')
-    plt.gca().yaxis.set_major_locator(mticker.MaxNLocator(prune='upper'))
-    ax1.tick_params(axis='x', colors='w')
-    plt.ylabel('Stock price and Volume')
-    plt.xticks(rotation=70)
-    plt.xlabel('Date')
     
+    # Prepare plot
+    fig, (ax1, ax3) = plt.subplots(2, 1, sharex=True)
+    ax1.set_yticks([])
+    #size plot
+    fig.set_size_inches(15,30)
+    
+    #fig = plt.figure(facecolor='#07000d', figsize=(14, 18))
+    ax1 = fig.add_subplot(211)
+    candlestick_ohlc(ax1, daysreshape.values[-SP:], width=0.0014, colorup='#ff1717', colordown='#53c156')
+    ax1.grid(True, color='k',linestyle='--')
+    ax1.set_xticks([])
+    ax1.set_ylabel('BTC price', size=12)
+    #plt.gca().yaxis.set_major_locator(mticker.MaxNLocator(prune='upper'))
+    #ax1.tick_params(axis='x', colors='w')
+    #plt.xticks(rotation=70)
     x_axis = []
     y_axis = []
     with open('fenbi.csv', 'r') as f:
@@ -154,73 +158,18 @@ def drawing_candle():
                         facecolor='none'
                         )
                 )
-    
-    '''
+   
     # Draw MACD computed with Talib
-    macd = pd.read_csv('macd.csv')
-    macd_signal = pd.read_csv('macd_history.csv')
-    macd_hist = pd.read_csv('macd_signal.csv')
-    ax3 = fig.add_subplot(212)
-    ax3.set_ylabel('MACD: ' + str(12) + ', ' + str(26) + ', ' + str(9), size=12)
-    macd.plot(ax=ax3, color='b', label='Macd')
-    macd_signal.plot(ax=ax3, color='g', label='Signal')
-    macd_hist.plot(ax=ax3, color='r', label='Hist')
+    ax3.set_xlabel('Date', size=12)
+    ax3.set_ylabel('MACD: '+ str(MACD_FAST) + ', ' + str(MACD_SLOW) + ', ' + str(MACD_SIGNAL), size=12)
+    analysis.macd.plot(ax=ax3, color='b', label='Macd')
+    analysis.macdSignal.plot(ax=ax3, color='g', label='Signal')
+    analysis.macdHist.plot(ax=ax3, color='r', label='Hist')
     ax3.axhline(0, lw=2, color='0')
     handles, labels = ax3.get_legend_handles_labels()
     ax3.legend(handles, labels)
-   # Draw MACD computed with Talib
-    ax3 = fig.add_subplot(212)
-    ax3.yaxis.label.set_color("w")
-    ax3.set_ylabel('MACD: ' + str(12) + ', ' + str(26) + ', ' + str(9), size=12)
-    # macd.plot(ax=ax3, color='b', label='Macd')
-    # macd_signal.plot(ax=ax3, color='g', label='Signal')
-    # macd_hist.plot(ax=ax3, color='r', label='Hist')
-    ax3.axhline(0, lw=2, color='0')
-    handles, labels = ax3.get_legend_handles_labels()
-    ax3.legend(handles, labels)
-
-    ax3.xaxis.set_major_locator(mticker.MaxNLocator(18))
     ax3.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
     plt.xticks(rotation=70)
-    '''
-    '''
-    x4_axis = []
-    y4_axis = []
-    with open('macd.csv', 'r') as f:
-        csv_reader = csv.reader(f)
-        for item in csv_reader:
-            if item[0] == 'time':
-                continue
-            x4_axis.append(mdates.date2num(pd.to_datetime(item[0])))
-            y4_axis.append(float(item[1]))
-    plt.plot(x4_axis, y4_axis)
-
-    x5_axis = []
-    y5_axis = []
-    with open('macd_history.csv', 'r') as f:
-        csv_reader = csv.reader(f)
-        for item in csv_reader:
-            if item[0] == 'time':
-                continue
-            x5_axis.append(mdates.date2num(pd.to_datetime(item[0])))
-            y5_axis.append(float(item[1]))
-    plt.plot(x5_axis, y5_axis)
-
-    x6_axis = []
-    y6_axis = []
-    with open('macd_signal.csv', 'r') as f:
-        csv_reader = csv.reader(f)
-        for item in csv_reader:
-            if item[0] == 'time':
-                continue
-            x6_axis.append(mdates.date2num(pd.to_datetime(item[0])))
-            y6_axis.append(float(item[1]))
-    
-    plt.plot(x6_axis, y6_axis)
-    '''
-    plt.ylabel('Stock price and Volume')
-    plt.xticks(rotation=70)
-    plt.xlabel('Date')
     plt.show()
     #fig.savefig('1.png')
 
