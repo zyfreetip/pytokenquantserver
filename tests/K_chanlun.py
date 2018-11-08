@@ -168,7 +168,7 @@ def drawing_candle():
     ax3.axhline(0, lw=2, color='0')
     handles, labels = ax3.get_legend_handles_labels()
     ax3.legend(handles, labels)
-    ax3.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
+    #ax3.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
     plt.xticks(rotation=70)
     plt.show()
     #fig.savefig('1.png')
