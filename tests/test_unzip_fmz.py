@@ -38,36 +38,48 @@ def unzip_file(zipfilename, unziptodir):
 if __name__ == '__main__':
     #zip_dir(r'E:/python/learning',r'E:/python/learning/zip.zip')
     #unzip_file(r'E:/python/learning/zip.zip',r'E:/python/learning2')
-    path = '/Users/qiaoxiaofeng/Downloads/2017-11/'
-    dst_path = '/Users/qiaoxiaofeng/Downloads/bitfinex/2017-11'
-    files = os.listdir(path)
-    for file in files:
-        if not os.path.isdir(file):
-            if file.endswith('.zip'):
-                filepath = path+'/'+file
-                unzip_file(filepath,dst_path)
-    # 将BTCUSDT的TICK数据拷贝到BTCUSDT目录
-    dst_btcusd_path = '/Users/qiaoxiaofeng/Downloads/bitfinex/BTCUSD/2017-11'
-    for root, dirs, files in os.walk(dst_path):
-        for dir in dirs:
-            if dir == 'BTCUSD':
-                path = os.path.join(root, dir)
-                files = os.listdir(path)
-                for file in files:
-                    if file.endswith('.csv'):
-                        #filepath = path + '/' + file
-                        filepath = os.path.join(path,file)
-                        dstfilepath = os.path.join(dst_btcusd_path,file)
-                        shutil.copyfile(filepath, dstfilepath)
-            elif dir.startswith('bitfinex') or dir.startswith('2017'):
-                d_path = os.path.join(path,dir)
-                for root1, dirs1, files1 in os.walk(d_path):
-                    for dir in dirs1:
-                        if dir == 'BTCUSD':
-                            path = os.path.join(root1, dir)
-                            files = os.listdir(path)
-                            for file in files:
-                                filepath = os.path.join(path, file)
-                                dstfilepath = os.path.join(dst_btcusd_path,file)
-                                shutil.copyfile(filepath, dstfilepath)
+    #time_diff = ['2018-03','2018-04','2018-05','2018-06','2018-07',
+    #        '2018-08','2018-09','2018-10']
+    time_diff = ['2018-01','2018-02']
+    path = '/home/ubuntu/pyblockchainserver/tests/bitfinex/2018-01/2018-01/'
+    base_path = '/home/ubuntu/pyblockchainserver/tests/bitfinex/'
+    time_paths = []
+    for diff in time_diff:
+        time_paths.append(diff)
+    for time_path in time_paths:
+        path = os.path.join(base_path,time_path,time_path)
+        dst_path = os.path.join(base_path,time_path)
+        files = os.listdir(path)
+        for file in files:
+            if not os.path.isdir(file):
+                if file.endswith('.zip'):
+                    filepath = path+'/'+file
+                    unzip_file(filepath,dst_path)
+        # 将BTCUSDT的TICK数据拷贝到BTCUSDT目录
+        dst_btcusd_path = os.path.join(base_path, 'BTCUSD', time_path)
+        #dst_btcusd_path = '/home/ubuntu/pyblockchainserver/tests/bitfinex/BTCUSD/2018-01'
+        if not os.path.isdir(dst_btcusd_path):
+            os.mkdir(dst_btcusd_path)
+        for root, dirs, files in os.walk(dst_path):
+            for dir in dirs:
+                if dir == 'BTCUSD':
+                    path = os.path.join(root, dir)
+                    files = os.listdir(path)
+                    for file in files:
+                        if file.endswith('.csv'):
+                            #filepath = path + '/' + file
+                            filepath = os.path.join(path,file)
+                            dstfilepath = os.path.join(dst_btcusd_path,file)
+                            shutil.copyfile(filepath, dstfilepath)
+                elif dir.startswith('bitfinex') or dir.startswith('2017'):
+                    d_path = os.path.join(path,dir)
+                    for root1, dirs1, files1 in os.walk(d_path):
+                        for dir in dirs1:
+                            if dir == 'BTCUSD':
+                                path = os.path.join(root1, dir)
+                                files = os.listdir(path)
+                                for file in files:
+                                    filepath = os.path.join(path, file)
+                                    dstfilepath = os.path.join(dst_btcusd_path,file)
+                                    shutil.copyfile(filepath, dstfilepath)
                             
