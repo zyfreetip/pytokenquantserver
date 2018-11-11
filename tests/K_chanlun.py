@@ -39,32 +39,21 @@ import numpy as np
 #         num_time.append(num_date)
 #     return num_time
 
-def readstkData(rootpath):
-    dir = '/Users/qiaoxiaofeng/Downloads/bitfinex/BTCUSD/2017-08'
-    file_list = os.listdir(dir)
+def readstkData(filepaths, interval):
     dfs = []
-    for file in file_list:
-        if file.endswith('15T.csv'):
-            file_path = os.path.join(dir, file)
-            df = pd.read_csv(file_path, skiprows=1) 
-            dfs.append(df)
-    '''
-    dir = '/Users/qiaoxiaofeng/Downloads/bitfinex/BTCUSD/2018-02'
-    file_list = os.listdir(dir)
-    for file in file_list:
-        if file.endswith('30T.csv'):
-            file_path = os.path.join(dir, file)
-            df = pd.read_csv(file_path, skiprows=1) 
-            dfs.append(df)
-    '''
+    for rootpath in filepaths:
+        file_list = os.listdir(rootpath)
+        for file in file_list:
+            if file.endswith(interval+'.csv'):
+                file_path = os.path.join(rootpath, file)
+                df = pd.read_csv(file_path, skiprows=1) 
+                dfs.append(df)
     df = [] 
     df = pd.concat(dfs)
     df['candle_begin_time'] = pd.to_datetime(df['candle_begin_time'])
     df.sort_values('candle_begin_time', inplace=True)
-    df = df[0:2500]
+    #df = df[0:2500]
     returndata = df
-    #print(returndata)
-
 
 # Wash data
 #    returndata = returndata.sort_index()
@@ -77,9 +66,16 @@ def readstkData(rootpath):
 
 def drawing_candle():
 
-    daylinefilepath = "."
-
-    days = readstkData(daylinefilepath)
+    exchange = 'bitfinex'
+    symbol = 'ETHUSD'
+    interval = '30T'
+    time_period = ['2018-01','2018-02','2018-03','2018-04','2018-05','2018-06','2018-07','2018-08','2018-09','2018-10']
+    absdir = os.path.dirname(os.path.abspath(__file__))
+    filepaths = []
+    for period in time_period:
+        daylinefilepath = os.path.join(absdir,exchange,symbol,period)
+        filepaths.append(daylinefilepath)
+    days = readstkData(filepaths,interval)
 
     # drop the date index from the dateframe & make a copy
     daysreshape = days.reset_index()
@@ -114,13 +110,60 @@ def drawing_candle():
     candlestick_ohlc(ax1, daysreshape.values[-SP:], width=0.0014, colorup='#ff1717', colordown='#53c156')
     ax1.grid(True, color='k',linestyle='--')
     ax1.set_xticks([])
-    ax1.set_ylabel('BTC price', size=12)
+    ax1.set_ylabel('ETH price', size=12)
     #plt.gca().yaxis.set_major_locator(mticker.MaxNLocator(prune='upper'))
     #ax1.tick_params(axis='x', colors='w')
     #plt.xticks(rotation=70)
+
+    absdir = os.path.dirname(os.path.abspath(__file__))
+    file_list = os.listdir(absdir)
+    fenbi_files = []
+    xianduan_files = []
+    zhongshu_files = []
+    fenbi_name = 'allfenbi.csv'
+    xianduan_name = 'allxianduan.csv'
+    zhongshu_name = 'allzhongshu.csv'
+    for filecsv in file_list:
+        if filecsv.startswith('fenbi'):
+            fenbi_files.append(filecsv)
+        elif filecsv.startswith('xianduan'):
+            xianduan_files.append(filecsv)
+        elif filecsv.startswith('zhongshu'):
+            zhongshu_files.append(filecsv)
+    # concat fenbi
+    df = pd.read_csv(fenbi_files[0])
+    df.to_csv(fenbi_name, index=False)
+    for i in range(1,len(fenbi_files)):
+        df = pd.read_csv(fenbi_files[i])
+        df.to_csv(fenbi_name, index=False, header=False, mode='a+')
+    df = pd.read_csv(fenbi_name)
+    df['candle_begin_time'] = pd.to_datetime(df['candle_begin_time'])
+    df.sort_values('candle_begin_time', inplace=True)
+    df.to_csv(fenbi_name, index=False)
+    # concat xianduan
+    df = pd.read_csv(xianduan_files[0])
+    df.to_csv(xianduan_name, index=False)
+    for i in range(1,len(xianduan_files)):
+        df = pd.read_csv(xianduan_files[i])
+        df.to_csv(xianduan_name, index=False, header=False, mode='a+')
+    df = pd.read_csv(xianduan_name)
+    df['candle_begin_time'] = pd.to_datetime(df['candle_begin_time'])
+    df.sort_values('candle_begin_time', inplace=True)
+    df.to_csv(xianduan_name, index=False)
+    # concat zhongshu
+    df = pd.read_csv(zhongshu_files[0])
+    df.to_csv(zhongshu_name, index=False)
+    for i in range(1,len(zhongshu_files)):
+        df = pd.read_csv(zhongshu_files[i])
+        df.to_csv(zhongshu_name, index=False, header=False, mode='a+')
+    df = pd.read_csv(zhongshu_name)
+    df['begin_time'] = pd.to_datetime(df['begin_time'])
+    df.sort_values('begin_time', inplace=True)
+    df.to_csv(zhongshu_name, index=False)
+    
     x_axis = []
     y_axis = []
-    with open('fenbi.csv', 'r') as f:
+    with open(fenbi_name, 'r') as f:
     	csv_reader = csv.reader(f)
     	for item in csv_reader:
     		if item[0] == 'candle_begin_time':
@@ -133,7 +176,7 @@ def drawing_candle():
     x2_axis = []
     y2_axis = []
 
-    with open('xianduan.csv', 'r') as f:
+    with open(xianduan_name, 'r') as f:
     	csv_reader = csv.reader(f)
     	for item in csv_reader:
     		if item[0] == 'candle_begin_time':
@@ -144,7 +187,7 @@ def drawing_candle():
 
     plt.plot(x2_axis, y2_axis,'--')
     
-    with open('zhongshu.csv', 'r') as f:
+    with open(zhongshu_name, 'r') as f:
         csv_reader = csv.reader(f)
         for item in csv_reader:
             if item[0] == 'begin_time':
@@ -170,7 +213,12 @@ def drawing_candle():
     ax3.legend(handles, labels)
     #ax3.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
     plt.xticks(rotation=70)
-    plt.show()
-    #fig.savefig('1.png')
+    #plt.show()
+    filename = exchange + symbol + str(time_period) + interval + '.png'
+    symbolpath = os.path.join(absdir,symbol)
+    if not os.path.isdir(symbolpath):
+        os.mkdir(symbolpath)
+    filepath = os.path.join(absdir,symbol,filename)
+    fig.savefig(filepath)
 
 drawing_candle()

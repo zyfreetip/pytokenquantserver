@@ -321,7 +321,7 @@ def xianduan(fenbi_list):
     return xianduan_list
         
 def is_xianduan(last_direction, xianduan_list, fenbi):
-    if fenbi[0].low < fenbi[1].high and fenbi[1].high < fenbi[3].high:
+    if fenbi[0].high < fenbi[1].high and fenbi[1].high < fenbi[3].high:
         direction = 1
         if not xianduan_list:
             xianduan_list.append(fenbi[0])
@@ -332,7 +332,7 @@ def is_xianduan(last_direction, xianduan_list, fenbi):
             else:
                 xianduan_list.append(fenbi[3])
         last_direction.append(direction)
-    elif fenbi[0].high > fenbi[1].low and fenbi[0].high > fenbi[3].high:
+    elif fenbi[0].low > fenbi[1].low and fenbi[1].low > fenbi[3].low:
         direction = -1
         if not xianduan_list:
             xianduan_list.append(fenbi[0])
@@ -642,25 +642,38 @@ def zhongshu(xianduan_list):
                         
     return zhongshu
 
-def run_test():
-    #  测试
-    #  取原始数据
-    # k_line_list = get_stock_30min_data_by_time("601318", "2015-12-21 10:00:00", "2016-04-02 13:30:00")
-    # k_line_list = get_stock_week_data_by_time("999999", "2009-07-17", "2015-05-15")
-    dir = '/Users/qiaoxiaofeng/Downloads/BTCUSDT/2018-8/'
-    file_list = os.listdir(dir)
+def readstkData(filepaths, interval):
     dfs = []
-    for file in file_list:
-        if file.endswith('_15T.csv'):
-            file_path = os.path.join(dir, file)
-            df = pd.read_csv(file_path, skiprows=1) 
-            dfs.append(df)
+    for rootpath in filepaths:
+        file_list = os.listdir(rootpath)
+        for file in file_list:
+            if file.endswith(interval+'.csv'):
+                file_path = os.path.join(rootpath, file)
+                df = pd.read_csv(file_path, skiprows=1) 
+                dfs.append(df)
     df = [] 
     df = pd.concat(dfs)
     df['candle_begin_time'] = pd.to_datetime(df['candle_begin_time'])
     df.sort_values('candle_begin_time', inplace=True)
-    df.to_csv('bitfinex-201808.15t.csv',index=False)
-    
+    #df = df[0:2500]
+    return df
+
+
+
+def run_test():
+    #  测试
+    #  取原始数据
+    exchange = 'bitfinex'
+    symbol = 'ETHUSD'
+    interval = '30T'
+    time_period = ['2018-09','2018-10']
+    absdir = os.path.dirname(os.path.abspath(__file__))
+    filepaths = []
+    for period in time_period:
+        daylinefilepath = os.path.join(absdir,exchange,symbol,period)
+        filepaths.append(daylinefilepath)
+    df = readstkData(filepaths,interval)
+    df = df[:2800]
     '''
     df = pd.read_csv('bitfinex_hour.csv')
     df['candle_begin_time'] = pd.to_datetime(df['candle_begin_time'])
@@ -690,7 +703,8 @@ def run_test():
     m_line_dto.is_peak = 'Y'
     
     fenbi_list =  fen_bi(merge_line_list)
-    fenbi_csv = 'fenbi.csv'
+    #fenbi_csv = 'fenbi.csv'
+    fenbi_csv = 'fenbi'+str(time_period)+'.csv'
     with open(fenbi_csv, 'w') as fenbicsv:
         csv_writer = csv.writer(fenbicsv)
         csv_writer.writerow(['candle_begin_time', 'high', 'low','is_peak', 'is_low'])
@@ -698,14 +712,16 @@ def run_test():
             csv_writer.writerow([fenbi.begin_time, fenbi.high, fenbi.low, fenbi.is_peak, fenbi.is_bottom])
     xianduan_list = xianduan(fenbi_list)
     print(xianduan_list)
-    xianduan_csv = 'xianduan.csv'
+    #xianduan_csv = 'xianduan.csv'
+    xianduan_csv = 'xianduan'+str(time_period)+'.csv'
     with open(xianduan_csv, 'w') as xianduan_csv:
         csv_writer = csv.writer(xianduan_csv)
         csv_writer.writerow(['candle_begin_time', 'high', 'low','is_peak', 'is_low'])
         for xd in xianduan_list:
             csv_writer.writerow([xd.begin_time, xd.high, xd.low, xd.is_peak, xd.is_bottom])
     zhongshu_list = zhongshu(xianduan_list)
-    zhongshu_csv = 'zhongshu.csv'
+    #zhongshu_csv = 'zhongshu.csv'
+    zhongshu_csv = 'zhongshu'+str(time_period)+'.csv'
     with open(zhongshu_csv, 'w') as zhongshu_csv:
         csv_writer = csv.writer(zhongshu_csv)
         csv_writer.writerow(['begin_time', 'end_time', 'high', 'low'])

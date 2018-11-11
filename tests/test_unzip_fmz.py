@@ -40,14 +40,16 @@ if __name__ == '__main__':
     #unzip_file(r'E:/python/learning/zip.zip',r'E:/python/learning2')
     #time_diff = ['2018-03','2018-04','2018-05','2018-06','2018-07',
     #        '2018-08','2018-09','2018-10']
-    time_diff = ['2018-01','2018-02']
-    path = '/home/ubuntu/pyblockchainserver/tests/bitfinex/2018-01/2018-01/'
+    time_diff = ['2018-03','2018-04','2018-05','2018-06','2018-07','2018-08','2018-09','2018-10']
+    symbol = 'ETHUSD'
+    #path = '/home/ubuntu/pyblockchainserver/tests/bitfinex/2018-01/2018-01/'
     base_path = '/home/ubuntu/pyblockchainserver/tests/bitfinex/'
     time_paths = []
     for diff in time_diff:
         time_paths.append(diff)
     for time_path in time_paths:
-        path = os.path.join(base_path,time_path,time_path)
+        #path = os.path.join(base_path,time_path,time_path)
+        path = os.path.join(base_path,time_path)
         dst_path = os.path.join(base_path,time_path)
         files = os.listdir(path)
         for file in files:
@@ -56,13 +58,13 @@ if __name__ == '__main__':
                     filepath = path+'/'+file
                     unzip_file(filepath,dst_path)
         # 将BTCUSDT的TICK数据拷贝到BTCUSDT目录
-        dst_btcusd_path = os.path.join(base_path, 'BTCUSD', time_path)
+        dst_btcusd_path = os.path.join(base_path, symbol, time_path)
         #dst_btcusd_path = '/home/ubuntu/pyblockchainserver/tests/bitfinex/BTCUSD/2018-01'
         if not os.path.isdir(dst_btcusd_path):
             os.mkdir(dst_btcusd_path)
         for root, dirs, files in os.walk(dst_path):
             for dir in dirs:
-                if dir == 'BTCUSD':
+                if dir == symbol:
                     path = os.path.join(root, dir)
                     files = os.listdir(path)
                     for file in files:
@@ -75,7 +77,7 @@ if __name__ == '__main__':
                     d_path = os.path.join(path,dir)
                     for root1, dirs1, files1 in os.walk(d_path):
                         for dir in dirs1:
-                            if dir == 'BTCUSD':
+                            if dir == symbol:
                                 path = os.path.join(root1, dir)
                                 files = os.listdir(path)
                                 for file in files:
