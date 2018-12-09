@@ -1,0 +1,54 @@
+version: "3"
+services:
+    quantapp:
+        build:
+            context: .
+            dockerfile: ./docker/python/Dockerfile
+        ports:
+            - "127.0.0.1:8080:8080"
+        volumes:
+            - ~/data/quantapp:/var/www
+        links:
+            - "mysql"
+            - "redis"
+            - "rabbitmq"
+            - "nginx"
+        container_name: quantapp
+        command: python blockserver/manage.py runserver 0.0.0.0:8085
+    mysql:
+        image: mysql/mysql-server:5.6
+        ports:
+            - "127.0.0.1:3307:3306"
+        volumes:
+            - ~/data/mysql:/var/lib/mysql
+        container_name: quantmysql
+        command: [
+            '--character-set-server=utf8',
+            '--collation-server=utf8_unicode_ci'
+    ]
+        environment:
+            MYSQL_ROOT_PASSWORD: "root"
+            MYSQL_DATABASE: "quantapp"
+            MYSQL_USER: "quantapp"
+            MYSQL_PASSWORD: "123123"
+    redis:
+        image: redis:4.0
+        ports:
+            - "127.0.0.1:6378:6379"
+        container_name: quantredis
+    rabbitmq:
+        image: rabbitmq:3.7
+        ports:
+            - "1883:1883"
+            - "127.0.0.1:4369:4369"
+            - "5671:5671"
+            - "5672:5672"
+            - "8883:8883"
+            - "127.0.0.1:15671:15671"
+            - "127.0.0.1:15672:15672"
+            - "127.0.0.1:25672:25672"
+        container_name: quantrabbitmq
+    nginx:
+        image: nginx:1.15
+        container_name: quantnginx
+
