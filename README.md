@@ -1,1 +1,1 @@
-# An OpenSource Digital Token Quant Server
+# An OpenSource Digital Currency Quant Server
