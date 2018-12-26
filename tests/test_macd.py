@@ -52,9 +52,10 @@ def initialize(context):
     context.MACD_FAST = 12
     context.MACD_SLOW = 26
     context.MACD_SIGNAL = 9
-
-    pass
-
+ 
+    # 买卖点
+    context.BTC_BUY_TIME = [pd.Timestamp('2018-03-01 23:59:00',tz='UTC'), pd.Timestamp('2018-04-01 23:59:00',tz='UTC'), pd.Timestamp('2018-05-01 23:59:00',tz='UTC'), pd.Timestamp('2018-06-01 23:59:00',tz='UTC')]
+    context.BTC_SELL_TIME = [pd.Timestamp('2018-07-01 23:59:00',tz='UTC'), pd.Timestamp('2018-08-01 23:59:00',tz='UTC'), pd.Timestamp('2018-09-01 23:59:00',tz='UTC'),pd.Timestamp('2018-10-01 23:59:00',tz='UTC')]
 
 def _handle_data(context, data):
     # Get price, open, high, low, close
@@ -62,7 +63,7 @@ def _handle_data(context, data):
         context.asset,
         bar_count=context.BARS,
         fields=['price', 'open', 'high', 'low', 'close'],
-        frequency='15m')
+        frequency='1d')
 
     # Create a analysis data frame
     analysis = pd.DataFrame(index=prices.index)
@@ -78,13 +79,8 @@ def _handle_data(context, data):
     # Save the prices and analysis to send to analyze
     context.prices = prices
     context.analysis = analysis
-    context.macds = context.macds.append(analysis['macd'])
-    context.macds.drop_duplicates(keep='first',inplace=True)
-    context.macdSignals = context.macdSignals.append(analysis['macdSignal'])
-    context.macdSignals.drop_duplicates(keep='first', inplace=True)
-    context.macdHists = context.macdHists.append(analysis['macdHist'])
-    context.macdHists.drop_duplicates(keep='first', inplace=True)
     context.price = data.current(context.asset, 'price')
+    context.date = data.current_dt
     makeOrders(context, analysis)
 
     # Log the values of this bar
@@ -108,13 +104,8 @@ def handle_data(context, data):
         log.info('the errors:\n{}'.format(context.errors))
 
 
-def analyze(context, results):
-    # Save results in CSV file
-    filename = os.path.splitext(os.path.basename('talib_simple'))[0]
-    results.to_csv(filename + '.csv')
-
-    log.info('the daily stats:\n{}'.format(get_pretty_stats(results)))
-    chart(context, context.prices, context.analysis, results)
+def analyze(context, perf):
+    chart(context, context.prices, context.analysis, perf)
     pass
 
 
@@ -175,9 +166,10 @@ def makeOrders(context, analysis):
 def isBuy(context, analysis):
     # Bullish SMA Crossover
     # Bullish MACD
-    if (getLast(analysis, 'macd_test') == 1):
+    # if (getLast(analysis, 'macd_test') == 1):
+    #   return True
+    if context.date in context.BTC_BUY_TIME:
         return True
-
     # # Bullish Stochastics
     # if(getLast(analysis, 'stoch_over_sold') == 1):
     #     return True
@@ -191,9 +183,10 @@ def isBuy(context, analysis):
 
 def isSell(context, analysis):
     # Bearish SMA Crossover
-    if (getLast(analysis, 'macd_test') == 0):
+    # if (getLast(analysis, 'macd_test') == 0):
+    #   return True
+    if context.date in context.BTC_SELL_TIME:
         return True
-
     # # Bearish Stochastics
     # if(getLast(analysis, 'stoch_over_bought') == 0):
     #     return True
@@ -205,80 +198,36 @@ def isSell(context, analysis):
     return False
 
 
-def chart(context, prices, analysis, results):
-    results.portfolio_value.plot()
-
-    # Data for matplotlib finance plot
-    dates = date2num(prices.index.to_pydatetime())
-
-    # Create the Open High Low Close Tuple
-    prices_ohlc = [tuple([dates[i],
-                          prices.open[i],
-                          prices.high[i],
-                          prices.low[i],
-                          prices.close[i]]) for i in range(len(dates))]
-
-    fig = plt.figure(figsize=(14, 18))
-
-    # Draw the candle sticks
+def chart(context, prices, analysis, perf):
+    fig = plt.figure()
     ax1 = fig.add_subplot(411)
-    ax1.set_ylabel(context.ASSET_NAME, size=20)
-    candlestick_ohlc(ax1, prices_ohlc, width=0.4, colorup='g', colordown='r')
-    # macd signal
-    macd_point = []
-    for date, row in analysis.macdHists.iteritems():
-        if np.isnan(row):
-            continue
-        if len(macd_point) == 0:
-            macd_point.append([date, row])
-        if macd_point[-1][1] > 0 and row > 0:
-            if macd_point[-1][1] > row:
-                continue
-            else:
-                macd_point[-1] = [date, row]
-        elif macd_point[-1][1] < 0 and row < 0:
-            if macd_point[-1][1] < row:
-                continue
-            else:
-                macd_point[-1] = [date, row]
-        else:
-            macd_point.append([date, row])
-    import ipdb;ipdb.set_trace()
+    perf.portfolio_value.plot(ax=ax1)
+    ax1.set_ylabel('portfolio value')
     
-    macd_pd = pd.DataFrame(macd_point, columns=list('AB'))
-    # Save results in CSV file
-    filename = os.path.splitext(os.path.basename('macd_history'))[0]
-    analysis.macdHist.to_csv(filename + '.csv')         
-    filename = os.path.splitext(os.path.basename('macd'))[0]
-    analysis.macd.to_csv(filename + '.csv')         
-    filename = os.path.splitext(os.path.basename('macd_signal'))[0]
-    analysis.macdSignal.to_csv(filename + '.csv')         
-    filename = os.path.splitext(os.path.basename('macd_point'))[0]
-    macd_pd.to_csv(filename + '.csv')         
-
-    # Draw MACD computed with Talib
-    ax3 = fig.add_subplot(414)
-    ax3.set_ylabel('MACD: ' + str(context.MACD_FAST) + ', ' + str(
-        context.MACD_SLOW) + ', ' + str(context.MACD_SIGNAL), size=12)
-    analysis.macd.plot(ax=ax3, color='b', label='Macd')
-    analysis.macdSignal.plot(ax=ax3, color='g', label='Signal')
-    analysis.macdHist.plot(ax=ax3, color='r', label='Hist')
-    ax3.axhline(0, lw=2, color='0')
-    handles, labels = ax3.get_legend_handles_labels()
-    ax3.legend(handles, labels)
+    ax2 = fig.add_subplot(412,sharex=ax1)
+    perf.sharpe.plot()
+    ax2.set_ylabel('sharpe')
+    
+    ax3 = fig.add_subplot(413,sharex=ax1)
+    perf.benchmark_period_return.plot()
+    ax3.set_ylabel('benchmark period return')
+    
+    ax4 = fig.add_subplot(414,sharex=ax1)
+    perf.pnl.plot()
+    ax4.set_ylabel('pnl')
 
     plt.show()
 
 
 def logAnalysis(analysis):
     # Log only the last value in the array
-
+    ''' 
     log.info('- macd:           {:.2f}'.format(getLast(analysis, 'macd')))
     log.info(
         '- macdSignal:     {:.2f}'.format(getLast(analysis, 'macdSignal')))
     log.info('- macdHist:       {:.2f}'.format(getLast(analysis, 'macdHist')))
     log.info('- macd_test:      {}'.format(getLast(analysis, 'macd_test')))
-
+    '''
 def getLast(arr, name):
     return arr[name][arr[name].index[-1]]
 
@@ -286,12 +235,12 @@ def getLast(arr, name):
 if __name__ == '__main__':
     run_algorithm(
         capital_base=10000,
-        data_frequency='minute',
+        data_frequency='daily',
         initialize=initialize,
         handle_data=handle_data,
         analyze=analyze,
         exchange_name='bitfinex',
         quote_currency='usd',
-        start=pd.to_datetime('2018-8-1', utc=True),
+        start=pd.to_datetime('2018-6-1', utc=True),
         end=pd.to_datetime('2018-8-31', utc=True),
     )

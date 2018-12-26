@@ -2,11 +2,11 @@
     "DATABASES": {
         "default": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "pyexchanges",
-            "USER": "root",
-            "PASSWORD": "030973513",
-            "HOST": "localhost",
-            "PORT": "3306",
+            "NAME": "quantapp",
+            "USER": "quantapp",
+            "PASSWORD": "123123",
+            "HOST": "127.0.0.1",
+            "PORT": "3307",
             "CONN_MAX_AGE": 7200,
 	    	"OPTIONS": {
 				"init_command": "SET sql_mode='STRICT_TRANS_TABLES'"			}
