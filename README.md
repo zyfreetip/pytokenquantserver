@@ -1,5 +1,5 @@
 # An Open Source Digital Currency Quant Server
- 历经三个月的开发，完成这个数字货币交易系统的开发。
+ 这是一款历经三个月开发的开源数字货币交易系统。
 * 已经实现的功能：
   * 策略详情及分类页面
   * 策略订购
